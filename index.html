@@ -93,16 +93,8 @@ h1{font-size:22px;font-weight:600;}
       <div><div class="p-name" data-pt="Reforço LAJ3" data-en="LAJ3 Reinforcement">Reforço LAJ3</div>
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
-    <button class="project-btn" onclick="showPage('gas',this)">
-      <div><div class="p-name">Gases · Reatores</div>
-           <div class="p-status" data-pt="Em construção" data-en="In progress">Em construção</div></div>
-    </button>
-    <button class="project-btn" onclick="showPage('bess',this)">
-      <div><div class="p-name">BESS · Babilônias</div>
-           <div class="p-status" data-pt="Em construção" data-en="In progress">Em construção</div></div>
-    </button>
-  </div>
-  <div class="sidebar-footer" data-pt="Gerado em 18/05/2026 21:10 · HRZ PMO" data-en="Generated on 18/05/2026 21:10 · HRZ PMO">Gerado em 18/05/2026 21:10 · HRZ PMO</div>
+      </div>
+  <div class="sidebar-footer" data-pt="Gerado em 18/05/2026 21:23 · HRZ PMO" data-en="Generated on 18/05/2026 21:23 · HRZ PMO">Gerado em 18/05/2026 21:23 · HRZ PMO</div>
 </div>
 
 <!-- ═══ MAIN ═══ -->
@@ -125,7 +117,7 @@ h1{font-size:22px;font-weight:600;}
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank"
           style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;"
           data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
-        <div class="updated" data-pt="Atualizado em 18/05/2026 21:10" data-en="Updated on 18/05/2026 21:10">Atualizado em 18/05/2026 21:10</div>
+        <div class="updated" data-pt="Atualizado em 18/05/2026 21:23" data-en="Updated on 18/05/2026 21:23">Atualizado em 18/05/2026 21:23</div>
       </div>
     </div>
 
@@ -163,14 +155,7 @@ h1{font-size:22px;font-weight:600;}
       </div>
     </div>
 
-    <!-- Curva S Actis -->
-    <div class="card">
-      <div class="card-title" data-pt="Curva S — Avanço Físico (% Acumulado) — ACTIS" data-en="S-Curve — Physical Progress (% Cumulative) — ACTIS">
-        Curva S — Avanço Físico (% Acumulado) — ACTIS</div>
-      <div style="height:260px;position:relative;"><canvas id="curvaSChart"></canvas></div>
-    </div>
-
-    <!-- Curva S MS-Project (aparece só se CurvaS.csv existir) -->
+        <!-- Curva S MS-Project (aparece só se CurvaS.csv existir) -->
     
     <div class="card" style="margin-top:16px;">
       <div class="card-title" data-pt="Curva S — Avanço Físico (MS-Project)" data-en="S-Curve — Physical Progress (MS-Project)">Curva S — Avanço Físico (MS-Project)</div>
@@ -623,7 +608,7 @@ h1{font-size:22px;font-weight:600;}
   <div class="page" id="page-gas">
     <div class="page-header">
       <div><div class="proj-label">Edge · Aliança · Siderópolis 2</div><h1>Monitoramento dos Gases — Reatores</h1></div>
-      <div class="updated" data-pt="Atualizado em 18/05/2026 21:10" data-en="Updated on 18/05/2026 21:10">Atualizado em 18/05/2026 21:10</div>
+      <div class="updated" data-pt="Atualizado em 18/05/2026 21:23" data-en="Updated on 18/05/2026 21:23">Atualizado em 18/05/2026 21:23</div>
     </div>
     <div class="em-construcao">
       <div class="icon">⚗️</div><div class="title">Em construção</div>
@@ -636,7 +621,7 @@ h1{font-size:22px;font-weight:600;}
   <div class="page" id="page-bess">
     <div class="page-header">
       <div><div class="proj-label">BESS · Eólicas Babilônias</div><h1>Análise de Viabilidade</h1></div>
-      <div class="updated" data-pt="Atualizado em 18/05/2026 21:10" data-en="Updated on 18/05/2026 21:10">Atualizado em 18/05/2026 21:10</div>
+      <div class="updated" data-pt="Atualizado em 18/05/2026 21:23" data-en="Updated on 18/05/2026 21:23">Atualizado em 18/05/2026 21:23</div>
     </div>
     <div class="em-construcao">
       <div class="icon">🔋</div><div class="title">Em construção</div>
@@ -675,37 +660,10 @@ function calcPrazo(isEN) {
 }
 calcPrazo(false);
 
-// ── Curva S Actis ─────────────────────────────────────────────
-const csLabels    = ["Dez/25", "Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26", "Jan/27", "Fev/27", "Mar/27"];
-const csPrev      = [0.0, 0.02, 0.11, 0.43, 3.25, 9.14, 21.18, 38.5, 56.19, 71.07, 80.4, 87.51, 95.75, 98.02, 99.71, 100.0];
-const csReal      = [0.02, 0.04, 0.07, 2.32, 5.81, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let curvaSChart   = new Chart(document.getElementById('curvaSChart').getContext('2d'), {
-  type: 'line',
-  data: { labels: csLabels, datasets: [
-    { label: '% Previsto Acumulado', data: csPrev,
-       borderColor: '#1A2B4A', borderWidth: 2, borderDash: [6, 3],
-       pointBackgroundColor: '#1A2B4A', pointRadius: 4, tension: 0.4, fill: false },
-    { label: '% Real Acumulado', data: csReal.map(v => v > 0 ? v : null),
-       borderColor: '#A9C4E4', borderWidth: 2.5,
-       pointBackgroundColor: '#A9C4E4', pointRadius: 5, tension: 0.4, fill: false },
-  ]},
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 12 } } },
-      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y || 0).toFixed(2) + '%' } },
-    },
-    scales: {
-      y: { min: 0, max: 100, ticks: { callback: v => v + '%', font: { family: 'DM Sans', size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
-      x: { ticks: { font: { family: 'DM Sans', size: 11 }, maxRotation: 45 }, grid: { display: false } },
-    },
-  },
-});
-
 // ── Curva S MS-Project ────────────────────────────────────────
 const cpLabels  = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26", "Jan/27", "Fev/27", "Mar/27"];
 const cpPrev    = [0.0, 0.0, 3.96, 4.81, 10.97, 28.36, 42.98, 63.99, 76.49, 79.82, 86.35, 86.78, 86.78, 87.49, 91.81];
-const cpReal    = [0.0, 0.57, 4.25, 6.54, 11.48, 19.48, 21.07, 21.07, 21.07, 21.07, 21.07, 21.07, 21.07, 21.07, 21.07];
+const cpReal    = [0.0, 0.57, 4.25, 6.54, 11.48, null, null, null, null, null, null, null, null, null, null];
 if (cpLabels.length > 0) {
   new Chart(document.getElementById('curvaProjectChart').getContext('2d'), {
     type: 'line',
@@ -855,7 +813,7 @@ function toggleLang() {
     const map   = isEN ? MESES_PT_EN : MESES_EN_PT;
     return (map[mes] || mes) + '/' + resto;
   };
-  [curvaSChart, curvaFin].forEach(ch => {
+  [curvaFin].forEach(ch => {
     if (!ch) return;
     ch.data.labels = ch.data.labels.map(traduzirMes);
     ch.update();
@@ -864,10 +822,6 @@ function toggleLang() {
     curvaProjectChart.data.labels = curvaProjectChart.data.labels.map(traduzirMes);
     curvaProjectChart.update();
   }
-  // labels datasets Actis
-  curvaSChart.data.datasets[0].label = isEN ? '% Planned Cumulative'  : '% Previsto Acumulado';
-  curvaSChart.data.datasets[1].label = isEN ? '% Actual Cumulative'   : '% Real Acumulado';
-  curvaSChart.update();
   curvaFin.data.datasets[0].label   = isEN ? 'Planned Actis Cum.'      : 'Previsto Actis Acum.';
   curvaFin.data.datasets[1].label   = isEN ? 'Contracted Planned Cum.' : 'Previsto Contratado Acum.';
   curvaFin.data.datasets[2].label   = isEN ? 'Updated Planned Cum.'    : 'Previsto Atualizado Acum.';
