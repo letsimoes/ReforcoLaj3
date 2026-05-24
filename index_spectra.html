@@ -99,8 +99,8 @@ h1{font-size:22px;font-weight:600;}
       <span data-pt="SS SID 2 · Aliança" data-en="SS SID 2 · Aliança">SS SID 2 · Aliança</span>
     </div>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 15:01 · HRZ SPECTRA" data-en="Updated on 24/05/2026 15:01 · HRZ SPECTRA">
-    Atualizado em 24/05/2026 15:01 · HRZ SPECTRA
+  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 19:12 · HRZ SPECTRA" data-en="Updated on 24/05/2026 19:12 · HRZ SPECTRA">
+    Atualizado em 24/05/2026 19:12 · HRZ SPECTRA
   </div>
 </div>
 
@@ -121,7 +121,7 @@ h1{font-size:22px;font-weight:600;}
         <a href="https://letsimoes.github.io/ReforcoLaj3/index_spectra.html" target="_blank" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);color:var(--accent-mid);text-decoration:none;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
       </div>
       <div class="updated" data-pt="Referência: CIGRé TB 771" data-en="Reference: CIGRé TB 771">Referência: CIGRé TB 771</div>
-      <div class="updated" data-pt="Atualizado em 24/05/2026 15:01" data-en="Updated on 24/05/2026 15:01">Atualizado em 24/05/2026 15:01</div>
+      <div class="updated" data-pt="Atualizado em 24/05/2026 19:12" data-en="Updated on 24/05/2026 19:12">Atualizado em 24/05/2026 19:12</div>
     </div>
   </div>
 
@@ -724,81 +724,134 @@ function toggleDiag(reactor) {
 function drawDuval() {
   const c = document.getElementById('duvalCanvas');
   const ctx = c.getContext('2d');
-  c.width=340; c.height=320;
-  ctx.clearRect(0,0,340,320);
+  c.width=380; c.height=400;
+  ctx.clearRect(0,0,380,400);
 
-  // Triângulo 5 CIGRé TB 771 Tabela H.1
-  // Eixos: CH4=topo / C2H6=esquerda / C2H4=direita
-  // T1: %C2H4 < 10% (base esquerda)
-  // T2: 10% <= %C2H4 < 50% (meio)
-  // T3: %C2H4 >= 50% (base direita + centro-direita)
-  const top={x:170,y:14}, left={x:14,y:306}, right={x:326,y:306};
+  // Triângulo 5 — CIGRé TB 771 Figura H.2
+  // Eixos: %CH4=topo / %C2H6=base-esq / %C2H4=base-dir
+  // Vértices: topo(190,14) / esq(14,386) / dir(366,386)
+  const T={x:190,y:14}, L={x:14,y:386}, R={x:366,y:386};
 
-  function pt(pCH4, pC2H6, pC2H4) {
+  function pt(ch4,c2h6,c2h4) {
     return {
-      x: pCH4/100*top.x + pC2H6/100*left.x + pC2H4/100*right.x,
-      y: pCH4/100*top.y + pC2H6/100*left.y + pC2H4/100*right.y
+      x: T.x*ch4/100 + L.x*c2h6/100 + R.x*c2h4/100,
+      y: T.y*ch4/100 + L.y*c2h6/100 + R.y*c2h4/100
     };
   }
 
-  function fill(pts, color) {
+  function poly(pts, fill, stroke, sw) {
     ctx.beginPath();
     pts.forEach((p,i) => i ? ctx.lineTo(p.x,p.y) : ctx.moveTo(p.x,p.y));
-    ctx.closePath(); ctx.fillStyle=color; ctx.fill();
+    ctx.closePath();
+    if(fill)  { ctx.fillStyle=fill;   ctx.fill(); }
+    if(stroke){ ctx.strokeStyle=stroke; ctx.lineWidth=sw||0.8; ctx.stroke(); }
   }
 
-  // T1: C2H4 < 10% → região esquerda
-  // vértices: topo(100,0,0), esquerda(0,100,0), C2H4=10% na base(0,90,10), C2H4=10% no topo(90,0,10)
-  fill([pt(100,0,0), pt(0,100,0), pt(0,90,10), pt(90,0,10)], 'rgba(16,185,129,.18)');
+  function line(p1, p2, color, w, dash) {
+    ctx.beginPath();
+    if(dash) ctx.setLineDash(dash); else ctx.setLineDash([]);
+    ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y);
+    ctx.strokeStyle=color; ctx.lineWidth=w||0.8; ctx.stroke();
+    ctx.setLineDash([]);
+  }
 
-  // T2: 10% <= C2H4 < 50% → faixa central
-  fill([pt(90,0,10), pt(0,90,10), pt(0,50,50), pt(50,0,50)], 'rgba(245,158,11,.18)');
+  // Pontos de fronteira (da Figura H.2 + Tabela H.1)
+  const pPD_L  = pt(98,2,0);   // fronteira PD/O esq
+  const pPD_R  = pt(98,0,2);   // fronteira PD/T2 dir
+  const pOS_L  = pt(0,94,6);   // base fronteira O — C2H4≈6%
+  const pOS_T  = pt(9,85,6);   // meio fronteira O/S
+  const pSC_L  = pt(0,54,46);  // base fronteira S/C
+  const pSC_T  = pt(36,60,4);  // topo fronteira S/C
+  const pT2C_T = pt(54,0,46);  // topo fronteira T2/C — CH4=54%,C2H4=46%
+  const pT2C_B = pt(0,46,54);  // base fronteira T2/C — C2H4=54%
+  const pCT3_B = pt(0,35,65);  // base fronteira C/T3 — C2H4=65%
 
-  // T3: C2H4 >= 50% → região direita
-  fill([pt(50,0,50), pt(0,50,50), pt(0,0,100)], 'rgba(249,115,22,.22)');
+  // ── ZONAS ──────────────────────────────────────────────────────────────────
 
-  // Linhas divisórias
-  ctx.setLineDash([6,3]); ctx.lineWidth=1; ctx.strokeStyle='rgba(100,116,139,.45)';
-  // T1/T2: C2H4=10%
-  const b1 = pt(90,0,10), b2 = pt(0,90,10);
-  ctx.beginPath(); ctx.moveTo(b1.x,b1.y); ctx.lineTo(b2.x,b2.y); ctx.stroke();
-  // T2/T3: C2H4=50%
-  const b3 = pt(50,0,50), b4 = pt(0,50,50);
-  ctx.beginPath(); ctx.moveTo(b3.x,b3.y); ctx.lineTo(b4.x,b4.y); ctx.stroke();
-  ctx.setLineDash([]);
+  // PD: fatia estreita no topo
+  poly([T, pPD_L, pPD_R], 'rgba(53,123,186,.22)');
+
+  // O (superaquecimento leve): faixa esquerda, C2H4 < 6%
+  poly([T, pPD_L, pOS_T, pOS_L, L], 'rgba(53,123,186,.12)');
+
+  // S (gasificação parasita): faixa diagonal
+  poly([pPD_L, pPD_R, pT2C_T, pSC_T, pOS_T], 'rgba(127,119,221,.14)');
+
+  // T2: direita superior
+  poly([pPD_R, T, pOS_T, pSC_T, pT2C_T], 'rgba(245,158,11,.18)');
+  // (T2 está entre PD_R, O, S e a linha T2/C)
+  // Reajuste: T2 = topo direito, entre PD e fronteira C
+  // Da Figura H.2: T2 fica no canto direito-alto
+  // Recalcular: T2 = pt(pPD_R) → pt(T2C_T) → pt(T2C_B, parcial) → ...
+  // Simplificação visual fiel: T2 ocupa canto direito superior
+
+  // C (carbonização papel): zona central grande
+  poly([pSC_T, pT2C_T, pT2C_B, pCT3_B, pSC_L], 'rgba(211,90,46,.15)');
+
+  // T3: base direita — C2H4 alto
+  poly([pT2C_T, pT2C_B, pt(0,0,100), pCT3_B], 'rgba(211,90,46,.28)');
+  // Segundo bloco T3 menor (Figura H.2 mostra dois triângulos T3)
+
+  // ── REDRAW LIMPO (ordem correta para sobreposição) ──────────────────────────
+  ctx.clearRect(0,0,380,400);
+
+  // Zona O
+  poly([T, pPD_L, pOS_T, pOS_L, L], 'rgba(59,139,212,.13)', null);
+  // Zona S
+  poly([pPD_L, pSC_T, pOS_T], 'rgba(83,74,183,.13)', null);
+  // Zona T2
+  poly([T, pPD_R, pT2C_T, pSC_T, pPD_L], 'rgba(245,158,11,.18)', null);
+  // Zona C
+  poly([pSC_T, pT2C_T, pT2C_B, pCT3_B, pSC_L, pOS_T], 'rgba(186,117,23,.16)', null);
+  // Zona T3
+  poly([pT2C_T, R, pCT3_B, pT2C_B], 'rgba(211,90,46,.28)', null);
+  // Zona PD
+  poly([T, pPD_L, pPD_R], 'rgba(53,139,212,.3)', null);
 
   // Contorno externo
-  ctx.beginPath(); ctx.moveTo(top.x,top.y); ctx.lineTo(left.x,left.y); ctx.lineTo(right.x,right.y);
-  ctx.closePath(); ctx.strokeStyle='#94a3b8'; ctx.lineWidth=1.5; ctx.stroke();
+  poly([T, L, R], null, 'rgba(148,163,184,.7)', 1.5);
 
-  // Labels de zona
-  ctx.fillStyle='#475569'; ctx.font='500 10px DM Sans,sans-serif';
-  ctx.fillText('T1',  38, 230);
-  ctx.fillText('T2', 130, 240);
-  ctx.fillText('T3', 255, 265);
+  // Linhas divisórias internas
+  line(pPD_L,  pOS_L,  'rgba(148,163,184,.5)', 0.7, [4,3]);
+  line(pPD_L,  pSC_T,  'rgba(148,163,184,.5)', 0.7, [4,3]);
+  line(pSC_T,  pSC_L,  'rgba(148,163,184,.5)', 0.7, [4,3]);
+  line(T,      pT2C_T, 'rgba(148,163,184,.5)', 0.7, [4,3]);
+  line(pT2C_T, pT2C_B, 'rgba(148,163,184,.5)', 0.7, [4,3]);
+  line(pT2C_T, pCT3_B, 'rgba(148,163,184,.5)', 0.7, [4,3]);
 
-  // Labels de eixo
-  ctx.fillStyle='#64748b'; ctx.font='8px DM Sans,sans-serif';
-  ctx.fillText('%CH₄',   top.x-14,  top.y-4);
-  ctx.fillText('%C₂H₆',  left.x-2,  left.y+13);
-  ctx.fillText('%C₂H₄',  right.x-28,right.y+13);
+  // ── LABELS DAS ZONAS ──────────────────────────────────────────────────────
+  ctx.fillStyle='rgba(71,85,105,.75)'; ctx.font='500 9px DM Sans,sans-serif';
+  ctx.fillText('PD', 185, 22);
+  ctx.fillText('O',  52,  260);
+  ctx.fillText('S',  120, 230);
+  ctx.fillText('T2', 200, 120);
+  ctx.fillText('C',  230, 300);
+  ctx.fillText('T3', 318, 320);
 
-  // Pontos dos reatores — cor pelo nível CIGRé
+  // ── LABELS DOS EIXOS ──────────────────────────────────────────────────────
+  ctx.fillStyle='rgba(100,116,139,.8)'; ctx.font='8px DM Sans,sans-serif';
+  ctx.fillText('%CH₄',  178, 8);
+  ctx.fillText('%C₂H₆', 4,  395);
+  ctx.fillText('%C₂H₄', 328, 395);
+
+  // ── PONTOS DOS REATORES ───────────────────────────────────────────────────
+  // Cor pelo nível CIGRé: verde=típico, âmbar=int1, laranja=int2, vermelho=pré-falha
   DUVAL_DATA.forEach(r => {
     const tot = r.pCH4 + r.pC2H4 + r.pC2H6;
     if (!tot) return;
     const sc = pt(r.pCH4/tot*100, r.pC2H6/tot*100, r.pC2H4/tot*100);
     const sm = STATUS_MAP.find(x => x.reactor === r.reactor);
     const clCor = sm ? sm.cl_cor : '#94a3b8';
-    // círculo preenchido com cor do nível
-    ctx.beginPath(); ctx.arc(sc.x,sc.y,7,0,Math.PI*2);
-    ctx.fillStyle=clCor; ctx.globalAlpha=.88; ctx.fill(); ctx.globalAlpha=1;
+
+    // ponto
+    ctx.beginPath(); ctx.arc(sc.x, sc.y, 6, 0, Math.PI*2);
+    ctx.fillStyle = clCor; ctx.globalAlpha = .88; ctx.fill(); ctx.globalAlpha = 1;
     // borda branca
-    ctx.beginPath(); ctx.arc(sc.x,sc.y,7,0,Math.PI*2);
-    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+    ctx.beginPath(); ctx.arc(sc.x, sc.y, 6, 0, Math.PI*2);
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
     // label
-    ctx.fillStyle='#1e293b'; ctx.font='bold 7px DM Sans,sans-serif';
-    ctx.fillText(r.reactor.replace('9R',''), sc.x+9, sc.y+3);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 6.5px DM Sans,sans-serif';
+    ctx.fillText(r.reactor.replace('9R',''), sc.x + 8, sc.y + 3);
   });
 }
 
