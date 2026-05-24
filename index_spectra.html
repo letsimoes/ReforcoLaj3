@@ -99,8 +99,8 @@ h1{font-size:22px;font-weight:600;}
       <span data-pt="SS SID 2 · Aliança" data-en="SS SID 2 · Aliança">SS SID 2 · Aliança</span>
     </div>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 14:57 · HRZ SPECTRA" data-en="Updated on 24/05/2026 14:57 · HRZ SPECTRA">
-    Atualizado em 24/05/2026 14:57 · HRZ SPECTRA
+  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 15:01 · HRZ SPECTRA" data-en="Updated on 24/05/2026 15:01 · HRZ SPECTRA">
+    Atualizado em 24/05/2026 15:01 · HRZ SPECTRA
   </div>
 </div>
 
@@ -121,7 +121,7 @@ h1{font-size:22px;font-weight:600;}
         <a href="https://letsimoes.github.io/ReforcoLaj3/index_spectra.html" target="_blank" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);color:var(--accent-mid);text-decoration:none;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
       </div>
       <div class="updated" data-pt="Referência: CIGRé TB 771" data-en="Reference: CIGRé TB 771">Referência: CIGRé TB 771</div>
-      <div class="updated" data-pt="Atualizado em 24/05/2026 14:57" data-en="Updated on 24/05/2026 14:57">Atualizado em 24/05/2026 14:57</div>
+      <div class="updated" data-pt="Atualizado em 24/05/2026 15:01" data-en="Updated on 24/05/2026 15:01">Atualizado em 24/05/2026 15:01</div>
     </div>
   </div>
 
@@ -657,82 +657,54 @@ function renderDiag() {
         <span id="darr-${row.reactor}" style="font-size:12px;color:var(--text3);margin-left:4px;">▸</span>
       </div>
 
-      <div id="ddet-${row.reactor}" style="display:none;border-top:0.5px solid var(--border);padding:14px;">
-
-        <!-- DIAGNÓSTICO — faixa colorida principal -->
-        <div style="border-left:3px solid ${dotCor};border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;background:${dotCor}0D;margin-bottom:12px;">
-          <div style="font-size:10px;font-weight:600;color:${dotCor};text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px;">${isEN?'diagnosis':'diagnóstico'}</div>
-          <p style="font-size:13px;font-weight:500;margin-bottom:4px;">${exec}</p>
-          <p style="font-size:12px;color:var(--text2);line-height:1.65;">${isEN?row.detalhe_en:row.detalhe_pt}</p>
-        </div>
-
-        <!-- GRID: FALHA PROVÁVEL + ISOLAÇÃO -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-          <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;">
-            <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">${isEN?'probable fault':'falha provável'}</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
-              <span class="badge" style="background:${zc}22;color:${zc};border:0.5px solid ${zc}55;">${row.zone}</span>
-              <span style="font-size:12px;font-weight:500;">${nomeFalha}</span>
-            </div>
-            <p style="font-size:11px;color:var(--text2);line-height:1.6;">${mecanTxt}</p>
-          </div>
-          <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;">
-            <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">${isEN?'insulation · CO₂/CO':'isolação · CO₂/CO'}</div>
-            <div style="font-size:20px;font-weight:500;color:${!row.papel_envolvido?'#2D6A3F':'#8B1A1A'};margin-bottom:3px;">${row.ratio_co2co}</div>
-            <p style="font-size:11px;color:var(--text2);line-height:1.6;">${!row.papel_envolvido?(isEN?'Above 3 — paper insulation intact. Fault confined to oil.':'Acima de 3 — isolação de papel íntegra. Falha contida no óleo.'):(isEN?'Below 3 — paper at risk. Immediate attention required.':'Abaixo de 3 — risco de papel. Atenção imediata necessária.')}</p>
-          </div>
-        </div>
-
-        <!-- SE NÃO AGIR — consequência real -->
-        <div style="margin-bottom:12px;background:var(--surface2);border-left:3px solid ${dotCor};border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;">
-          <div style="font-size:10px;font-weight:600;color:${dotCor};text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">${isEN?'if no action is taken':'se não houver intervenção'}</div>
-          <p style="font-size:12px;color:var(--text2);line-height:1.65;">${isEN?row.risco_en:row.risco_pt}</p>
-        </div>
-
-        <!-- CAUSAS PROVÁVEIS -->
-        <div style="margin-bottom:12px;">
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">${isEN?'probable causes · CIGRé TB 771':'causas prováveis · CIGRé TB 771'}</div>
-          <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 12px;">
-            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px;">${causasList}</ul>
-          </div>
-        </div>
-
-        <!-- GASES — barras visuais -->
-        <div style="margin-bottom:12px;">
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">${isEN?'gases · last sample':'gases · última amostra'}</div>
-          <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 12px;">
-            ${gasesHtml}
-            ${row.c2h2_alerta ? '<div style="font-size:11px;color:#C8931A;margin-top:6px;padding:5px 8px;background:#FEF3DC;border-radius:4px;">C₂H₂ = ' + row.c2h2_val + ' ppm — ' + (isEN ? 'low but present. Monitor in next samples.' : 'baixo mas presente. Monitorar nas próximas amostras.') + '</div>' : ''}
-          </div>
-        </div>
-
-        <!-- SE ISTO ACONTECER — sinais de alerta em linguagem simples -->
-        <div style="margin-bottom:12px;">
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">${isEN?'if this happens · escalate immediately':'se isto acontecer · escalar imediatamente'}</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div style="background:#FEF3DC;border-radius:var(--radius-sm);padding:8px 10px;border:0.5px solid #EF9F27;">
-              <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#EF9F27;flex-shrink:0;"></span>
-                <span style="font-size:11px;font-weight:500;color:#854F0B;">C₂H₂ ${isEN?'starts rising':'começa a subir'}</span>
-              </div>
-              <p style="font-size:11px;color:#633806;">${alertaC2h2}</p>
-            </div>
-            <div style="background:#FEF3DC;border-radius:var(--radius-sm);padding:8px 10px;border:0.5px solid #EF9F27;">
-              <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#EF9F27;flex-shrink:0;"></span>
-                <span style="font-size:11px;font-weight:500;color:#854F0B;">CO₂/CO ${isEN?'falls below 3':'cai abaixo de 3'}</span>
-              </div>
-              <p style="font-size:11px;color:#633806;">${alertaCO}</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- PLANO DE AÇÃO -->
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">${isEN?'action plan':'plano de ação'}</div>
-          ${planoHtml}
-        </div>
-
+      <div id="ddet-${row.reactor}" style="display:none;border-top:0.5px solid var(--border);padding:12px 14px;">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:7px 0;width:120px;font-weight:500;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.06em;">${isEN?'Diagnosis':'Diagnóstico'}</td>
+            <td style="padding:7px 0;color:var(--text2);line-height:1.6;">${isEN?row.detalhe_en:row.detalhe_pt}</td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:7px 0;font-weight:500;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.06em;">${isEN?'Probable cause':'Causa provável'}</td>
+            <td style="padding:7px 0;color:var(--text2);">
+              <span class="badge" style="background:${zc}22;color:${zc};border:0.5px solid ${zc}55;margin-right:6px;">${row.zone}</span>${isEN?row.falha_exec_en:row.falha_exec_pt}
+            </td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:7px 0;font-weight:500;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.06em;">${isEN?'Insulation':'Isolação'}</td>
+            <td style="padding:7px 0;font-weight:500;color:${!row.papel_envolvido?'#2D6A3F':'#8B1A1A'};">
+              CO₂/CO = ${row.ratio_co2co} — ${!row.papel_envolvido?(isEN?'paper intact':'papel íntegro'):(isEN?'paper at risk ⚠':'risco de papel ⚠')}
+            </td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:7px 0;font-weight:500;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.06em;">${isEN?'If no action':'Sem intervenção'}</td>
+            <td style="padding:7px 0;color:var(--text2);">${isEN?row.risco_en:row.risco_pt}</td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--border);">
+            <td style="padding:7px 0;font-weight:500;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.06em;">${isEN?'Escalate when':'Escalar quando'}</td>
+            <td style="padding:7px 0;color:var(--text2);">
+              C₂H₂ > 19 ppm ${row.c2h2_alerta?'<span style="color:#C8931A;font-size:10px;">(atual: '+row.c2h2_val+' ppm — monitorar)</span>':'(atual: '+row.c2h2_val+' ppm)'} · CO₂/CO < 3 (atual: ${row.ratio_co2co})
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:7px 0;font-weight:500;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.06em;">${isEN?'Gases':'Gases'}</td>
+            <td style="padding:4px 0;">
+              ${GAS_KEYS.map(gid=>{
+                const gd=row.gases[gid];
+                const cor=ST_COLORS[gd.st]||'#9E9C97';
+                const fw=gd.st!=='ok'?'600':'400';
+                const bw=Math.min(gd.pct,100);
+                const bc=gd.st==='ok'?'#2D6A3F':gd.st==='warn'?'#C8931A':gd.st==='orange'?'#E07020':'#8B1A1A';
+                const GN={'H2':'H₂','CH4':'CH₄','C2H2':'C₂H₂','C2H4':'C₂H₄','C2H6':'C₂H₆','CO':'CO','CO2':'CO₂'};
+                return `<div style="display:grid;grid-template-columns:34px 1fr 64px 32px;align-items:center;gap:6px;padding:3px 0;">
+                  <span style="font-size:11px;font-weight:500;color:${cor};">${GN[gid]}</span>
+                  <div style="background:var(--surface2);border-radius:2px;height:3px;"><div style="width:${bw}%;height:3px;border-radius:2px;background:${bc};"></div></div>
+                  <span style="font-size:11px;font-weight:${fw};color:${cor};text-align:right;">${gd.val} ppm</span>
+                  <span style="font-size:10px;color:var(--text3);text-align:right;">${gd.pct}%</span>
+                </div>`;
+              }).join('')}
+            </td>
+          </tr>
+        </table>
       </div>
     </div>`;
   }).join('');
