@@ -99,8 +99,8 @@ h1{font-size:22px;font-weight:600;}
       <span data-pt="SS SID 2 · Aliança" data-en="SS SID 2 · Aliança">SS SID 2 · Aliança</span>
     </div>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 14:44 · HRZ SPECTRA" data-en="Updated on 24/05/2026 14:44 · HRZ SPECTRA">
-    Atualizado em 24/05/2026 14:44 · HRZ SPECTRA
+  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 14:49 · HRZ SPECTRA" data-en="Updated on 24/05/2026 14:49 · HRZ SPECTRA">
+    Atualizado em 24/05/2026 14:49 · HRZ SPECTRA
   </div>
 </div>
 
@@ -121,7 +121,7 @@ h1{font-size:22px;font-weight:600;}
         <a href="https://letsimoes.github.io/ReforcoLaj3/index_spectra.html" target="_blank" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);color:var(--accent-mid);text-decoration:none;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
       </div>
       <div class="updated" data-pt="Referência: CIGRé TB 771" data-en="Reference: CIGRé TB 771">Referência: CIGRé TB 771</div>
-      <div class="updated" data-pt="Atualizado em 24/05/2026 14:44" data-en="Updated on 24/05/2026 14:44">Atualizado em 24/05/2026 14:44</div>
+      <div class="updated" data-pt="Atualizado em 24/05/2026 14:49" data-en="Updated on 24/05/2026 14:49">Atualizado em 24/05/2026 14:49</div>
     </div>
   </div>
 
@@ -619,7 +619,7 @@ function renderDiag() {
 
     // Causas prováveis
     const causasList = (isEN ? causa.causas_en : causa.causas_pt)
-      .map(c=>`<li style="font-size:11px;color:var(--text2);margin-bottom:3px;">${c}</li>`).join('');
+      .map(c=>`<li style="font-size:11px;color:var(--text2);margin-bottom:4px;display:flex;align-items:flex-start;gap:6px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent-mid);flex-shrink:0;margin-top:5px;"></span>${c}</li>`).join('');
 
     // Sinais de alerta
     const alertaC2h2 = isEN ? causa.alerta_c2h2_en : causa.alerta_c2h2_pt;
@@ -659,57 +659,63 @@ function renderDiag() {
 
       <div id="ddet-${row.reactor}" style="display:none;border-top:0.5px solid var(--border);padding:14px;">
 
-        <!-- O QUE ESTÁ ACONTECENDO -->
-        <div style="margin-bottom:14px;">
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">${isEN?'what is happening':'o que está acontecendo'}</div>
+        <!-- DIAGNÓSTICO — faixa colorida principal -->
+        <div style="border-left:3px solid ${dotCor};border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;background:${dotCor}0D;margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:600;color:${dotCor};text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px;">${isEN?'diagnosis':'diagnóstico'}</div>
+          <p style="font-size:13px;font-weight:500;margin-bottom:4px;">${exec}</p>
+          <p style="font-size:12px;color:var(--text2);line-height:1.65;">${isEN?row.detalhe_en:row.detalhe_pt}</p>
+        </div>
+
+        <!-- GRID: FALHA PROVÁVEL + ISOLAÇÃO -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
           <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;">
-            <p style="font-size:13px;font-weight:500;margin-bottom:4px;">${exec}</p>
-            <p style="font-size:11px;color:var(--text2);">${isEN?row.detalhe_en:row.detalhe_pt}</p>
+            <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">${isEN?'probable fault':'falha provável'}</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
+              <span class="badge" style="background:${zc}22;color:${zc};border:0.5px solid ${zc}55;">${row.zone}</span>
+              <span style="font-size:12px;font-weight:500;">${nomeFalha}</span>
+            </div>
+            <p style="font-size:11px;color:var(--text2);line-height:1.6;">${mecanTxt}</p>
+          </div>
+          <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;">
+            <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">${isEN?'insulation · CO₂/CO':'isolação · CO₂/CO'}</div>
+            <div style="font-size:20px;font-weight:500;color:${!row.papel_envolvido?'#2D6A3F':'#8B1A1A'};margin-bottom:3px;">${row.ratio_co2co}</div>
+            <p style="font-size:11px;color:var(--text2);line-height:1.6;">${!row.papel_envolvido?(isEN?'Above 3 — paper insulation intact. Fault confined to oil.':'Acima de 3 — isolação de papel íntegra. Falha contida no óleo.'):(isEN?'Below 3 — paper at risk. Immediate attention required.':'Abaixo de 3 — risco de papel. Atenção imediata necessária.')}</p>
           </div>
         </div>
 
-        <!-- POR QUE ACONTECE -->
-        <div style="margin-bottom:14px;">
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">${isEN?'why it happens · CIGRé TB 771':'por que acontece · CIGRé TB 771'}</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;">
-              <p style="font-size:11px;color:var(--text3);margin-bottom:3px;">${isEN?'probable fault':'falha provável'}</p>
-              <p style="font-size:12px;font-weight:500;margin-bottom:4px;"><span class="badge" style="background:${zc}22;color:${zc};border:1px solid ${zc}44;margin-right:4px;">${row.zone}</span>${nomeFalha}</p>
-              <p style="font-size:11px;color:var(--text2);">${mecanTxt}</p>
-            </div>
-            <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;">
-              <p style="font-size:11px;color:var(--text3);margin-bottom:3px;">${isEN?'probable causes':'causas prováveis'}</p>
-              <ul style="list-style:disc;padding-left:14px;margin-top:2px;">${causasList}</ul>
-              <div style="margin-top:6px;padding:5px 8px;border-radius:4px;background:${!row.papel_envolvido?'#E8F5EC':'#FDEAEA'};">
-                <span style="font-size:11px;font-weight:500;color:${!row.papel_envolvido?'#2D6A3F':'#8B1A1A'};">CO₂/CO = ${row.ratio_co2co} — ${isEN?(row.papel_envolvido?'paper at risk':'insulation preserved'):(row.papel_envolvido?'risco de papel':'isolação preservada')}</span>
-              </div>
-            </div>
-          </div>
-          <div style="margin-top:6px;background:var(--surface2);border-radius:var(--radius-sm);padding:8px 12px;">
-            <p style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:2px;">${isEN?'real severity · CIGRé TB 771':'severidade real · CIGRé TB 771'}</p>
-            <p style="font-size:11px;color:var(--text2);">${sevTxt}</p>
+        <!-- CAUSAS PROVÁVEIS -->
+        <div style="margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">${isEN?'probable causes · CIGRé TB 771':'causas prováveis · CIGRé TB 771'}</div>
+          <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 12px;">
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px;">${causasList}</ul>
           </div>
         </div>
 
-        <!-- GASES -->
-        <div style="margin-bottom:14px;">
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">${isEN?'gases · what each one tells us':'gases · o que cada um informa'}</div>
+        <!-- GASES — barras visuais -->
+        <div style="margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">${isEN?'gases · last sample':'gases · última amostra'}</div>
           <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 12px;">
             ${gasesHtml}
-            ${row.c2h2_alerta ? '<div style="font-size:11px;color:#C8931A;margin-top:6px;padding:5px 8px;background:#FEF3DC;border-radius:4px;">C2H2 = ' + row.c2h2_val + ' ppm — ' + (isEN ? 'low but present. Monitor next samples.' : 'baixo mas presente. Monitorar próximas amostras.') + '</div>' : ''}
+            ${row.c2h2_alerta ? '<div style="font-size:11px;color:#C8931A;margin-top:6px;padding:5px 8px;background:#FEF3DC;border-radius:4px;">C₂H₂ = ' + row.c2h2_val + ' ppm — ' + (isEN ? 'low but present. Monitor in next samples.' : 'baixo mas presente. Monitorar nas próximas amostras.') + '</div>' : ''}
           </div>
         </div>
 
-        <!-- SINAIS DE ALERTA -->
-        <div style="margin-bottom:14px;">
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">${isEN?'what to watch · alert signals':'o que monitorar · sinais de alerta'}</div>
+        <!-- SE ISTO ACONTECER — sinais de alerta em linguagem simples -->
+        <div style="margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">${isEN?'if this happens · escalate immediately':'se isto acontecer · escalar imediatamente'}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div style="background:#FEF3DC;border-radius:var(--radius-sm);padding:8px 12px;border:0.5px solid #FAC775;">
-              <p style="font-size:11px;font-weight:500;color:#854F0B;margin-bottom:3px;">C₂H₂</p>
+            <div style="background:#FEF3DC;border-radius:var(--radius-sm);padding:8px 10px;border:0.5px solid #EF9F27;">
+              <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:#EF9F27;flex-shrink:0;"></span>
+                <span style="font-size:11px;font-weight:500;color:#854F0B;">C₂H₂ ${isEN?'starts rising':'começa a subir'}</span>
+              </div>
               <p style="font-size:11px;color:#633806;">${alertaC2h2}</p>
             </div>
-            <div style="background:#FEF3DC;border-radius:var(--radius-sm);padding:8px 12px;border:0.5px solid #FAC775;">
-              <p style="font-size:11px;font-weight:500;color:#854F0B;margin-bottom:3px;">CO / CO₂</p>
+            <div style="background:#FEF3DC;border-radius:var(--radius-sm);padding:8px 10px;border:0.5px solid #EF9F27;">
+              <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:#EF9F27;flex-shrink:0;"></span>
+                <span style="font-size:11px;font-weight:500;color:#854F0B;">CO₂/CO ${isEN?'falls below 3':'cai abaixo de 3'}</span>
+              </div>
               <p style="font-size:11px;color:#633806;">${alertaCO}</p>
             </div>
           </div>
@@ -717,7 +723,7 @@ function renderDiag() {
 
         <!-- PLANO DE AÇÃO -->
         <div>
-          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">${isEN?'action plan · proportional to CIGRé level':'plano de ação · proporcional ao nível CIGRé'}</div>
+          <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">${isEN?'action plan':'plano de ação'}</div>
           ${planoHtml}
         </div>
 
@@ -740,68 +746,82 @@ function toggleDiag(reactor) {
 function drawDuval() {
   const c   = document.getElementById('duvalCanvas');
   const ctx = c.getContext('2d');
-  const W=320,H=300;
+  const W=340,H=320;
+  c.width=W; c.height=H;
   ctx.clearRect(0,0,W,H);
 
-  // Triângulo 5 (CIGRé TB 771): CH4 (topo) / C2H4 (direita) / C2H6 (esquerda)
-  const top={x:160,y:14},left={x:12,y:286},right={x:308,y:286};
-  // topo = %CH4, esquerda = %C2H6, direita = %C2H4
-  function bary5(pCH4,pC2H4,pC2H6){
-    const a=pCH4/100, b=pC2H6/100, d=pC2H4/100;
+  // Triângulo 5 CIGRé TB 771: CH4=topo / C2H6=esquerda / C2H4=direita
+  // Zonas reais: T1 = C2H4/C2H6 < 1; T2 = 1-4; T3 = >4
+  const top={x:170,y:14},left={x:14,y:306},right={x:326,y:306};
+
+  function pt(pCH4,pC2H6,pC2H4){
+    const a=pCH4/100,b=pC2H6/100,d=pC2H4/100;
     return {x:a*top.x+b*left.x+d*right.x, y:a*top.y+b*left.y+d*right.y};
   }
 
-  // Zonas do Triângulo 5 — CIGRé TB 771 App H.2
-  // T1: CH4 alto, C2H4 baixo, C2H6 moderado
-  // T2: CH4 e C2H4 equilibrados
-  // T3: C2H4 dominante (>50%)
-  // T3-H: C2H4 muito dominante (>70%), mas no triângulo 5 aparece na região T3
-  const zones5=[
-    {color:'rgba(16,185,129,.16)', label:'T1', pts:[{a:100,b:0,d:0},{a:50,b:50,d:0},{a:50,b:0,d:50}]},
-    {color:'rgba(245,158,11,.16)', label:'T2', pts:[{a:50,b:50,d:0},{a:0,b:100,d:0},{a:0,b:50,d:50},{a:50,b:0,d:50}]},
-    {color:'rgba(249,115,22,.20)', label:'T3', pts:[{a:50,b:0,d:50},{a:0,b:50,d:50},{a:0,b:0,d:100}]},
-  ];
-  zones5.forEach(z=>{
-    ctx.beginPath();
-    z.pts.forEach((p,i)=>{const s=bary5(p.a,p.d,p.b);i?ctx.lineTo(s.x,s.y):ctx.moveTo(s.x,s.y);});
-    ctx.closePath();ctx.fillStyle=z.color;ctx.fill();
-  });
+  // Fronteiras exatas do Triângulo 5 CIGRé:
+  // T1/T2: linha onde C2H4=C2H6 (razão=1) → de (0,50,50) até (100,0,0)
+  // T2/T3: linha onde C2H4=4*C2H6 (razão=4) → de (0,20,80) até (100,0,0)
+  // Zona T1 (verde): C2H4/C2H6 < 1 → lado esquerdo
+  // Zona T2 (laranja): 1 < C2H4/C2H6 < 4 → meio
+  // Zona T3 (laranja escuro): C2H4/C2H6 > 4 → lado direito
 
-  // Linha divisória T1/T2 e T2/T3
-  ctx.setLineDash([5,3]);ctx.lineWidth=1;ctx.strokeStyle='rgba(100,116,139,.4)';
-  // T1|T2: CH4=50%
-  const p1a=bary5(50,0,50),p1b=bary5(50,50,0);
-  ctx.beginPath();ctx.moveTo(p1a.x,p1a.y);ctx.lineTo(p1b.x,p1b.y);ctx.stroke();
-  // T2|T3: C2H4=50%
-  const p2a=bary5(0,50,50),p2b=bary5(50,50,0);
-  ctx.beginPath();ctx.moveTo(p2a.x,p2a.y);ctx.lineTo(p2b.x,p2b.y);ctx.stroke();
+  // T1: CH4=topo + lado esquerdo (C2H6 > C2H4)
+  // vértices: top(100,0,0), left(0,100,0), fronteira T1/T2
+  // fronteira T1/T2: C2H4=C2H6 → pontos: (0,50,50) e (100,0,0)
+  function fillZone(pts, color){
+    ctx.beginPath();
+    pts.forEach((p,i)=>{i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);});
+    ctx.closePath();ctx.fillStyle=color;ctx.fill();
+  }
+
+  // T1: top, left, (0,50,50)
+  fillZone([pt(100,0,0),pt(0,100,0),pt(0,50,50)],'rgba(16,185,129,.18)');
+  // T2: top, (0,50,50), (0,20,80)
+  fillZone([pt(100,0,0),pt(0,50,50),pt(0,20,80)],'rgba(245,158,11,.18)');
+  // T3: top, (0,20,80), right
+  fillZone([pt(100,0,0),pt(0,20,80),pt(0,0,100)],'rgba(249,115,22,.22)');
+
+  // Linhas divisórias
+  ctx.setLineDash([5,3]);ctx.lineWidth=1;ctx.strokeStyle='rgba(100,116,139,.5)';
+  const d1a=pt(100,0,0),d1b=pt(0,50,50);
+  ctx.beginPath();ctx.moveTo(d1a.x,d1a.y);ctx.lineTo(d1b.x,d1b.y);ctx.stroke();
+  const d2a=pt(100,0,0),d2b=pt(0,20,80);
+  ctx.beginPath();ctx.moveTo(d2a.x,d2a.y);ctx.lineTo(d2b.x,d2b.y);ctx.stroke();
   ctx.setLineDash([]);
 
+  // Contorno
   ctx.beginPath();ctx.moveTo(top.x,top.y);ctx.lineTo(left.x,left.y);ctx.lineTo(right.x,right.y);
-  ctx.closePath();ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.closePath();ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.5;ctx.stroke();
 
-  ctx.fillStyle='#64748b';ctx.font='9px DM Sans,sans-serif';
-  [{n:'T1',x:148,y:180},{n:'T2',x:100,y:240},{n:'T3',x:210,y:255}]
-    .forEach(l=>ctx.fillText(l.n,l.x,l.y));
-  ctx.font='8px DM Sans,sans-serif';
-  ctx.fillText('%CH₄',  top.x-14, top.y-3);
-  ctx.fillText('%C₂H₆', left.x-2, left.y+12);
-  ctx.fillText('%C₂H₄', right.x-26,right.y+12);
+  // Labels de zona
+  ctx.fillStyle='#475569';ctx.font='500 10px DM Sans,sans-serif';
+  ctx.fillText('T1',  62, 230);
+  ctx.fillText('T2', 145, 240);
+  ctx.fillText('T3', 250, 265);
 
-  // Plotar reatores
+  // Labels de eixo
+  ctx.fillStyle='#64748b';ctx.font='8px DM Sans,sans-serif';
+  ctx.fillText('%CH₄',  top.x-14, top.y-4);
+  ctx.fillText('%C₂H₆', left.x-2, left.y+13);
+  ctx.fillText('%C₂H₄', right.x-28,right.y+13);
+
+  // Pontos dos reatores
   DUVAL_DATA.forEach(r=>{
-    const total=r.pCH4+r.pC2H4+r.pC2H6;
-    if(!total)return;
-    const sc=bary5(r.pCH4/total*100, r.pC2H4/total*100, r.pC2H6/total*100);
+    const tot=r.pCH4+r.pC2H4+r.pC2H6;
+    if(!tot)return;
+    const ch4n=r.pCH4/tot*100, c2h6n=r.pC2H6/tot*100, c2h4n=r.pC2H4/tot*100;
+    const sc=pt(ch4n,c2h6n,c2h4n);
     const sm=STATUS_MAP.find(x=>x.reactor===r.reactor);
     const zone=sm?sm.zone:'—';
-    const cor=ZONE_COLORS[zone]||'#94a3b8';
-    ctx.beginPath();ctx.arc(sc.x,sc.y,6,0,Math.PI*2);
-    ctx.fillStyle=cor;ctx.globalAlpha=.9;ctx.fill();ctx.globalAlpha=1;
-    ctx.beginPath();ctx.arc(sc.x,sc.y,6,0,Math.PI*2);
-    ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();
+    // cor por nível CIGRé (mais informativo que zona)
+    const clCor = sm ? sm.cl_cor : '#94a3b8';
+    ctx.beginPath();ctx.arc(sc.x,sc.y,7,0,Math.PI*2);
+    ctx.fillStyle=clCor;ctx.globalAlpha=.85;ctx.fill();ctx.globalAlpha=1;
+    ctx.beginPath();ctx.arc(sc.x,sc.y,7,0,Math.PI*2);
+    ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
     ctx.fillStyle='#1e293b';ctx.font='bold 7px DM Sans,sans-serif';
-    ctx.fillText(r.reactor.replace('9R',''),sc.x+8,sc.y+3);
+    ctx.fillText(r.reactor.replace('9R',''),sc.x+9,sc.y+3);
   });
 }
 
