@@ -99,8 +99,8 @@ h1{font-size:22px;font-weight:600;}
       <span data-pt="SS SID 2 · Aliança" data-en="SS SID 2 · Aliança">SS SID 2 · Aliança</span>
     </div>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 19:28 · HRZ SPECTRA" data-en="Updated on 24/05/2026 19:28 · HRZ SPECTRA">
-    Atualizado em 24/05/2026 19:28 · HRZ SPECTRA
+  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 19:41 · HRZ SPECTRA" data-en="Updated on 24/05/2026 19:41 · HRZ SPECTRA">
+    Atualizado em 24/05/2026 19:41 · HRZ SPECTRA
   </div>
 </div>
 
@@ -121,7 +121,7 @@ h1{font-size:22px;font-weight:600;}
         <a href="https://letsimoes.github.io/ReforcoLaj3/index_spectra.html" target="_blank" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);color:var(--accent-mid);text-decoration:none;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
       </div>
       <div class="updated" data-pt="Referência: CIGRé TB 771" data-en="Reference: CIGRé TB 771">Referência: CIGRé TB 771</div>
-      <div class="updated" data-pt="Atualizado em 24/05/2026 19:28" data-en="Updated on 24/05/2026 19:28">Atualizado em 24/05/2026 19:28</div>
+      <div class="updated" data-pt="Atualizado em 24/05/2026 19:41" data-en="Updated on 24/05/2026 19:41">Atualizado em 24/05/2026 19:41</div>
     </div>
   </div>
 
@@ -727,10 +727,8 @@ function drawDuval() {
   c.width=400; c.height=400;
   ctx.clearRect(0,0,400,400);
 
-  // Triângulo 5 CIGRé TB 771 Figura H.2 — triângulo ISÓSCELES
-  // TOPO  = 100% CH4              → (200, 20)
-  // BASE-ESQ = 100% C2H6          → (20, 380)
-  // BASE-DIR = 100% C2H4          → (380, 380)
+  // Triângulo 5 CIGRé TB 771 — Figura H.2 corrigida
+  // TOP=(200,20)=100%CH4 / BL=(20,380)=100%C2H6 / BR=(380,380)=100%C2H4
   const TOP={x:200,y:20}, BL={x:20,y:380}, BR={x:380,y:380};
 
   function pt(ch4,c2h6,c2h4) {
@@ -739,74 +737,83 @@ function drawDuval() {
       y: TOP.y*ch4/100 + BL.y*c2h6/100 + BR.y*c2h4/100
     };
   }
+
+  // Clip ao triângulo
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(TOP.x,TOP.y); ctx.lineTo(BL.x,BL.y); ctx.lineTo(BR.x,BR.y);
+  ctx.closePath(); ctx.clip();
+
   function poly(pts,fill) {
     ctx.beginPath();
     pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
     ctx.closePath(); ctx.fillStyle=fill; ctx.fill();
   }
-  function seg(p1,p2,dash) {
-    ctx.beginPath(); ctx.setLineDash(dash||[]);
-    ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y); ctx.stroke();
-    ctx.setLineDash([]);
-  }
 
   // Pontos de fronteira — Tabela H.1 + Figura H.2
-  const pPD    = pt(98,2,0);       // PD/O no topo
-  const pOS_m  = pt(9,85,6);       // O/S meio
-  const pOS_b  = pt(0,94,6);       // O/S base
-  const pSC_t  = pt(36,60,4);      // S/C topo
-  const pSC_b  = pt(0,54,46);      // S/C base
-  const pT2C_t = pt(54,0,46);      // T2/C topo  (na diagonal direita)
-  const pT2C_b = pt(0,46,54);      // T2/C base
-  const pCT3_t = pt(35,0,65);      // C/T3-dir topo
-  const pCT3_b = pt(0,35,65);      // C/T3-dir base
-  const pT3L_b = pt(0,50,50);      // C/T3-esq base (centro da base)
+  const pPD_L  = pt(98,2,0);    // PD/O esquerda no topo
+  const pPD_R  = pt(98,0,2);    // O/T2 direita no topo
+  const pOS_t  = pt(9,85,6);    // O/S meio-esquerda
+  const pOS_b  = pt(0,94,6);    // O/S na base
+  const pOND   = pt(14,86,0);   // O/ND na esquerda
+  const pSC_t  = pt(36,60,4);   // S/C topo
+  const pSC_b  = pt(0,54,46);   // S/C base
+  const pSND_b = pt(0,84,16);   // S/ND na base
+  const pNDT3  = pt(0,50,50);   // ND/T3 centro base
+  const pT2C_t = pt(54,0,46);   // T2/C topo
+  const pT2C_b = pt(0,46,54);   // T2/C base
+  const pCT3_t = pt(35,0,65);   // C/T3dir topo
+  const pCT3_b = pt(0,35,65);   // C/T3dir base
 
   // ── ZONAS ─────────────────────────────────────────────────────────────────
-  // O: faixa esquerda, C2H4 < 6%
-  poly([TOP, pPD, pOS_m, pOS_b, BL],                          'rgba(59,139,212,.13)');
+  // ND (não detectável): grande zona base esquerda
+  poly([pOND, pSND_b, BL],                                   'rgba(200,200,200,.18)');
+  // O esquerda baixo: faixa entre borda esq e ND
+  poly([BL, pOS_b, pOS_t, pOND],                            'rgba(59,139,212,.15)');
   // S: faixa diagonal
-  poly([pPD, pSC_t, pSC_b, pOS_b, pOS_m],                    'rgba(83,74,183,.13)');
-  // T2: canto direito superior
-  poly([TOP, BR, pT2C_b, pT2C_t],                             'rgba(245,158,11,.22)');
-  // T3 direito: C2H4 alto
-  poly([pCT3_t, BR, pCT3_b],                                  'rgba(211,90,46,.30)');
-  // T3 esquerdo: C2H6 alto
-  poly([pSC_b, pT3L_b, BL],                                   'rgba(211,90,46,.30)');
+  poly([pPD_L, pSC_t, pSC_b, pSND_b, pOS_t],               'rgba(83,74,183,.15)');
+  // O topo direito: faixa estreita junto a PD
+  poly([TOP, pPD_R, pT2C_t, pPD_L],                         'rgba(59,139,212,.15)');
+  // T2: faixa direita superior
+  poly([pPD_R, BR, pT2C_b, pT2C_t],                         'rgba(245,158,11,.25)');
+  // T3 direito: base direita
+  poly([pCT3_t, BR, pCT3_b],                                 'rgba(211,90,46,.32)');
+  // T3 centro-base (entre ND e T3dir)
+  poly([pSC_b, pNDT3, pCT3_b, pSND_b],                     'rgba(211,90,46,.25)');
   // C: zona central
-  poly([pSC_t, pT2C_t, pCT3_t, pCT3_b, pT3L_b, pSC_b],      'rgba(186,117,23,.16)');
-  // PD: faixa estreita no topo
-  poly([TOP, pPD, pt(98,0,2)],                                 'rgba(53,139,212,.35)');
+  poly([pSC_t, pT2C_t, pCT3_t, pCT3_b, pNDT3, pSND_b, pSC_b], 'rgba(186,117,23,.18)');
+  // PD: faixa estreita topo
+  poly([TOP, pPD_L, pPD_R],                                  'rgba(53,139,212,.38)');
+
+  ctx.restore();
 
   // ── CONTORNO ──────────────────────────────────────────────────────────────
   ctx.strokeStyle='rgba(100,116,139,.7)'; ctx.lineWidth=1.5; ctx.setLineDash([]);
   ctx.beginPath(); ctx.moveTo(TOP.x,TOP.y); ctx.lineTo(BL.x,BL.y); ctx.lineTo(BR.x,BR.y); ctx.closePath(); ctx.stroke();
 
   // ── DIVISÓRIAS ────────────────────────────────────────────────────────────
-  ctx.strokeStyle='rgba(100,116,139,.45)'; ctx.lineWidth=0.7;
-  seg(pPD,   pOS_b,  [4,3]);
-  seg(pPD,   pSC_t,  [4,3]);
-  seg(pSC_t, pSC_b,  [4,3]);
-  seg(TOP,   pT2C_t, [4,3]);
-  seg(pT2C_t,pT2C_b, [4,3]);
-  seg(pCT3_t,pCT3_b, [4,3]);
-  seg(pSC_b, pT3L_b, [4,3]);
+  function seg(p1,p2) {
+    ctx.beginPath(); ctx.setLineDash([4,3]);
+    ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y);
+    ctx.strokeStyle='rgba(100,116,139,.45)'; ctx.lineWidth=0.7; ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  seg(pPD_L, pOS_b);  seg(pPD_L, pSC_t);
+  seg(pSC_t, pSC_b);  seg(pOND, pSND_b);
+  seg(TOP, pT2C_t);   seg(pT2C_t, pT2C_b);
+  seg(pCT3_t, pCT3_b); seg(pSC_b, pNDT3);
+  seg(pPD_L, pPD_R);
 
-  // ── LABELS ZONAS ─────────────────────────────────────────────────────────
-  ctx.fillStyle='rgba(71,85,105,.8)'; ctx.font='500 10px DM Sans,sans-serif';
-  ctx.fillText('PD',192,32);
-  ctx.fillText('O', 42,220);
-  ctx.fillText('S', 90,285);
-  ctx.fillText('T2',298,160);
-  ctx.fillText('C', 200,290);
-  ctx.fillText('T3',90, 360);
-  ctx.fillText('T3',316,355);
+  // ── LABELS ────────────────────────────────────────────────────────────────
+  ctx.fillStyle='rgba(71,85,105,.8)'; ctx.font='500 9px DM Sans,sans-serif';
+  ctx.fillText('PD',194,30); ctx.fillText('O',178,50);
+  ctx.fillText('O', 30,230); ctx.fillText('S', 80,285);
+  ctx.fillText('ND',90,355); ctx.fillText('T2',300,170);
+  ctx.fillText('C', 210,270); ctx.fillText('T3',200,365); ctx.fillText('T3',318,355);
 
   // ── EIXOS ─────────────────────────────────────────────────────────────────
   ctx.fillStyle='rgba(100,116,139,.75)'; ctx.font='8px DM Sans,sans-serif';
-  ctx.fillText('%CH₄',   188, 12);
-  ctx.fillText('← %C₂H₆', 18, 394);
-  ctx.fillText('%C₂H₄ →', 310, 394);
+  ctx.fillText('%CH₄',188,12); ctx.fillText('←%C₂H₆',14,394); ctx.fillText('%C₂H₄→',308,394);
 
   // ── PONTOS + TOOLTIP ──────────────────────────────────────────────────────
   const _pts = [];
@@ -824,7 +831,6 @@ function drawDuval() {
   });
   c._pts = _pts;
 
-  // ── TOOLTIP ───────────────────────────────────────────────────────────────
   if (!c._tooltipBound) {
     c._tooltipBound = true;
     const tip = document.createElement('div');
