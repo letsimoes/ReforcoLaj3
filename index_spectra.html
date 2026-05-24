@@ -99,8 +99,8 @@ h1{font-size:22px;font-weight:600;}
       <span data-pt="SS SID 2 · Aliança" data-en="SS SID 2 · Aliança">SS SID 2 · Aliança</span>
     </div>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 19:41 · HRZ SPECTRA" data-en="Updated on 24/05/2026 19:41 · HRZ SPECTRA">
-    Atualizado em 24/05/2026 19:41 · HRZ SPECTRA
+  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 19:45 · HRZ SPECTRA" data-en="Updated on 24/05/2026 19:45 · HRZ SPECTRA">
+    Atualizado em 24/05/2026 19:45 · HRZ SPECTRA
   </div>
 </div>
 
@@ -121,7 +121,7 @@ h1{font-size:22px;font-weight:600;}
         <a href="https://letsimoes.github.io/ReforcoLaj3/index_spectra.html" target="_blank" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);color:var(--accent-mid);text-decoration:none;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
       </div>
       <div class="updated" data-pt="Referência: CIGRé TB 771" data-en="Reference: CIGRé TB 771">Referência: CIGRé TB 771</div>
-      <div class="updated" data-pt="Atualizado em 24/05/2026 19:41" data-en="Updated on 24/05/2026 19:41">Atualizado em 24/05/2026 19:41</div>
+      <div class="updated" data-pt="Atualizado em 24/05/2026 19:45" data-en="Updated on 24/05/2026 19:45">Atualizado em 24/05/2026 19:45</div>
     </div>
   </div>
 
@@ -727,8 +727,8 @@ function drawDuval() {
   c.width=400; c.height=400;
   ctx.clearRect(0,0,400,400);
 
-  // Triângulo 5 CIGRé TB 771 — Figura H.2 corrigida
-  // TOP=(200,20)=100%CH4 / BL=(20,380)=100%C2H6 / BR=(380,380)=100%C2H4
+  // Triângulo 5 CIGRé TB 771 Figura H.2
+  // TOP=100%CH4(200,20) / BL=100%C2H6(20,380) / BR=100%C2H4(380,380)
   const TOP={x:200,y:20}, BL={x:20,y:380}, BR={x:380,y:380};
 
   function pt(ch4,c2h6,c2h4) {
@@ -744,46 +744,74 @@ function drawDuval() {
   ctx.moveTo(TOP.x,TOP.y); ctx.lineTo(BL.x,BL.y); ctx.lineTo(BR.x,BR.y);
   ctx.closePath(); ctx.clip();
 
-  function poly(pts,fill) {
+  function poly(pts, fill) {
     ctx.beginPath();
-    pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
+    pts.forEach((p,i) => i ? ctx.lineTo(p.x,p.y) : ctx.moveTo(p.x,p.y));
     ctx.closePath(); ctx.fillStyle=fill; ctx.fill();
   }
 
-  // Pontos de fronteira — Tabela H.1 + Figura H.2
-  const pPD_L  = pt(98,2,0);    // PD/O esquerda no topo
-  const pPD_R  = pt(98,0,2);    // O/T2 direita no topo
-  const pOS_t  = pt(9,85,6);    // O/S meio-esquerda
-  const pOS_b  = pt(0,94,6);    // O/S na base
-  const pOND   = pt(14,86,0);   // O/ND na esquerda
-  const pSC_t  = pt(36,60,4);   // S/C topo
-  const pSC_b  = pt(0,54,46);   // S/C base
-  const pSND_b = pt(0,84,16);   // S/ND na base
-  const pNDT3  = pt(0,50,50);   // ND/T3 centro base
-  const pT2C_t = pt(54,0,46);   // T2/C topo
-  const pT2C_b = pt(0,46,54);   // T2/C base
-  const pCT3_t = pt(35,0,65);   // C/T3dir topo
-  const pCT3_b = pt(0,35,65);   // C/T3dir base
+  // Fronteiras — linhas isovalue paralelas aos eixos do triângulo
+  // Linha C2H4=10%: de pt(90,0,10) até pt(0,90,10)
+  const c4_10_top = pt(90,0,10);   // (218,56)
+  const c4_10_bot = pt(0,90,10);   // (56,380)
+  // Linha C2H4=46%: de pt(54,0,46) até pt(0,54,46)
+  const c4_46_top = pt(54,0,46);   // (283,186)
+  const c4_46_bot = pt(0,54,46);   // (186,380)
+  // Linha C2H4=65%: de pt(35,0,65) até pt(0,35,65)
+  const c4_65_top = pt(35,0,65);   // (317,254)
+  const c4_65_bot = pt(0,35,65);   // (254,380)
+  // Linha C2H6=46%: de pt(54,46,0) até pt(0,46,54)
+  const c6_46_top = pt(54,46,0);   // (117,186)
+  const c6_46_bot = pt(0,46,54);   // (214,380)
+  // Linha CH4=9%: horizontal em y=347.6
+  const ch4_9_L   = pt(9,91,0);    // (36,348) na borda esq
+  const ch4_9_R   = pt(9,0,91);    // (364,348) na borda dir
+  // Linha CH4=36%: horizontal em y=250.4
+  const ch4_36_L  = pt(36,64,0);   // (85,250)
+  const ch4_36_R  = pt(36,0,64);   // (315,250)
+  // PD/O topo
+  const pPD_L = pt(98,2,0);
+  const pPD_R = pt(98,0,2);
 
-  // ── ZONAS ─────────────────────────────────────────────────────────────────
-  // ND (não detectável): grande zona base esquerda
-  poly([pOND, pSND_b, BL],                                   'rgba(200,200,200,.18)');
-  // O esquerda baixo: faixa entre borda esq e ND
-  poly([BL, pOS_b, pOS_t, pOND],                            'rgba(59,139,212,.15)');
-  // S: faixa diagonal
-  poly([pPD_L, pSC_t, pSC_b, pSND_b, pOS_t],               'rgba(83,74,183,.15)');
-  // O topo direito: faixa estreita junto a PD
-  poly([TOP, pPD_R, pT2C_t, pPD_L],                         'rgba(59,139,212,.15)');
-  // T2: faixa direita superior
-  poly([pPD_R, BR, pT2C_b, pT2C_t],                         'rgba(245,158,11,.25)');
-  // T3 direito: base direita
-  poly([pCT3_t, BR, pCT3_b],                                 'rgba(211,90,46,.32)');
-  // T3 centro-base (entre ND e T3dir)
-  poly([pSC_b, pNDT3, pCT3_b, pSND_b],                     'rgba(211,90,46,.25)');
-  // C: zona central
-  poly([pSC_t, pT2C_t, pCT3_t, pCT3_b, pNDT3, pSND_b, pSC_b], 'rgba(186,117,23,.18)');
-  // PD: faixa estreita topo
-  poly([TOP, pPD_L, pPD_R],                                  'rgba(53,139,212,.38)');
+  // ── ZONAS (ordem: fundo para frente) ──────────────────────────────────────
+
+  // ND: grande zona não detectável — base esquerda
+  // Entre O (C2H4<10%) e linha C2H6=46%
+  // Vértices: c4_10_top, c6_46_top, c6_46_bot, c4_10_bot
+  poly([c4_10_top, c6_46_top, c6_46_bot, c4_10_bot],        'rgba(180,180,190,.20)');
+
+  // O: faixa esquerda — C2H4 < 10%
+  // Vértices: TOP, c4_10_top, c4_10_bot, BL
+  poly([TOP, c4_10_top, c4_10_bot, BL],                      'rgba(59,139,212,.15)');
+
+  // S: faixa diagonal — entre C2H6=46% e linha CH4=36%
+  // Da figura: S fica entre ND e C, diagonal
+  // Vértices aproximados: c6_46_top, ch4_36_L, c4_46_bot, c6_46_bot
+  poly([c6_46_top, ch4_36_L, c4_46_bot, c6_46_bot],         'rgba(83,74,183,.15)');
+
+  // T2: faixa direita — C2H4 > 46%, lado direito
+  // Vértices: TOP, BR, c4_46_bot, c4_46_top
+  poly([TOP, BR, c4_46_bot, c4_46_top],                      'rgba(245,158,11,.22)');
+
+  // T3 direito: C2H4 > 65%
+  poly([c4_65_top, BR, c4_65_bot],                           'rgba(211,90,46,.32)');
+
+  // T3 centro: entre ND e T3 direito, na base
+  // Vértices: c6_46_bot, c4_65_bot, c4_46_bot
+  poly([c6_46_bot, c4_65_bot, c4_46_bot],                   'rgba(211,90,46,.25)');
+
+  // C: zona central grande
+  // Entre S, T2, T3
+  poly([ch4_36_L, c4_46_top, c4_65_top, c4_65_bot, c4_46_bot, c6_46_bot, c4_46_bot], 'rgba(186,117,23,.18)');
+  // Corrigir C: acima de T3, à direita de S, à esquerda de T2
+  // Vértices: c6_46_top, ch4_36_L, c4_46_top (encontro T2/C), c4_65_top, c4_65_bot, c6_46_bot
+  poly([c6_46_top, ch4_36_L, c4_46_top, c4_65_top, c4_65_bot, c6_46_bot],  'rgba(186,117,23,.18)');
+
+  // O topo (junto a PD): faixa estreita topo direito
+  poly([TOP, pPD_R, c4_10_top, pPD_L],                      'rgba(59,139,212,.15)');
+
+  // PD: fatia estreita no vértice topo
+  poly([TOP, pPD_L, pPD_R],                                  'rgba(53,139,212,.40)');
 
   ctx.restore();
 
@@ -795,25 +823,35 @@ function drawDuval() {
   function seg(p1,p2) {
     ctx.beginPath(); ctx.setLineDash([4,3]);
     ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y);
-    ctx.strokeStyle='rgba(100,116,139,.45)'; ctx.lineWidth=0.7; ctx.stroke();
+    ctx.strokeStyle='rgba(100,116,139,.5)'; ctx.lineWidth=0.7; ctx.stroke();
     ctx.setLineDash([]);
   }
-  seg(pPD_L, pOS_b);  seg(pPD_L, pSC_t);
-  seg(pSC_t, pSC_b);  seg(pOND, pSND_b);
-  seg(TOP, pT2C_t);   seg(pT2C_t, pT2C_b);
-  seg(pCT3_t, pCT3_b); seg(pSC_b, pNDT3);
-  seg(pPD_L, pPD_R);
+  seg(c4_10_top, c4_10_bot);   // O | ND+S
+  seg(c6_46_top, c6_46_bot);   // ND | S+C
+  seg(ch4_36_L,  c4_46_top);   // S | C (linha CH4=36% até T2/C)
+  seg(c4_46_top, c4_46_bot);   // T2 | C
+  seg(c4_65_top, c4_65_bot);   // C | T3dir
+  seg(c6_46_bot, c4_65_bot);   // T3ctr base
+  seg(pPD_L, pPD_R);           // PD
+  seg(pPD_R, c4_10_top);       // O topo direito
 
   // ── LABELS ────────────────────────────────────────────────────────────────
-  ctx.fillStyle='rgba(71,85,105,.8)'; ctx.font='500 9px DM Sans,sans-serif';
-  ctx.fillText('PD',194,30); ctx.fillText('O',178,50);
-  ctx.fillText('O', 30,230); ctx.fillText('S', 80,285);
-  ctx.fillText('ND',90,355); ctx.fillText('T2',300,170);
-  ctx.fillText('C', 210,270); ctx.fillText('T3',200,365); ctx.fillText('T3',318,355);
+  ctx.fillStyle='rgba(71,85,105,.85)'; ctx.font='500 9px DM Sans,sans-serif';
+  ctx.fillText('PD', 193, 30);
+  ctx.fillText('O',  175, 50);   // O topo
+  ctx.fillText('O',   30, 220);  // O esquerda
+  ctx.fillText('S',  110, 295);
+  ctx.fillText('ND',  95, 345);
+  ctx.fillText('T2', 305, 180);
+  ctx.fillText('C',  225, 265);
+  ctx.fillText('T3', 205, 370);  // T3 centro
+  ctx.fillText('T3', 325, 355);  // T3 direito
 
   // ── EIXOS ─────────────────────────────────────────────────────────────────
   ctx.fillStyle='rgba(100,116,139,.75)'; ctx.font='8px DM Sans,sans-serif';
-  ctx.fillText('%CH₄',188,12); ctx.fillText('←%C₂H₆',14,394); ctx.fillText('%C₂H₄→',308,394);
+  ctx.fillText('%CH₄',   188, 12);
+  ctx.fillText('←%C₂H₆', 14, 394);
+  ctx.fillText('%C₂H₄→', 308, 394);
 
   // ── PONTOS + TOOLTIP ──────────────────────────────────────────────────────
   const _pts = [];
