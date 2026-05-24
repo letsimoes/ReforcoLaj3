@@ -99,8 +99,8 @@ h1{font-size:22px;font-weight:600;}
       <span data-pt="SS SID 2 · Aliança" data-en="SS SID 2 · Aliança">SS SID 2 · Aliança</span>
     </div>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 14:30 · HRZ SPECTRA" data-en="Updated on 24/05/2026 14:30 · HRZ SPECTRA">
-    Atualizado em 24/05/2026 14:30 · HRZ SPECTRA
+  <div class="sidebar-footer" data-pt="Atualizado em 24/05/2026 14:32 · HRZ SPECTRA" data-en="Updated on 24/05/2026 14:32 · HRZ SPECTRA">
+    Atualizado em 24/05/2026 14:32 · HRZ SPECTRA
   </div>
 </div>
 
@@ -121,7 +121,7 @@ h1{font-size:22px;font-weight:600;}
         <a href="https://letsimoes.github.io/ReforcoLaj3/index_spectra.html" target="_blank" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);color:var(--accent-mid);text-decoration:none;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
       </div>
       <div class="updated" data-pt="Referência: CIGRé TB 771" data-en="Reference: CIGRé TB 771">Referência: CIGRé TB 771</div>
-      <div class="updated" data-pt="Atualizado em 24/05/2026 14:30" data-en="Updated on 24/05/2026 14:30">Atualizado em 24/05/2026 14:30</div>
+      <div class="updated" data-pt="Atualizado em 24/05/2026 14:32" data-en="Updated on 24/05/2026 14:32">Atualizado em 24/05/2026 14:32</div>
     </div>
   </div>
 
@@ -734,132 +734,6 @@ function toggleDiag(reactor) {
   const open = det.style.display !== 'none';
   det.style.display = open ? 'none' : 'block';
   arr.textContent = open ? '▸' : '▾';
-}
-
-  // ── KPIs de frota ──
-  const n_i2 = rows.filter(r=>r.cl_pt==='Intermediário 2').length;
-  const n_i1 = rows.filter(r=>r.cl_pt==='Intermediário 1').length;
-  const n_ok = rows.filter(r=>r.cl_pt==='Típico').length;
-  const n_pf = rows.filter(r=>r.cl_pt==='Pré-falha').length;
-  document.getElementById('diagKpis').innerHTML = `
-    <div class="metric" style="border-top:3px solid #8B1A1A;">
-      <div class="metric-label">${isEN?'Pre-failure':'Pré-falha'}</div>
-      <div class="metric-value" style="color:#8B1A1A;">${n_pf}</div>
-      <div class="metric-sub">${isEN?'Immediate action':'Ação imediata'}</div>
-    </div>
-    <div class="metric" style="border-top:3px solid #E07020;">
-      <div class="metric-label">${isEN?'Under observation':'Em observação'}</div>
-      <div class="metric-value" style="color:#E07020;">${n_i2}</div>
-      <div class="metric-sub">${isEN?'Intermediate 2':'Intermediário 2'}</div>
-    </div>
-    <div class="metric" style="border-top:3px solid #C8931A;">
-      <div class="metric-label">${isEN?'Attention':'Atenção'}</div>
-      <div class="metric-value" style="color:#C8931A;">${n_i1}</div>
-      <div class="metric-sub">${isEN?'Intermediate 1':'Intermediário 1'}</div>
-    </div>
-    <div class="metric" style="border-top:3px solid #2D6A3F;">
-      <div class="metric-label">${isEN?'Normal':'Normal'}</div>
-      <div class="metric-value" style="color:#2D6A3F;">${n_ok}</div>
-      <div class="metric-sub">${isEN?'Typical level':'Nível típico'}</div>
-    </div>`;
-
-  // ── Nota geral da frota ──
-  const temPapel = rows.some(r=>r.papel_envolvido);
-  const zonas = [...new Set(rows.map(r=>r.zone).filter(z=>z!=='—'))];
-  const notaFrota = isEN
-    ? `All reactors show a thermal overheating pattern in oil (Duval zones ${zonas.join('/')}). ${temPapel?'⚠ At least one reactor may have paper involvement — check CO₂/CO carefully.':'Paper insulation preserved in all reactors (CO₂/CO > 3). Fault is contained in oil — lower severity than paper involvement.'} ${n_i2} reactors under observation, no immediate emergency.`
-    : `Todos os reatores apresentam padrão de superaquecimento térmico no óleo (zonas Duval ${zonas.join('/')}). ${temPapel?'⚠ Pelo menos um reator pode ter envolvimento de papel — verificar CO₂/CO com atenção.':'Isolação de papel preservada em todos os reatores (CO₂/CO > 3). A falha está contida no óleo — severidade menor que quando há papel envolvido.'} ${n_i2} reatores em observação, sem emergência imediata.`;
-  document.getElementById('diagFrotaNota').textContent = notaFrota;
-
-  // ── Leitura padrão Duval ──
-  const leituraDuval = isEN
-    ? `All reactors are concentrated at the base of the triangle — zones T2 and T3. This confirms a consistent thermal pattern across the fleet. No reactor in electrical discharge zones (D1/D2), which would indicate a more serious fault.`
-    : `Todos os reatores estão concentrados na base do triângulo — zonas T2 e T3. Isso confirma um padrão térmico consistente em toda a frota. Nenhum reator em zona de descarga elétrica (D1/D2), o que indicaria falha mais grave.`;
-  document.getElementById('duvalLeituraFrota').textContent = leituraDuval;
-
-  // ── Grid CO₂/CO ──
-  document.getElementById('co2coGrid').innerHTML = rows.map(r=>{
-    const ok = !r.papel_envolvido;
-    const cor = ok ? '#2D6A3F' : '#8B1A1A';
-    const bg  = ok ? '#E8F5EC' : '#FDEAEA';
-    return `<div style="background:${bg};border-radius:6px;padding:6px 8px;text-align:center;">
-      <div style="font-size:10px;font-weight:600;color:${cor};">${r.reactor.replace('9R','')}</div>
-      <div style="font-size:12px;font-weight:500;color:${cor};margin-top:2px;">${r.ratio_co2co}</div>
-      <div style="font-size:9px;color:${cor}66;">${ok?(isEN?'preserved':'preservado'):(isEN?'alert':'alerta')}</div>
-    </div>`;
-  }).join('');
-
-  // ── Cards dos reatores ──
-  document.getElementById('reatoresCards').innerHTML = rows.map(row=>{
-    const isEN2  = isEN;
-    const clc    = row.cl_cor;
-    const exec   = isEN2 ? row.exec_en   : row.exec_pt;
-    const det    = isEN2 ? row.detalhe_en: row.detalhe_pt;
-    const falha  = isEN2 ? row.falha_exec_en : row.falha_exec_pt;
-    const cllbl  = isEN2 ? row.cl_en : row.cl_pt;
-    const zc     = ZONE_COLORS[row.zone]||'#94a3b8';
-    const zlbl   = isEN2 ? row.z_en : row.z_pt;
-    const dotCor = row.cl_pt==='Típico'?'#2D6A3F':row.cl_pt==='Intermediário 1'?'#C8931A':row.cl_pt==='Intermediário 2'?'#E07020':'#8B1A1A';
-    const criticoGas = row.gas_critico;
-    const criticoVal = row.val_critico;
-    const criticoPct = row.pct_critico;
-    const tend   = isEN2 ? row.tendencia_en : row.tendencia_pt;
-
-    // Gases-chave para mostrar no detalhe
-    const gasesHtml = GAS_KEYS.map(gid=>{
-      const gd = row.gases[gid];
-      const cor= ST_COLORS[gd.st]||'#9E9C97';
-      const fw = gd.st!=='ok'?'600':'400';
-      const bw = Math.min(gd.pct, 100);
-      const bc = gd.st==='ok'?'#2D6A3F':gd.st==='warn'?'#C8931A':gd.st==='orange'?'#E07020':'#8B1A1A';
-      const GN = {'H2':'H₂','CH4':'CH₄','C2H2':'C₂H₂','C2H4':'C₂H₄','C2H6':'C₂H₆','CO':'CO','CO2':'CO₂'};
-      return `<div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:0.5px solid var(--border);">
-        <span style="font-size:11px;font-weight:500;width:34px;color:${cor};">${GN[gid]||gid}</span>
-        <div style="flex:1;background:var(--surface2);border-radius:3px;height:4px;">
-          <div style="width:${bw}%;height:4px;border-radius:3px;background:${bc};"></div>
-        </div>
-        <span style="font-size:11px;font-weight:${fw};color:${cor};width:60px;text-align:right;">${gd.val} ppm</span>
-        <span style="font-size:10px;color:var(--text3);width:32px;text-align:right;">${gd.pct}%</span>
-      </div>`;
-    }).join('');
-
-    const c2h2Note = row.c2h2_alerta
-      ? `<div style="font-size:11px;color:#C8931A;margin-top:6px;padding:6px 8px;background:#FEF3DC;border-radius:4px;">⚠ C₂H₂ = ${row.c2h2_val} ppm — ${isEN2?'low but present. Monitor next samples for increase.':'baixo mas presente. Monitorar próximas amostras para elevação.'}</div>`
-      : '';
-
-    return `<div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;">
-      <div onclick="toggleDiag('${row.reactor}')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;">
-        <div style="width:10px;height:10px;border-radius:50%;background:${dotCor};flex-shrink:0;"></div>
-        <div style="font-size:13px;font-weight:600;width:72px;flex-shrink:0;">${row.reactor}</div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:13px;font-weight:500;">${exec}</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:2px;">${row.zone!=='—'?row.zone+' · ':''}${criticoGas} ${criticoVal} ppm (${criticoPct}%) · ${tend}</div>
-        </div>
-        <span class="badge" style="background:${clc}22;color:${clc};border:1px solid ${clc}44;text-transform:uppercase;font-size:9px;">${cllbl}</span>
-        <span id="darr-${row.reactor}" style="font-size:12px;color:var(--text3);margin-left:4px;">▸</span>
-      </div>
-      <div id="ddet-${row.reactor}" style="display:none;border-top:0.5px solid var(--border);padding:14px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-          <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;">
-            <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">${isEN2?'Probable fault · CIGRé TB 771':'Falha provável · CIGRé TB 771'}</div>
-            <div style="font-size:12px;font-weight:500;margin-bottom:4px;"><span class="badge" style="background:${zc}22;color:${zc};border:1px solid ${zc}44;margin-right:4px;">${row.zone}</span>${zlbl}</div>
-            <div style="font-size:11px;color:var(--text2);line-height:1.6;">${falha}</div>
-          </div>
-          <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;">
-            <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">${isEN2?'Paper insulation · CO₂/CO':'Isolação de papel · CO₂/CO'}</div>
-            <div style="font-size:18px;font-weight:500;color:${!row.papel_envolvido?'#2D6A3F':'#8B1A1A'};">${row.ratio_co2co}</div>
-            <div style="font-size:11px;color:var(--text2);margin-top:3px;line-height:1.5;">${!row.papel_envolvido?(isEN2?'Above 3 — internal insulation preserved. Fault confined to oil.':'Acima de 3 — isolação interna preservada. Falha contida no óleo.'):(isEN2?'Below 3 — paper insulation risk. Requires immediate attention.':'Abaixo de 3 — risco de papel. Requer atenção imediata.')}</div>
-          </div>
-        </div>
-        <div style="font-size:11px;color:var(--text2);line-height:1.7;margin-bottom:10px;padding:8px 10px;background:var(--surface2);border-radius:var(--radius-sm);">${det}</div>
-        <div style="font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">${isEN2?'Gases · last sample vs CIGRé threshold':'Gases · última amostra vs limiar CIGRé'}</div>
-        ${gasesHtml}
-        ${c2h2Note}
-      </div>
-    </div>`;
-  }).join('');
-
-  drawDuval();
 }
 
 // ── Triângulo de Duval ──────────────────────────────────────────────────────
