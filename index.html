@@ -94,7 +94,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
       </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 28/05/2026 16:01 · HRZ PMO" data-en="Generated on 28/05/2026 16:01 · HRZ PMO">Atualizado em 28/05/2026 16:01 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 28/05/2026 16:06 · HRZ PMO" data-en="Generated on 28/05/2026 16:06 · HRZ PMO">Atualizado em 28/05/2026 16:06 · HRZ PMO</div>
 </div>
 
 <!-- ═══ MAIN ═══ -->
@@ -117,7 +117,7 @@ h1{font-size:22px;font-weight:600;}
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank"
           style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;"
           data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
-        <div class="updated" data-pt="Atualizado em 28/05/2026 16:01" data-en="Updated on 28/05/2026 16:01">Atualizado em 28/05/2026 16:01</div>
+        <div class="updated" data-pt="Atualizado em 28/05/2026 16:06" data-en="Updated on 28/05/2026 16:06">Atualizado em 28/05/2026 16:06</div>
       </div>
     </div>
 
@@ -157,10 +157,6 @@ h1{font-size:22px;font-weight:600;}
 
         <!-- Curva S MS-Project (aparece só se CurvaS.csv existir) -->
     
-    <div class="card" style="margin-top:16px;">
-      <div class="card-title" data-pt="Curva S — Avanço Físico (MS-Project)" data-en="S-Curve — Physical Progress (MS-Project)">Curva S — Avanço Físico (MS-Project)</div>
-      <div style="height:240px;position:relative;"><canvas id="curvaProjectChart"></canvas></div>
-    </div>
 
     <!-- Contratos -->
     <div class="card">
@@ -585,7 +581,7 @@ h1{font-size:22px;font-weight:600;}
   <div class="page" id="page-gas">
     <div class="page-header">
       <div><div class="proj-label">Edge · Aliança · Siderópolis 2</div><h1>Monitoramento dos Gases — Reatores</h1></div>
-      <div class="updated" data-pt="Atualizado em 28/05/2026 16:01" data-en="Updated on 28/05/2026 16:01">Atualizado em 28/05/2026 16:01</div>
+      <div class="updated" data-pt="Atualizado em 28/05/2026 16:06" data-en="Updated on 28/05/2026 16:06">Atualizado em 28/05/2026 16:06</div>
     </div>
     <div class="em-construcao">
       <div class="icon">⚗️</div><div class="title">Em construção</div>
@@ -598,7 +594,7 @@ h1{font-size:22px;font-weight:600;}
   <div class="page" id="page-bess">
     <div class="page-header">
       <div><div class="proj-label">BESS · Eólicas Babilônias</div><h1>Análise de Viabilidade</h1></div>
-      <div class="updated" data-pt="Atualizado em 28/05/2026 16:01" data-en="Updated on 28/05/2026 16:01">Atualizado em 28/05/2026 16:01</div>
+      <div class="updated" data-pt="Atualizado em 28/05/2026 16:06" data-en="Updated on 28/05/2026 16:06">Atualizado em 28/05/2026 16:06</div>
     </div>
     <div class="em-construcao">
       <div class="icon">🔋</div><div class="title">Em construção</div>
@@ -638,9 +634,9 @@ function calcPrazo(isEN) {
 calcPrazo(false);
 
 // ── Curva S MS-Project ────────────────────────────────────────
-const cpLabels  = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26", "Jan/27", "Fev/27", "Mar/27"];
-const cpPrev    = [0.0, 0.0, 3.96, 4.81, 10.97, 30.32, 42.98, 63.99, 76.49, 79.82, 86.35, 86.78, 86.78, 87.49, 91.81];
-const cpReal    = [0.0, 0.68, 4.36, 7.83, 15.26, null, null, null, null, null, null, null, null, null, null];
+const cpLabels  = [];
+const cpPrev    = [];
+const cpReal    = [];
 if (cpLabels.length > 0) {
   new Chart(document.getElementById('curvaProjectChart').getContext('2d'), {
     type: 'line',
