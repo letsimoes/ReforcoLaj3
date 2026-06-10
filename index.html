@@ -96,7 +96,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 15:50 · HRZ PMO" data-en="Generated on 10/06/2026 15:50 · HRZ PMO">Atualizado em 10/06/2026 15:50 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 16:03 · HRZ PMO" data-en="Generated on 10/06/2026 16:03 · HRZ PMO">Atualizado em 10/06/2026 16:03 · HRZ PMO</div>
 </div>
 
 <!-- ═══ MAIN ═══ -->
@@ -122,7 +122,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="btnGerarPDF" onclick="gerarPDF()"
           style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;"
           data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 10/06/2026 15:50" data-en="Updated on 10/06/2026 15:50">Atualizado em 10/06/2026 15:50</div>
+        <div class="updated" data-pt="Atualizado em 10/06/2026 16:03" data-en="Updated on 10/06/2026 16:03">Atualizado em 10/06/2026 16:03</div>
       </div>
     </div>
 
@@ -601,7 +601,7 @@ h1{font-size:22px;font-weight:600;}
   <div class="page" id="page-gas">
     <div class="page-header">
       <div><div class="proj-label">Edge · Aliança · Siderópolis 2</div><h1>Monitoramento dos Gases — Reatores</h1></div>
-      <div class="updated" data-pt="Atualizado em 10/06/2026 15:50" data-en="Updated on 10/06/2026 15:50">Atualizado em 10/06/2026 15:50</div>
+      <div class="updated" data-pt="Atualizado em 10/06/2026 16:03" data-en="Updated on 10/06/2026 16:03">Atualizado em 10/06/2026 16:03</div>
     </div>
     <div class="em-construcao">
       <div class="icon">⚗️</div><div class="title">Em construção</div>
@@ -614,7 +614,7 @@ h1{font-size:22px;font-weight:600;}
   <div class="page" id="page-bess">
     <div class="page-header">
       <div><div class="proj-label">BESS · Eólicas Babilônias</div><h1>Análise de Viabilidade</h1></div>
-      <div class="updated" data-pt="Atualizado em 10/06/2026 15:50" data-en="Updated on 10/06/2026 15:50">Atualizado em 10/06/2026 15:50</div>
+      <div class="updated" data-pt="Atualizado em 10/06/2026 16:03" data-en="Updated on 10/06/2026 16:03">Atualizado em 10/06/2026 16:03</div>
     </div>
     <div class="em-construcao">
       <div class="icon">🔋</div><div class="title">Em construção</div>
@@ -775,9 +775,9 @@ async function gerarPDF() {
     if (!pagina) return;
 
     // A4 landscape para caber o layout wide do dashboard
-    const pdf        = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-    const larguraPDF = pdf.internal.pageSize.getWidth();   // 297mm
-    const alturaPDF  = pdf.internal.pageSize.getHeight();  // 210mm
+    const pdf        = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const larguraPDF = pdf.internal.pageSize.getWidth();   // 210mm
+    const alturaPDF  = pdf.internal.pageSize.getHeight();  // 297mm
     const MARGEM     = 6;
     const TOPO_H     = 18;   // altura reservada para cabeçalho
 
@@ -790,10 +790,12 @@ async function gerarPDF() {
       // Logo (base64 embutida no HTML via Python)
       if (LOGO_HRZ_B64) {
         try {
-          pdf.addImage('data:image/png;base64,' + LOGO_HRZ_B64, 'PNG', MARGEM, 3, 32, 16);
+          // fundo branco com cantos arredondados atrás da logo
+          pdf.setFillColor(255, 255, 255);
+          pdf.roundedRect(MARGEM - 1, 2, 36, 14, 3, 3, 'F');
+          pdf.addImage('data:image/png;base64,' + LOGO_HRZ_B64, 'PNG', MARGEM, 3, 34, 12);
         } catch(e) { /* ignora se falhar */ }
       }
-
       // Título central
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(isFirstPage ? 11 : 9);
@@ -841,9 +843,8 @@ async function gerarPDF() {
       allowTaint: true,
       backgroundColor: '#F8F8F6',
       scrollY: 0,
-      windowWidth: 1400,
-      windowHeight: pagina.scrollHeight,
-      width: 1400,
+      windowWidth: 900,
+      width: 900,
     });
 
     // Restaura visibilidade dos botões
