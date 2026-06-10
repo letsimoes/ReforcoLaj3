@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 17:14 · HRZ PMO" data-en="Generated on 10/06/2026 17:14 · HRZ PMO">Atualizado em 10/06/2026 17:14 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 17:28 · HRZ PMO" data-en="Generated on 10/06/2026 17:28 · HRZ PMO">Atualizado em 10/06/2026 17:28 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 10/06/2026 17:14" data-en="Updated on 10/06/2026 17:14">Atualizado em 10/06/2026 17:14</div>
+        <div class="updated" data-pt="Atualizado em 10/06/2026 17:28" data-en="Updated on 10/06/2026 17:28">Atualizado em 10/06/2026 17:28</div>
       </div>
     </div>
 
@@ -587,19 +587,16 @@ async function gerarPDF() {
       dotsReal += `<circle cx="${xOf(i).toFixed(1)}" cy="${yOf(realCP[i]).toFixed(1)}" r="3.5" fill="#2D6A3F" stroke="#fff" stroke-width="1"/>`;
     }
 
-    // anotação último mês
+    // anotação último mês — box único com os dois valores
     let anotacao = '';
     if (ultRealIdx >= 0) {
       const ax = xOf(ultRealIdx), ay = yOf(ultRealVal);
-      const bx = xOf(ultRealIdx), by = yOf(ultPrevVal);
-      // box realizado
-      anotacao += `<rect x="${(ax-52).toFixed(0)}" y="${(ay-20).toFixed(0)}" width="54" height="18" rx="3" fill="#2D6A3F" opacity="0.9"/>`;
-      anotacao += `<text x="${(ax-25).toFixed(0)}" y="${(ay-8).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Realizado','Actual')}: ${ultRealVal.toFixed(2)}%</text>`;
-     // box previsto — posicionado acima do realizado para não sobrepor
-      anotacao += `<rect x="${(ax-52).toFixed(0)}" y="${(ay-42).toFixed(0)}" width="54" height="18" rx="3" fill="#1A2B4A" opacity="0.9"/>`;
-      anotacao += `<text x="${(ax-25).toFixed(0)}" y="${(ay-30).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Previsto','Planned')}: ${ultPrevVal.toFixed(2)}%</text>`;
-      // label mês
-      anotacao += `<text x="${ax.toFixed(0)}" y="${(svgH-padB+26).toFixed(0)}" text-anchor="middle" font-size="7" font-weight="600" fill="#1B3A6B">${ultMes}</text>`;
+      const boxW = 116, boxH = 32, boxX = Math.min(ax - boxW/2, svgW - padR - boxW), boxY = Math.max(padT + 2, ay - boxH - 8);
+      anotacao += `<rect x="${boxX.toFixed(0)}" y="${boxY.toFixed(0)}" width="${boxW}" height="${boxH}" rx="4" fill="#1A1917" opacity="0.88"/>`;
+      anotacao += `<text x="${(boxX + boxW/2).toFixed(0)}" y="${(boxY + 12).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#4ADE80">▲ ${T('Realizado','Actual')}: ${ultRealVal.toFixed(2)}%</text>`;
+      anotacao += `<text x="${(boxX + boxW/2).toFixed(0)}" y="${(boxY + 24).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#93C5FD">- - ${T('Previsto','Planned')}: ${ultPrevVal.toFixed(2)}%</text>`;
+      anotacao += `<line x1="${ax.toFixed(0)}" y1="${(boxY+boxH).toFixed(0)}" x2="${ax.toFixed(0)}" y2="${ay.toFixed(0)}" stroke="#9E9C97" stroke-width="0.8" stroke-dasharray="2,1"/>`;
+      anotacao += `<text x="${ax.toFixed(0)}" y="${(svgH - padB + 26).toFixed(0)}" text-anchor="middle" font-size="7" font-weight="600" fill="#1B3A6B">${ultMes}</text>`;
     }
 
     // legenda
@@ -650,9 +647,14 @@ async function gerarPDF() {
         <td style="padding:4px 5px;font-size:8px;color:#6B6860;border-bottom:1px solid #F5F5F5;">${escopo}</td>
         <td style="padding:4px 5px;font-size:8.5px;text-align:right;white-space:nowrap;border-bottom:1px solid #F5F5F5;">${valor}</td>
         <td style="padding:4px 5px;text-align:center;border-bottom:1px solid #F5F5F5;"><span style="font-size:7.5px;color:${rCor};font-weight:600;">● ${risco}</span></td>
-        <td style="padding:4px 5px;text-align:center;border-bottom:1px solid #F5F5F5;"><span style="font-size:7.5px;font-weight:500;padding:2px 5px;border-radius:10px;background:${bBg};color:${bFg};white-space:nowrap;">${status.substring(0,20)}</span></td>
+        <td style="padding:4px 5px;text-align:center;border-bottom:1px solid #F5F5F5;"><span style="font-size:7px;font-weight:500;padding:2px 4px;border-radius:10px;background:${bBg};color:${bFg};white-space:nowrap;">${status.substring(0,24)}</span></td>
       </tr>`;
     }).join('');
+    const totalContratos = PDF_CONTRATOS.filter(c=>c.fornecedor&&c.fornecedor.trim()).reduce((s,c)=>s+(c.valor||0),0);
+    const totalRow = `<tr style="border-top:2px solid #E0E0E0;background:#F8F8F6;font-weight:600;">
+      <td style="padding:4px 5px;font-size:8.5px;" colspan="2">${T('TOTAL','TOTAL')}</td>
+      <td style="padding:4px 5px;font-size:8.5px;text-align:right;white-space:nowrap;">${fmtMM(totalContratos)}</td>
+      <td colspan="2"></td></tr>`;
 
     // ── Ações ─────────────────────────────────────────────────
     const acoesHTML = PDF_ACOES.slice(0,5).map(a => {
@@ -668,7 +670,7 @@ async function gerarPDF() {
     }).join('');
 
     // ── Matriz de risco SVG ───────────────────────────────────
-    const mW=130, mH=105, cellS=20, offX=14, offY=4;
+    const mW=150, mH=120, cellS=24, offX=16, offY=4;
     const bgCell = (p,i) => { const s=p*i; return s>=15?'#FDEAEA':s>=8?'#FEF3DC':'#EAF3DE'; };
     const corNv  = n => n.includes('Alto')?'#A32D2D':n.includes('Médio')?'#C8931A':'#3B6D11';
     const matrizCelulas = {};
@@ -776,7 +778,7 @@ async function gerarPDF() {
           <th style="padding:3px 5px;text-align:center;font-size:7.5px;color:#1B3A6B;font-weight:600;">${T('Risco','Risk')}</th>
           <th style="padding:3px 5px;text-align:center;font-size:7.5px;color:#1B3A6B;font-weight:600;">Status</th>
         </tr></thead>
-        <tbody>${contratosRows}</tbody>
+        <tbody>${contratosRows}${totalRow}</tbody>
       </table>
     </div>
 
