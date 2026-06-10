@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 16:51 · HRZ PMO" data-en="Generated on 10/06/2026 16:51 · HRZ PMO">Atualizado em 10/06/2026 16:51 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 17:01 · HRZ PMO" data-en="Generated on 10/06/2026 17:01 · HRZ PMO">Atualizado em 10/06/2026 17:01 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 10/06/2026 16:51" data-en="Updated on 10/06/2026 16:51">Atualizado em 10/06/2026 16:51</div>
+        <div class="updated" data-pt="Atualizado em 10/06/2026 17:01" data-en="Updated on 10/06/2026 17:01">Atualizado em 10/06/2026 17:01</div>
       </div>
     </div>
 
@@ -518,214 +518,296 @@ async function gerarPDF() {
     const { jsPDF } = window.jspdf;
     const T = (pt, en) => isEN ? en : pt;
 
-    // ── Helpers ──────────────────────────────────────────────
-    const fmtMM = v => {
-      if (!v || v === 0) return '—';
-      return 'R$ ' + (v / 1e6).toFixed(2).replace('.', ',') + 'mm';
-    };
-    const RISCO_COR = { 'Alto':'#E24B4A', 'Médio':'#EF9F27', 'Baixo':'#2D6A3F', 'High':'#E24B4A', 'Medium':'#EF9F27', 'Low':'#2D6A3F' };
-    const NIVEL_EN  = { 'Alto':'High', 'Médio':'Medium', 'Baixo':'Low' };
-    const STATUS_BADGE_COR = {
-      'assinado':'#2D6A3F', 'signed':'#2D6A3F', 'concluído':'#2D6A3F', 'completed':'#2D6A3F',
-      'atrasado':'#8B1A1A', 'overdue':'#8B1A1A', 'crítico':'#8B1A1A',
-    };
+    const fmtMM = v => (!v || v === 0) ? '—' : 'R$ ' + (v / 1e6).toFixed(2).replace('.', ',') + 'mm';
+    const RISCO_COR = { 'Alto':'#E24B4A','Médio':'#EF9F27','Baixo':'#2D6A3F','High':'#E24B4A','Medium':'#EF9F27','Low':'#2D6A3F' };
+    const NIVEL_EN  = { 'Alto':'High','Médio':'Medium','Baixo':'Low' };
+    const W = 794;
 
-    // ── Monta HTML compacto para captura ─────────────────────
-    const W = 794; // px equivalente A4 portrait a 96dpi
+    // ── Curva S em SVG com dados reais ───────────────────────
+    const svgW = 746, svgH = 150, padL = 38, padR = 20, padT = 12, padB = 30;
+    const plotW = svgW - padL - padR, plotH = svgH - padT - padB;
 
-    // KPIs
+    const labelsCP = cpLabels || [];
+    const prevCP   = cpPrev   || [];
+    const realCP   = cpReal   || [];
+    const n = labelsCP.length;
+
+    // último realizado e seu mês
+    let ultRealIdx = -1, ultRealVal = 0;
+    for (let i = n-1; i >= 0; i--) { if (realCP[i] != null && realCP[i] > 0) { ultRealIdx = i; ultRealVal = realCP[i]; break; } }
+    const ultPrevVal = ultRealIdx >= 0 ? (prevCP[ultRealIdx] || 0) : 0;
+    const ultMes     = ultRealIdx >= 0 ? labelsCP[ultRealIdx] : '';
+
+    const xOf = i => padL + (n > 1 ? i / (n-1) * plotW : plotW/2);
+    const yOf = v => padT + plotH - (v / 100) * plotH;
+
+    // grid linhas Y
+    let gridLines = '';
+    for (let y = 0; y <= 100; y += 20) {
+      const yy = yOf(y);
+      gridLines += `<line x1="${padL}" y1="${yy}" x2="${svgW-padR}" y2="${yy}" stroke="#EFEFED" stroke-width="0.5"/>`;
+      gridLines += `<text x="${padL-4}" y="${yy+3}" text-anchor="end" font-size="7" fill="#9E9C97">${y}%</text>`;
+    }
+
+    // eixo X — mostrar só alguns labels
+    let xLabels = '';
+    const step = Math.max(1, Math.floor(n / 8));
+    for (let i = 0; i < n; i += step) {
+      const xx = xOf(i);
+      xLabels += `<text x="${xx}" y="${svgH - padB + 14}" text-anchor="middle" font-size="7" fill="#9E9C97">${labelsCP[i]}</text>`;
+    }
+
+    // linha previsto
+    let pathPrev = '';
+    for (let i = 0; i < n; i++) {
+      const v = prevCP[i] ?? 0;
+      pathPrev += (i===0 ? 'M' : 'L') + xOf(i).toFixed(1) + ',' + yOf(v).toFixed(1) + ' ';
+    }
+
+    // linha realizado (só até onde há dados)
+    let pathReal = ''; let startedReal = false;
+    for (let i = 0; i < n; i++) {
+      if (realCP[i] == null) break;
+      pathReal += (startedReal ? 'L' : 'M') + xOf(i).toFixed(1) + ',' + yOf(realCP[i]).toFixed(1) + ' ';
+      startedReal = true;
+    }
+
+    // pontos previsto
+    let dotsPrev = '';
+    for (let i = 0; i < n; i++) {
+      const v = prevCP[i] ?? 0;
+      if (v > 0) dotsPrev += `<circle cx="${xOf(i).toFixed(1)}" cy="${yOf(v).toFixed(1)}" r="3" fill="#1A2B4A" stroke="#fff" stroke-width="1"/>`;
+    }
+
+    // pontos realizado
+    let dotsReal = '';
+    for (let i = 0; i < n; i++) {
+      if (realCP[i] == null) break;
+      dotsReal += `<circle cx="${xOf(i).toFixed(1)}" cy="${yOf(realCP[i]).toFixed(1)}" r="3.5" fill="#2D6A3F" stroke="#fff" stroke-width="1"/>`;
+    }
+
+    // anotação último mês
+    let anotacao = '';
+    if (ultRealIdx >= 0) {
+      const ax = xOf(ultRealIdx), ay = yOf(ultRealVal);
+      const bx = xOf(ultRealIdx), by = yOf(ultPrevVal);
+      // box realizado
+      anotacao += `<rect x="${(ax-52).toFixed(0)}" y="${(ay-20).toFixed(0)}" width="54" height="18" rx="3" fill="#2D6A3F" opacity="0.9"/>`;
+      anotacao += `<text x="${(ax-25).toFixed(0)}" y="${(ay-8).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Realizado','Actual')}: ${ultRealVal.toFixed(2)}%</text>`;
+      // box previsto
+      anotacao += `<rect x="${(bx+2).toFixed(0)}" y="${(by-20).toFixed(0)}" width="54" height="18" rx="3" fill="#1A2B4A" opacity="0.9"/>`;
+      anotacao += `<text x="${(bx+29).toFixed(0)}" y="${(by-8).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Previsto','Planned')}: ${ultPrevVal.toFixed(2)}%</text>`;
+      // label mês
+      anotacao += `<text x="${ax.toFixed(0)}" y="${(svgH-padB+26).toFixed(0)}" text-anchor="middle" font-size="7" font-weight="600" fill="#1B3A6B">${ultMes}</text>`;
+    }
+
+    // legenda
+    const legSVG = `
+      <line x1="${padL}" y1="${svgH-2}" x2="${padL+18}" y2="${svgH-2}" stroke="#1A2B4A" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="${padL+22}" y="${svgH}" font-size="7.5" fill="#6B6860">% ${T('Previsto','Planned')}</text>
+      <line x1="${padL+90}" y1="${svgH-2}" x2="${padL+108}" y2="${svgH-2}" stroke="#2D6A3F" stroke-width="2"/>
+      <text x="${padL+112}" y="${svgH}" font-size="7.5" fill="#6B6860">% ${T('Realizado','Actual')}</text>`;
+
+    const curvaSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH+8}" style="display:block;">
+      ${gridLines}${xLabels}
+      <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+plotH}" stroke="#E0E0E0" stroke-width="0.8"/>
+      <line x1="${padL}" y1="${padT+plotH}" x2="${svgW-padR}" y2="${padT+plotH}" stroke="#E0E0E0" stroke-width="0.8"/>
+      <path d="${pathPrev}" fill="none" stroke="#1A2B4A" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <path d="${pathReal}" fill="none" stroke="#2D6A3F" stroke-width="2.5"/>
+      ${dotsPrev}${dotsReal}${anotacao}${legSVG}
+    </svg>`;
+
+    // ── KPIs ─────────────────────────────────────────────────
     const kpiData = [
       { label: T('Prazo Energização','Energization Deadline'), value: PDF_PRAZO_VAL, sub: T('09 Abr 2027','Apr 09, 2027'), accent: '#1B3A6B' },
       { label: T('Custo Planejado','Planned Cost'), value: PDF_CUSTO_PLAN, sub: T('Plano Actis aprovado','Actis approved plan'), accent: '#1B3A6B' },
-      { label: T('Valor Comprometido','Committed Value'), value: PDF_COMPROMETIDO, sub: PDF_ASSINADO + T(' assinado','  signed') + ' · ' + PDF_EM_ASSIN + T(' em assinatura',' under signature'), accent: '#2D6A3F' },
+      { label: T('Valor Comprometido','Committed Value'), value: PDF_COMPROMETIDO, sub: PDF_ASSINADO + T(' assinado',' signed') + ' · ' + PDF_EM_ASSIN + T(' em assinatura',' under signature'), accent: '#2D6A3F' },
       { label: T('% Comprometido','% Committed'), value: PDF_PCT_COMP, sub: T('Assinado + em assinatura','Signed + under signature'), accent: '#4A7FBF' },
     ];
     const kpisHTML = kpiData.map(k => `
-      <div style="flex:1;background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px 12px;border-top:3px solid ${k.accent};">
-        <div style="font-size:9px;color:#9E9C97;font-weight:500;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;">${k.label}</div>
-        <div style="font-size:16px;font-weight:600;color:#1A1917;line-height:1.1;">${k.value}</div>
-        <div style="font-size:9px;color:#9E9C97;margin-top:3px;">${k.sub}</div>
+      <div style="flex:1;background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px 10px;border-top:3px solid ${k.accent};">
+        <div style="font-size:8px;color:#9E9C97;font-weight:500;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em;">${k.label}</div>
+        <div style="font-size:15px;font-weight:600;color:#1A1917;line-height:1.1;">${k.value}</div>
+        <div style="font-size:8px;color:#9E9C97;margin-top:2px;">${k.sub}</div>
       </div>`).join('');
 
-    // Contratos (compacto)
-    const contratosRows = PDF_CONTRATOS.filter(c => c.fornecedor && c.fornecedor.trim() !== '').map(c => {
-      const nome = c.fornecedor || '';
-      const escopo = isEN ? (c.escopo_en || c.escopo || '') : (c.escopo || '');
-      const valor = fmtMM(c.valor);
-      const risco = isEN ? (NIVEL_EN[c.risco] || c.risco || '—') : (c.risco || '—');
-      const riscoCor = RISCO_COR[risco] || '#9E9C97';
+    // ── Contratos ─────────────────────────────────────────────
+    const contratosRows = PDF_CONTRATOS.filter(c => c.fornecedor && c.fornecedor.trim()).map(c => {
+      const nome   = c.fornecedor || '';
+      const escopo = (isEN ? (c.escopo_en || c.escopo || '') : (c.escopo || '')).substring(0,42);
+      const valor  = fmtMM(c.valor);
+      const risco  = isEN ? (NIVEL_EN[c.risco] || c.risco || '—') : (c.risco || '—');
+      const rCor   = RISCO_COR[risco] || '#9E9C97';
       const status = isEN ? (c.status_en || c.status || '') : (c.status || '');
-      const sLow = status.toLowerCase();
-      let badgeBg = '#EFEFED'; let badgeFg = '#5A5955';
-      if (sLow.includes('assinado') || sLow.includes('signed') || sLow.includes('concluí')) { badgeBg='#E8F5EC'; badgeFg='#2D6A3F'; }
-      else if (sLow.includes('atraso') || sLow.includes('crítico') || sLow.includes('overdue')) { badgeBg='#FDEAEA'; badgeFg='#8B1A1A'; }
-      else if (sLow.includes('ando') || sLow.includes('revisão') || sLow.includes('review') || sLow.includes('negoc')) { badgeBg='#FEF3DC'; badgeFg='#7A4F00'; }
+      const sLow   = status.toLowerCase();
+      let bBg = '#EFEFED', bFg = '#5A5955';
+      if (sLow.includes('assinado') || sLow.includes('signed'))   { bBg='#E8F5EC'; bFg='#2D6A3F'; }
+      else if (sLow.includes('atraso') || sLow.includes('crítico')){ bBg='#FDEAEA'; bFg='#8B1A1A'; }
+      else if (sLow.includes('ando')  || sLow.includes('revisão') || sLow.includes('review') || sLow.includes('negoc')){ bBg='#FEF3DC'; bFg='#7A4F00'; }
       return `<tr>
-        <td style="padding:5px 6px;font-weight:500;font-size:9px;border-bottom:1px solid #F5F5F5;">${nome}</td>
-        <td style="padding:5px 6px;font-size:8.5px;color:#6B6860;border-bottom:1px solid #F5F5F5;">${escopo.substring(0,45)}</td>
-        <td style="padding:5px 6px;font-size:9px;text-align:right;white-space:nowrap;border-bottom:1px solid #F5F5F5;">${valor}</td>
-        <td style="padding:5px 6px;text-align:center;border-bottom:1px solid #F5F5F5;"><span style="font-size:8px;color:${riscoCor};font-weight:600;">● ${risco}</span></td>
-        <td style="padding:5px 6px;text-align:center;border-bottom:1px solid #F5F5F5;"><span style="font-size:8px;font-weight:500;padding:2px 6px;border-radius:10px;background:${badgeBg};color:${badgeFg};white-space:nowrap;">${status.substring(0,20)}</span></td>
+        <td style="padding:4px 5px;font-weight:500;font-size:8.5px;border-bottom:1px solid #F5F5F5;">${nome}</td>
+        <td style="padding:4px 5px;font-size:8px;color:#6B6860;border-bottom:1px solid #F5F5F5;">${escopo}</td>
+        <td style="padding:4px 5px;font-size:8.5px;text-align:right;white-space:nowrap;border-bottom:1px solid #F5F5F5;">${valor}</td>
+        <td style="padding:4px 5px;text-align:center;border-bottom:1px solid #F5F5F5;"><span style="font-size:7.5px;color:${rCor};font-weight:600;">● ${risco}</span></td>
+        <td style="padding:4px 5px;text-align:center;border-bottom:1px solid #F5F5F5;"><span style="font-size:7.5px;font-weight:500;padding:2px 5px;border-radius:10px;background:${bBg};color:${bFg};white-space:nowrap;">${status.substring(0,20)}</span></td>
       </tr>`;
     }).join('');
 
-    // Ações (compacto)
-    const acoesHTML = PDF_ACOES.slice(0, 6).map(a => {
-      const txt = isEN ? (a.acao_en || a.acao) : a.acao;
-      const resp = a.responsavel || '';
-      const prazo = a.prazo || '';
+    // ── Ações ─────────────────────────────────────────────────
+    const acoesHTML = PDF_ACOES.slice(0,5).map(a => {
+      const txt  = isEN ? (a.acao_en || a.acao) : a.acao;
       const sLow = (a.status || '').toLowerCase();
-      const cor = sLow.includes('atraso') || sLow.includes('crítico') ? '#E24B4A' : '#EF9F27';
-      return `<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 0;border-bottom:1px solid #F5F5F5;">
-        <span style="width:7px;height:7px;border-radius:50%;background:${cor};flex-shrink:0;margin-top:4px;"></span>
+      const cor  = sLow.includes('atraso') || sLow.includes('crítico') ? '#E24B4A' : '#EF9F27';
+      return `<div style="display:flex;align-items:flex-start;gap:5px;padding:4px 0;border-bottom:1px solid #F5F5F5;">
+        <span style="width:6px;height:6px;border-radius:50%;background:${cor};flex-shrink:0;margin-top:3px;"></span>
         <div>
-          <div style="font-size:9px;font-weight:500;color:#1A1917;">${txt}</div>
-          <div style="font-size:8px;color:#9E9C97;">${resp} · ${T('prazo','due')} ${prazo}</div>
-        </div>
+          <div style="font-size:8.5px;font-weight:500;color:#1A1917;">${txt}</div>
+          <div style="font-size:7.5px;color:#9E9C97;">${a.responsavel||''} · ${T('prazo','due')} ${a.prazo||''}</div>
+        </div></div>`;
+    }).join('');
+
+    // ── Matriz de risco SVG ───────────────────────────────────
+    const mW=130, mH=105, cellS=20, offX=14, offY=4;
+    const bgCell = (p,i) => { const s=p*i; return s>=15?'#FDEAEA':s>=8?'#FEF3DC':'#EAF3DE'; };
+    const corNv  = n => n.includes('Alto')?'#A32D2D':n.includes('Médio')?'#C8931A':'#3B6D11';
+    const matrizCelulas = {};
+    PDF_RISCOS.forEach((r,i) => {
+      const k = r.prob+'_'+r.impacto;
+      if (!matrizCelulas[k]) matrizCelulas[k]=[];
+      matrizCelulas[k].push({cod:'R'+(i+1),nivel:r.nivel});
+    });
+    let matCells='', matLabels='';
+    for (let p=5;p>=1;p--) {
+      const row=5-p;
+      matLabels+=`<text x="${offX-3}" y="${offY+row*cellS+cellS/2+3}" text-anchor="end" font-size="7" fill="#9E9C97">${p}</text>`;
+      for (let i=1;i<=5;i++) {
+        const col=i-1, x=offX+col*cellS, y=offY+row*cellS;
+        const bg=bgCell(p,i); const pts=matrizCelulas[p+'_'+i]||[];
+        matCells+=`<rect x="${x}" y="${y}" width="${cellS-1}" height="${cellS-1}" rx="2" fill="${bg}"/>`;
+        pts.forEach((pt,pi) => {
+          const cx=x+(cellS-1)/2+(pi>0?6:0), cy=y+(cellS-1)/2;
+          const cc=corNv(pt.nivel);
+          matCells+=`<circle cx="${cx}" cy="${cy}" r="7" fill="${bg}" stroke="${cc}" stroke-width="1.5"/>`;
+          matCells+=`<text x="${cx}" y="${cy+3}" text-anchor="middle" font-size="7" font-weight="700" fill="${cc}">${pt.cod}</text>`;
+        });
+      }
+    }
+    for (let i=1;i<=5;i++) matLabels+=`<text x="${offX+(i-1)*cellS+cellS/2}" y="${offY+5*cellS+10}" text-anchor="middle" font-size="7" fill="#9E9C97">${i}</text>`;
+    const matrizSVG=`<svg xmlns="http://www.w3.org/2000/svg" width="${mW}" height="${mH}">
+      ${matCells}${matLabels}
+      <text x="${offX+cellS*2.5}" y="${mH-2}" text-anchor="middle" font-size="6.5" fill="#9E9C97">${T('Impacto →','Impact →')}</text>
+      <text x="6" y="${offY+cellS*2.5}" text-anchor="middle" font-size="6.5" fill="#9E9C97" transform="rotate(-90,6,${offY+cellS*2.5})">${T('Prob ↑','Prob ↑')}</text>
+    </svg>`;
+
+    // lista riscos ao lado da matriz
+    const riscosListHTML = PDF_RISCOS.map((r,i) => {
+      const nivel = r.nivel.replace(/[🔴🟡🟢] ?/g,'');
+      const nivelL= isEN ? (NIVEL_EN[nivel]||nivel) : nivel;
+      const cor   = RISCO_COR[nivel]||RISCO_COR[nivelL]||'#9E9C97';
+      const desc  = isEN ? (r.descricao_en||r.descricao) : r.descricao;
+      return `<div style="display:flex;gap:5px;align-items:flex-start;padding:3px 0;border-bottom:1px solid #F5F5F5;">
+        <div style="width:16px;height:16px;border-radius:50%;background:${cor}20;border:1.5px solid ${cor};display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:${cor};flex-shrink:0;">R${i+1}</div>
+        <div><div style="font-size:8px;font-weight:500;color:#1A1917;">${desc}</div>
+        <div style="font-size:7px;color:#9E9C97;">P=${r.prob}×I=${r.impacto} · <span style="color:${cor};font-weight:600;">${nivelL}</span></div></div>
       </div>`;
     }).join('');
 
-    // Riscos (compacto)
-    const niveisRisco = { 'Alto':'#E24B4A','Médio':'#EF9F27','Baixo':'#2D6A3F','High':'#E24B4A','Medium':'#EF9F27','Low':'#2D6A3F' };
-    const riscosHTML = PDF_RISCOS.map((r, i) => {
-      const nivel = r.nivel.replace('🔴 ','').replace('🟡 ','').replace('🟢 ','');
-      const nivelLabel = isEN ? (NIVEL_EN[nivel] || nivel) : nivel;
-      const cor = niveisRisco[nivel] || niveisRisco[nivelLabel] || '#9E9C97';
-      const desc = isEN ? (r.descricao_en || r.descricao) : r.descricao;
-      return `<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 0;border-bottom:1px solid #F5F5F5;">
-        <div style="width:20px;height:20px;border-radius:50%;background:${cor}22;border:2px solid ${cor};display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:${cor};flex-shrink:0;">R${i+1}</div>
-        <div>
-          <div style="font-size:9px;font-weight:500;color:#1A1917;">${desc}</div>
-          <div style="font-size:8px;color:#9E9C97;">P=${r.prob} × I=${r.impacto} · Score ${r.score} · <span style="color:${cor};font-weight:600;">${nivelLabel}</span></div>
-        </div>
-      </div>`;
-    }).join('');
-
-    // Docs cards
+    // ── Docs cards 3x2 ────────────────────────────────────────
     const docsCardsHTML = PDF_DOCS_CARDS.map(d => `
-      <div style="flex:1;background:#fff;border:1px solid #E5E5E5;border-radius:6px;padding:8px;text-align:center;">
-        <div style="font-size:8px;color:#9E9C97;margin-bottom:4px;">${isEN ? d.label_en : d.label_pt}</div>
-        <div style="font-size:18px;font-weight:700;color:${d.cor};">${d.n}</div>
+      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:6px;padding:7px;text-align:center;">
+        <div style="font-size:7.5px;color:#9E9C97;margin-bottom:3px;line-height:1.3;">${isEN?d.label_en:d.label_pt}</div>
+        <div style="font-size:17px;font-weight:700;color:${d.cor};">${d.n}</div>
       </div>`).join('');
 
-    // Desembolso
-    const desembolsoRows = PDF_DESEMBOLSO.filter(ct => ct.valor_ref > 0).map(ct => {
-      const pct = ct.valor_ref > 0 ? Math.round(ct.realizado / ct.valor_ref * 100) : 0;
-      const cor = pct >= 80 ? '#2D6A3F' : pct >= 30 ? '#EF9F27' : '#4A7FBF';
+    // ── Desembolso ────────────────────────────────────────────
+    const desembolsoRows = PDF_DESEMBOLSO.filter(ct=>ct.valor_ref>0).map(ct => {
+      const pct = ct.valor_ref>0 ? Math.round(ct.realizado/ct.valor_ref*100) : 0;
+      const cor = pct>=80?'#2D6A3F':pct>=30?'#EF9F27':'#4A7FBF';
       return `<tr>
-        <td style="padding:4px 6px;font-size:9px;border-bottom:1px solid #F5F5F5;">${ct.nome}</td>
-        <td style="padding:4px 6px;font-size:9px;text-align:right;border-bottom:1px solid #F5F5F5;">${fmtMM(ct.valor_ref)}</td>
-        <td style="padding:4px 6px;font-size:9px;text-align:right;border-bottom:1px solid #F5F5F5;">${fmtMM(ct.realizado)}</td>
-        <td style="padding:4px 6px;border-bottom:1px solid #F5F5F5;">
-          <div style="display:flex;align-items:center;gap:4px;">
-            <div style="flex:1;height:4px;background:#EFEFED;border-radius:2px;"><div style="width:${Math.min(pct,100)}%;height:4px;background:${cor};border-radius:2px;"></div></div>
-            <span style="font-size:8px;font-weight:600;color:${cor};white-space:nowrap;">${pct}%</span>
+        <td style="padding:3px 5px;font-size:8px;border-bottom:1px solid #F5F5F5;">${ct.nome}</td>
+        <td style="padding:3px 5px;font-size:8px;text-align:right;border-bottom:1px solid #F5F5F5;">${fmtMM(ct.valor_ref)}</td>
+        <td style="padding:3px 5px;font-size:8px;text-align:right;border-bottom:1px solid #F5F5F5;">${fmtMM(ct.realizado)}</td>
+        <td style="padding:3px 5px;border-bottom:1px solid #F5F5F5;">
+          <div style="display:flex;align-items:center;gap:3px;">
+            <div style="flex:1;height:3px;background:#EFEFED;border-radius:2px;"><div style="width:${Math.min(pct,100)}%;height:3px;background:${cor};border-radius:2px;"></div></div>
+            <span style="font-size:7.5px;font-weight:600;color:${cor};white-space:nowrap;">${pct}%</span>
           </div>
-        </td>
-      </tr>`;
+        </td></tr>`;
     }).join('');
 
-    // ── Monta o HTML completo para captura ──────────────────
-    // Matriz de risco compacta
-    const matrizCelulas = {};
-    PDF_RISCOS.forEach((r, i) => {
-      const key = r.prob + '_' + r.impacto;
-      if (!matrizCelulas[key]) matrizCelulas[key] = [];
-      matrizCelulas[key].push({ cod: 'R'+(i+1), nivel: r.nivel });
-    });
-    const bgCell = (p, i) => { const s = p*i; return s>=15?'#FDEAEA':s>=8?'#FEF3DC':'#EAF3DE'; };
-    const corNivel = n => n.includes('Alto')?'#A32D2D':n.includes('Médio')?'#C8931A':'#3B6D11';
-    let matrizRows = '';
-    for (let p=5;p>=1;p--) {
-      let cells = `<td style="font-size:8px;color:#9E9C97;text-align:center;padding:2px;">${p}</td>`;
-      for (let i=1;i<=5;i++) {
-        const pts = matrizCelulas[p+'_'+i] || [];
-        const bg = bgCell(p,i);
-        const dots = pts.map(pt => `<span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:${bg};border:1.5px solid ${corNivel(pt.nivel)};font-size:7px;font-weight:700;color:${corNivel(pt.nivel)};">${pt.cod}</span>`).join('');
-        cells += `<td style="background:${bg};border-radius:2px;text-align:center;padding:2px;width:24px;height:24px;">${dots}</td>`;
-      }
-      matrizRows += `<tr>${cells}</tr>`;
-    }
-    const matrizRiscoHTML = `
-      <div style="font-size:8px;color:#9E9C97;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;">Probabilidade ↑</div>
-      <table style="border-collapse:separate;border-spacing:2px;width:100%;margin-bottom:4px;">
-        ${matrizRows}
-        <tr><td></td><td style="font-size:7px;color:#9E9C97;text-align:center;">1</td><td style="font-size:7px;color:#9E9C97;text-align:center;">2</td><td style="font-size:7px;color:#9E9C97;text-align:center;">3</td><td style="font-size:7px;color:#9E9C97;text-align:center;">4</td><td style="font-size:7px;color:#9E9C97;text-align:center;">5</td></tr>
-      </table>
-      <div style="font-size:8px;color:#9E9C97;text-align:center;margin-bottom:6px;">Impacto →</div>`;
+    // ── HTML completo ─────────────────────────────────────────
     const htmlPDF = `<!DOCTYPE html><html><head><meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'DM Sans',sans-serif;background:#fff;color:#1A1917;width:${W}px;padding:16px 24px 2px 24px;}</style>
+    <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'DM Sans',sans-serif;background:#fff;color:#1A1917;width:${W}px;padding:14px 20px 8px 20px;}</style>
     </head><body>
 
     <!-- Cabeçalho -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #E8EFF8;">
-      <div style="display:flex;align-items:center;gap:12px;">
-        ${LOGO_HRZ_B64 ? `<img src="data:image/png;base64,${LOGO_HRZ_B64}" style="height:32px;object-fit:contain;border-radius:6px;background:#fff;padding:2px;">` : '<span style="font-weight:700;color:#1B3A6B;font-size:16px;">HRZ</span>'}
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #E8EFF8;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        ${LOGO_HRZ_B64?`<img src="data:image/png;base64,${LOGO_HRZ_B64}" style="height:28px;object-fit:contain;border-radius:5px;">`:'<span style="font-weight:700;color:#1B3A6B;">HRZ</span>'}
         <div>
-          <div style="font-size:16px;font-weight:600;color:#1B3A6B;">${T('Executive Project Report','Executive Project Report')}</div>
-          <div style="font-size:9px;color:#9E9C97;">${T('Reforço LAJ3 · Instalação do 3º Transformador 230/69 kV','LAJ3 Reinforcement · 3rd Transformer 230/69 kV Installation')}</div>
+          <div style="font-size:15px;font-weight:600;color:#1B3A6B;">Executive Project Report</div>
+          <div style="font-size:8px;color:#9E9C97;">${T('Reforço LAJ3 · Instalação do 3º Transformador 230/69 kV','LAJ3 Reinforcement · 3rd Transformer 230/69 kV Installation')}</div>
         </div>
       </div>
-      <div style="text-align:right;">
-        <div style="font-size:9px;color:#9E9C97;">${T('Atualizado em','Updated on')} ${new Date().toLocaleDateString('pt-BR')}</div>
-        <div style="font-size:9px;color:#9E9C97;margin-top:2px;">HRZ Transmissoras · PMO</div>
+      <div style="text-align:right;font-size:8px;color:#9E9C97;">
+        ${T('Atualizado em','Updated on')} ${new Date().toLocaleDateString('pt-BR')}<br>HRZ Transmissoras · PMO
       </div>
     </div>
 
     <!-- KPIs -->
-    <div style="display:flex;gap:8px;margin-bottom:12px;">${kpisHTML}</div>
+    <div style="display:flex;gap:6px;margin-bottom:8px;">${kpisHTML}</div>
 
-    <!-- Curva S — largura total -->
-    <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;margin-bottom:10px;">
-      <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Curva S — Avanço Físico','S-Curve — Physical Progress')}</div>
-      <div id="curvaCapturada" style="height:140px;display:flex;align-items:center;justify-content:center;background:#F8F8F6;border-radius:4px;font-size:10px;color:#9E9C97;">
-        ${T('Curva S carregando...','S-Curve loading...')}
-      </div>
+    <!-- Curva S largura total -->
+    <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;margin-bottom:8px;">
+      <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Curva S — Avanço Físico','S-Curve — Physical Progress')}</div>
+      ${curvaSVG}
     </div>
 
-    <!-- Contratos — largura total -->
-    <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;margin-bottom:10px;">
-      <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Gestão de Contratos','Contract Management')} (${PDF_CONTRATOS.length})</div>
+    <!-- Contratos largura total -->
+    <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;margin-bottom:8px;">
+      <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Gestão de Contratos','Contract Management')} (${PDF_CONTRATOS.filter(c=>c.fornecedor&&c.fornecedor.trim()).length})</div>
       <table style="width:100%;border-collapse:collapse;">
-          <thead><tr style="background:#F8F8F6;">
-            <th style="padding:4px 6px;text-align:left;font-size:8px;color:#1B3A6B;font-weight:600;">${T('Fornecedor','Supplier')}</th>
-            <th style="padding:4px 6px;text-align:left;font-size:8px;color:#1B3A6B;font-weight:600;">${T('Escopo','Scope')}</th>
-            <th style="padding:4px 6px;text-align:right;font-size:8px;color:#1B3A6B;font-weight:600;">Valor</th>
-            <th style="padding:4px 6px;text-align:center;font-size:8px;color:#1B3A6B;font-weight:600;">${T('Risco','Risk')}</th>
-            <th style="padding:4px 6px;text-align:center;font-size:8px;color:#1B3A6B;font-weight:600;">Status</th>
-          </tr></thead>
-          <tbody>${contratosRows}</tbody>
-        </table>
+        <thead><tr style="background:#F8F8F6;">
+          <th style="padding:3px 5px;text-align:left;font-size:7.5px;color:#1B3A6B;font-weight:600;">${T('Fornecedor','Supplier')}</th>
+          <th style="padding:3px 5px;text-align:left;font-size:7.5px;color:#1B3A6B;font-weight:600;">${T('Escopo','Scope')}</th>
+          <th style="padding:3px 5px;text-align:right;font-size:7.5px;color:#1B3A6B;font-weight:600;">Valor</th>
+          <th style="padding:3px 5px;text-align:center;font-size:7.5px;color:#1B3A6B;font-weight:600;">${T('Risco','Risk')}</th>
+          <th style="padding:3px 5px;text-align:center;font-size:7.5px;color:#1B3A6B;font-weight:600;">Status</th>
+        </tr></thead>
+        <tbody>${contratosRows}</tbody>
+      </table>
     </div>
 
-    <!-- Ações + Riscos -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;">
-        <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Ações em Aberto','Open Actions')} (${PDF_ACOES.length})</div>
-        ${acoesHTML || '<div style="font-size:9px;color:#9E9C97;padding:8px 0;">Nenhuma ação em aberto.</div>'}
+    <!-- Ações + Riscos (matriz + lista) -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;">
+        <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Ações em Aberto','Open Actions')} (${PDF_ACOES.length})</div>
+        ${acoesHTML||'<div style="font-size:8px;color:#9E9C97;padding:6px 0;">—</div>'}
       </div>
-      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;">
-        <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Avaliação de Riscos','Risk Assessment')}</div>
-        ${matrizRiscoHTML}
-        <div style="margin-top:8px;">${riscosHTML || '<div style="font-size:9px;color:#9E9C97;padding:8px 0;">Nenhum risco carregado.</div>'}</div>
+      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;">
+        <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Avaliação de Riscos','Risk Assessment')}</div>
+        <div style="display:grid;grid-template-columns:${mW+4}px 1fr;gap:8px;align-items:start;">
+          <div>${matrizSVG}</div>
+          <div>${riscosListHTML||'<div style="font-size:8px;color:#9E9C97;">—</div>'}</div>
+        </div>
       </div>
     </div>
 
-    <!-- Documentos + Desembolso -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;">
-        <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Controle de Documentos','Document Control')}</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">${docsCardsHTML}</div>
+    <!-- Docs + Desembolso -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;">
+        <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Controle de Documentos','Document Control')}</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;">${docsCardsHTML}</div>
       </div>
-      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;">
-        <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Desembolso por Contrato','Disbursement by Contract')}</div>
+      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;">
+        <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Desembolso por Contrato','Disbursement by Contract')}</div>
         <table style="width:100%;border-collapse:collapse;">
           <thead><tr style="background:#F8F8F6;">
-            <th style="padding:4px 6px;text-align:left;font-size:8px;color:#1B3A6B;font-weight:600;">${T('Fornecedor','Supplier')}</th>
-            <th style="padding:4px 6px;text-align:right;font-size:8px;color:#1B3A6B;font-weight:600;">${T('Valor','Value')}</th>
-            <th style="padding:4px 6px;text-align:right;font-size:8px;color:#1B3A6B;font-weight:600;">${T('Realizado','Actual')}</th>
-            <th style="padding:4px 6px;text-align:left;font-size:8px;color:#1B3A6B;font-weight:600;">%</th>
+            <th style="padding:3px 5px;text-align:left;font-size:7.5px;color:#1B3A6B;font-weight:600;">${T('Fornecedor','Supplier')}</th>
+            <th style="padding:3px 5px;text-align:right;font-size:7.5px;color:#1B3A6B;font-weight:600;">${T('Valor','Value')}</th>
+            <th style="padding:3px 5px;text-align:right;font-size:7.5px;color:#1B3A6B;font-weight:600;">${T('Realizado','Actual')}</th>
+            <th style="padding:3px 5px;text-align:left;font-size:7.5px;color:#1B3A6B;font-weight:600;">%</th>
           </tr></thead>
           <tbody>${desembolsoRows}</tbody>
         </table>
@@ -734,28 +816,17 @@ async function gerarPDF() {
 
     </body></html>`;
 
-    // ── Cria iframe oculto e injeta o HTML ───────────────────
+    // ── Iframe oculto ─────────────────────────────────────────
     const iframe = document.createElement('iframe');
-    iframe.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + W + 'px;height:3000px;border:none;visibility:hidden;';
+    iframe.style.cssText = 'position:fixed;left:-9999px;top:0;width:'+W+'px;height:2200px;border:none;visibility:hidden;';
     document.body.appendChild(iframe);
     iframe.contentDocument.open();
     iframe.contentDocument.write(htmlPDF);
     iframe.contentDocument.close();
 
-    // Injeta imagem da curva S do canvas principal
-    await new Promise(r => setTimeout(r, 800));
-    const curvaEl = document.getElementById('curvaProjectChart');
-    if (curvaEl) {
-      try {
-        const curvaImg = curvaEl.toDataURL('image/png', 1.0);
-        const curvaDiv = iframe.contentDocument.getElementById('curvaCapturada');
-        if (curvaDiv) curvaDiv.innerHTML = `<img src="${curvaImg}" style="width:100%;height:100%;object-fit:contain;">`;
-      } catch(e) {}
-    }
+    await new Promise(r => setTimeout(r, 600));
 
-    await new Promise(r => setTimeout(r, 400));
-
-    // ── Captura o iframe ─────────────────────────────────────
+    // ── Captura ───────────────────────────────────────────────
     const canvas = await html2canvas(iframe.contentDocument.body, {
       scale: 2,
       useCORS: true,
