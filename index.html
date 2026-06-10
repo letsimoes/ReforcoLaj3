@@ -96,7 +96,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 16:03 · HRZ PMO" data-en="Generated on 10/06/2026 16:03 · HRZ PMO">Atualizado em 10/06/2026 16:03 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 16:13 · HRZ PMO" data-en="Generated on 10/06/2026 16:13 · HRZ PMO">Atualizado em 10/06/2026 16:13 · HRZ PMO</div>
 </div>
 
 <!-- ═══ MAIN ═══ -->
@@ -122,7 +122,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="btnGerarPDF" onclick="gerarPDF()"
           style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;"
           data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 10/06/2026 16:03" data-en="Updated on 10/06/2026 16:03">Atualizado em 10/06/2026 16:03</div>
+        <div class="updated" data-pt="Atualizado em 10/06/2026 16:13" data-en="Updated on 10/06/2026 16:13">Atualizado em 10/06/2026 16:13</div>
       </div>
     </div>
 
@@ -601,7 +601,7 @@ h1{font-size:22px;font-weight:600;}
   <div class="page" id="page-gas">
     <div class="page-header">
       <div><div class="proj-label">Edge · Aliança · Siderópolis 2</div><h1>Monitoramento dos Gases — Reatores</h1></div>
-      <div class="updated" data-pt="Atualizado em 10/06/2026 16:03" data-en="Updated on 10/06/2026 16:03">Atualizado em 10/06/2026 16:03</div>
+      <div class="updated" data-pt="Atualizado em 10/06/2026 16:13" data-en="Updated on 10/06/2026 16:13">Atualizado em 10/06/2026 16:13</div>
     </div>
     <div class="em-construcao">
       <div class="icon">⚗️</div><div class="title">Em construção</div>
@@ -614,7 +614,7 @@ h1{font-size:22px;font-weight:600;}
   <div class="page" id="page-bess">
     <div class="page-header">
       <div><div class="proj-label">BESS · Eólicas Babilônias</div><h1>Análise de Viabilidade</h1></div>
-      <div class="updated" data-pt="Atualizado em 10/06/2026 16:03" data-en="Updated on 10/06/2026 16:03">Atualizado em 10/06/2026 16:03</div>
+      <div class="updated" data-pt="Atualizado em 10/06/2026 16:13" data-en="Updated on 10/06/2026 16:13">Atualizado em 10/06/2026 16:13</div>
     </div>
     <div class="em-construcao">
       <div class="icon">🔋</div><div class="title">Em construção</div>
@@ -783,8 +783,8 @@ async function gerarPDF() {
 
     // ── Função auxiliar: desenha cabeçalho em cada página ──
     function desenharCabecalho(isFirstPage) {
-      // Fundo azul escuro no cabeçalho
-      pdf.setFillColor(13, 30, 61);
+     // Fundo branco no cabeçalho
+      pdf.setFillColor(255, 255, 255);
       pdf.rect(0, 0, larguraPDF, TOPO_H, 'F');
 
       // Logo (base64 embutida no HTML via Python)
@@ -799,13 +799,13 @@ async function gerarPDF() {
       // Título central
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(isFirstPage ? 11 : 9);
-      pdf.setTextColor(255, 255, 255);
-      pdf.text('PMO Dashboard — HRZ Transmissoras', larguraPDF / 2, isFirstPage ? 9 : 8, { align: 'center' });
+      pdf.setTextColor(27, 58, 107);
+      pdf.text('Executive Project Report', larguraPDF / 2, isFirstPage ? 9 : 8, { align: 'center' });
 
       // Subtítulo
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(isFirstPage ? 8 : 7);
-      pdf.setTextColor(180, 200, 230);
+      pdf.setTextColor(100, 100, 100);
       const sub = isFirstPage
         ? 'Reforço LAJ3 · Instalação do 3º Transformador 230/69 kV'
         : 'Reforço LAJ3 · HRZ Transmissoras';
@@ -813,12 +813,12 @@ async function gerarPDF() {
 
       // Data no canto direito
       pdf.setFontSize(7);
-      pdf.setTextColor(160, 185, 215);
+      pdf.setTextColor(150, 150, 150);
       const agora = new Date().toLocaleString('pt-BR');
       pdf.text('Gerado em ' + agora, larguraPDF - MARGEM, isFirstPage ? 15 : 14, { align: 'right' });
 
       // Linha separadora
-      pdf.setDrawColor(74, 127, 191);
+      pdf.setDrawColor(220, 220, 220);
       pdf.setLineWidth(0.4);
       pdf.line(MARGEM, TOPO_H, larguraPDF - MARGEM, TOPO_H);
     }
@@ -834,14 +834,20 @@ async function gerarPDF() {
 
     // ── Captura do conteúdo da página ──
     // Esconde botões temporariamente para não aparecerem no PDF
-    const botoesOcultar = document.querySelectorAll('#btnGerarPDF, #langBtn, .page-header a');
+    const botoesOcultar = document.querySelectorAll(
+      '#btnGerarPDF, #langBtn, .page-header a, .page-header .badge, .updated, .card:has(#docsBody), #docsCount'
+    );
     botoesOcultar.forEach(el => el.style.visibility = 'hidden');
+
+    // Esconde o card de documentos inteiro
+    const docsCard = document.querySelector('#docsBody')?.closest('.card');
+    if (docsCard) docsCard.style.display = 'none';
 
     const canvas = await html2canvas(pagina, {
       scale: 1.0,
       useCORS: true,
       allowTaint: true,
-      backgroundColor: '#F8F8F6',
+      backgroundColor: '#ffffff',
       scrollY: 0,
       windowWidth: 900,
       width: 900,
@@ -849,6 +855,7 @@ async function gerarPDF() {
 
     // Restaura visibilidade dos botões
     botoesOcultar.forEach(el => el.style.visibility = '');
+    if (docsCard) docsCard.style.display = '';
 
     const imgData   = canvas.toDataURL('image/jpeg', 0.93);
     const imgLarg   = larguraPDF - (MARGEM * 2);
