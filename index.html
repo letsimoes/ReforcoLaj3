@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 17:04 · HRZ PMO" data-en="Generated on 10/06/2026 17:04 · HRZ PMO">Atualizado em 10/06/2026 17:04 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 17:14 · HRZ PMO" data-en="Generated on 10/06/2026 17:14 · HRZ PMO">Atualizado em 10/06/2026 17:14 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 10/06/2026 17:04" data-en="Updated on 10/06/2026 17:04">Atualizado em 10/06/2026 17:04</div>
+        <div class="updated" data-pt="Atualizado em 10/06/2026 17:14" data-en="Updated on 10/06/2026 17:14">Atualizado em 10/06/2026 17:14</div>
       </div>
     </div>
 
@@ -553,6 +553,7 @@ async function gerarPDF() {
     let xLabels = '';
     const step = Math.max(1, Math.floor(n / 8));
     for (let i = 0; i < n; i += step) {
+      if (i === ultRealIdx) continue; // pula o mês anotado, já aparece em destaque
       const xx = xOf(i);
       xLabels += `<text x="${xx}" y="${svgH - padB + 14}" text-anchor="middle" font-size="7" fill="#9E9C97">${labelsCP[i]}</text>`;
     }
@@ -594,9 +595,9 @@ async function gerarPDF() {
       // box realizado
       anotacao += `<rect x="${(ax-52).toFixed(0)}" y="${(ay-20).toFixed(0)}" width="54" height="18" rx="3" fill="#2D6A3F" opacity="0.9"/>`;
       anotacao += `<text x="${(ax-25).toFixed(0)}" y="${(ay-8).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Realizado','Actual')}: ${ultRealVal.toFixed(2)}%</text>`;
-      // box previsto
-      anotacao += `<rect x="${(bx+2).toFixed(0)}" y="${(by-20).toFixed(0)}" width="54" height="18" rx="3" fill="#1A2B4A" opacity="0.9"/>`;
-      anotacao += `<text x="${(bx+29).toFixed(0)}" y="${(by-8).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Previsto','Planned')}: ${ultPrevVal.toFixed(2)}%</text>`;
+     // box previsto — posicionado acima do realizado para não sobrepor
+      anotacao += `<rect x="${(ax-52).toFixed(0)}" y="${(ay-42).toFixed(0)}" width="54" height="18" rx="3" fill="#1A2B4A" opacity="0.9"/>`;
+      anotacao += `<text x="${(ax-25).toFixed(0)}" y="${(ay-30).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Previsto','Planned')}: ${ultPrevVal.toFixed(2)}%</text>`;
       // label mês
       anotacao += `<text x="${ax.toFixed(0)}" y="${(svgH-padB+26).toFixed(0)}" text-anchor="middle" font-size="7" font-weight="600" fill="#1B3A6B">${ultMes}</text>`;
     }
@@ -696,7 +697,7 @@ async function gerarPDF() {
     const matrizSVG=`<svg xmlns="http://www.w3.org/2000/svg" width="${mW}" height="${mH}">
       ${matCells}${matLabels}
       <text x="${offX+cellS*2.5}" y="${mH-2}" text-anchor="middle" font-size="6.5" fill="#9E9C97">${T('Impacto →','Impact →')}</text>
-      <text x="6" y="${offY+cellS*2.5}" text-anchor="middle" font-size="6.5" fill="#9E9C97" transform="rotate(-90,6,${offY+cellS*2.5})">${T('Prob ↑','Prob ↑')}</text>
+      <text x="7" y="${offY+cellS*2.5}" text-anchor="middle" font-size="6" fill="#9E9C97" transform="rotate(-90,7,${offY+cellS*2.5})">${T('Prob ↑','Prob ↑')}</text>
     </svg>`;
 
     // lista riscos ao lado da matriz
@@ -751,7 +752,7 @@ async function gerarPDF() {
         </div>
       </div>
       <div style="text-align:right;font-size:8px;color:#9E9C97;">
-        ${T('Atualizado em','Updated on')} ${new Date().toLocaleDateString('pt-BR')}<br>HRZ Transmissoras · PMO
+        ${T('Atualizado em','Updated on')} ${new Date().toLocaleDateString('pt-BR')}
       </div>
     </div>
 
