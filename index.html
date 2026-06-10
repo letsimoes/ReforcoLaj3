@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 16:40 · HRZ PMO" data-en="Generated on 10/06/2026 16:40 · HRZ PMO">Atualizado em 10/06/2026 16:40 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 10/06/2026 16:51 · HRZ PMO" data-en="Generated on 10/06/2026 16:51 · HRZ PMO">Atualizado em 10/06/2026 16:51 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 10/06/2026 16:40" data-en="Updated on 10/06/2026 16:40">Atualizado em 10/06/2026 16:40</div>
+        <div class="updated" data-pt="Atualizado em 10/06/2026 16:51" data-en="Updated on 10/06/2026 16:51">Atualizado em 10/06/2026 16:51</div>
       </div>
     </div>
 
@@ -548,7 +548,7 @@ async function gerarPDF() {
       </div>`).join('');
 
     // Contratos (compacto)
-    const contratosRows = PDF_CONTRATOS.map(c => {
+    const contratosRows = PDF_CONTRATOS.filter(c => c.fornecedor && c.fornecedor.trim() !== '').map(c => {
       const nome = c.fornecedor || '';
       const escopo = isEN ? (c.escopo_en || c.escopo || '') : (c.escopo || '');
       const valor = fmtMM(c.valor);
@@ -626,6 +626,33 @@ async function gerarPDF() {
     }).join('');
 
     // ── Monta o HTML completo para captura ──────────────────
+    // Matriz de risco compacta
+    const matrizCelulas = {};
+    PDF_RISCOS.forEach((r, i) => {
+      const key = r.prob + '_' + r.impacto;
+      if (!matrizCelulas[key]) matrizCelulas[key] = [];
+      matrizCelulas[key].push({ cod: 'R'+(i+1), nivel: r.nivel });
+    });
+    const bgCell = (p, i) => { const s = p*i; return s>=15?'#FDEAEA':s>=8?'#FEF3DC':'#EAF3DE'; };
+    const corNivel = n => n.includes('Alto')?'#A32D2D':n.includes('Médio')?'#C8931A':'#3B6D11';
+    let matrizRows = '';
+    for (let p=5;p>=1;p--) {
+      let cells = `<td style="font-size:8px;color:#9E9C97;text-align:center;padding:2px;">${p}</td>`;
+      for (let i=1;i<=5;i++) {
+        const pts = matrizCelulas[p+'_'+i] || [];
+        const bg = bgCell(p,i);
+        const dots = pts.map(pt => `<span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:${bg};border:1.5px solid ${corNivel(pt.nivel)};font-size:7px;font-weight:700;color:${corNivel(pt.nivel)};">${pt.cod}</span>`).join('');
+        cells += `<td style="background:${bg};border-radius:2px;text-align:center;padding:2px;width:24px;height:24px;">${dots}</td>`;
+      }
+      matrizRows += `<tr>${cells}</tr>`;
+    }
+    const matrizRiscoHTML = `
+      <div style="font-size:8px;color:#9E9C97;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;">Probabilidade ↑</div>
+      <table style="border-collapse:separate;border-spacing:2px;width:100%;margin-bottom:4px;">
+        ${matrizRows}
+        <tr><td></td><td style="font-size:7px;color:#9E9C97;text-align:center;">1</td><td style="font-size:7px;color:#9E9C97;text-align:center;">2</td><td style="font-size:7px;color:#9E9C97;text-align:center;">3</td><td style="font-size:7px;color:#9E9C97;text-align:center;">4</td><td style="font-size:7px;color:#9E9C97;text-align:center;">5</td></tr>
+      </table>
+      <div style="font-size:8px;color:#9E9C97;text-align:center;margin-bottom:6px;">Impacto →</div>`;
     const htmlPDF = `<!DOCTYPE html><html><head><meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'DM Sans',sans-serif;background:#fff;color:#1A1917;width:${W}px;padding:16px 24px 2px 24px;}</style>
@@ -680,7 +707,8 @@ async function gerarPDF() {
       </div>
       <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;">
         <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Avaliação de Riscos','Risk Assessment')}</div>
-        ${riscosHTML || '<div style="font-size:9px;color:#9E9C97;padding:8px 0;">Nenhum risco carregado.</div>'}
+        ${matrizRiscoHTML}
+        <div style="margin-top:8px;">${riscosHTML || '<div style="font-size:9px;color:#9E9C97;padding:8px 0;">Nenhum risco carregado.</div>'}</div>
       </div>
     </div>
 
@@ -688,7 +716,7 @@ async function gerarPDF() {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
       <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;">
         <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Controle de Documentos','Document Control')}</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;">${docsCardsHTML}</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">${docsCardsHTML}</div>
       </div>
       <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:10px;">
         <div style="font-size:9px;font-weight:600;color:#1B3A6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #E5E5E5;">${T('Desembolso por Contrato','Disbursement by Contract')}</div>
@@ -708,7 +736,7 @@ async function gerarPDF() {
 
     // ── Cria iframe oculto e injeta o HTML ───────────────────
     const iframe = document.createElement('iframe');
-    iframe.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + W + 'px;height:2000px;border:none;visibility:hidden;';
+    iframe.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + W + 'px;height:3000px;border:none;visibility:hidden;';
     document.body.appendChild(iframe);
     iframe.contentDocument.open();
     iframe.contentDocument.write(htmlPDF);
@@ -719,7 +747,7 @@ async function gerarPDF() {
     const curvaEl = document.getElementById('curvaProjectChart');
     if (curvaEl) {
       try {
-        const curvaImg = curvaEl.toDataURL('image/png');
+        const curvaImg = curvaEl.toDataURL('image/png', 1.0);
         const curvaDiv = iframe.contentDocument.getElementById('curvaCapturada');
         if (curvaDiv) curvaDiv.innerHTML = `<img src="${curvaImg}" style="width:100%;height:100%;object-fit:contain;">`;
       } catch(e) {}
