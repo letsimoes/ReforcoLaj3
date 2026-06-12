@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 11:27 · HRZ PMO" data-en="Generated on 12/06/2026 11:27 · HRZ PMO">Atualizado em 12/06/2026 11:27 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 11:58 · HRZ PMO" data-en="Generated on 12/06/2026 11:58 · HRZ PMO">Atualizado em 12/06/2026 11:58 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 11:27" data-en="Updated on 12/06/2026 11:27">Atualizado em 12/06/2026 11:27</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 11:58" data-en="Updated on 12/06/2026 11:58">Atualizado em 12/06/2026 11:58</div>
       </div>
     </div>
 
@@ -215,20 +215,32 @@ h1{font-size:22px;font-weight:600;}
 
     <div class="grid2">
       <div class="card" style="margin-bottom:0;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);gap:10px;">
           <span class="card-title" style="margin-bottom:0;padding-bottom:0;border:none;" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</span>
-          <select id="filtroAcoes" onchange="filtrarAcoes()" style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);">
-            <option value="" data-pt="Todos" data-en="All">Todos</option>
-            <option value="atrasada" data-pt="Atrasadas" data-en="Overdue">Atrasadas</option>
-            <option value="andamento" data-pt="Em andamento" data-en="In progress">Em andamento</option>
-            <option value="concluida" data-pt="Concluídas" data-en="Completed">Concluídas</option>
-          </select>
+
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select id="filtroAcoes" onchange="filtrarAcoes()" style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);">
+              <option value="" data-pt="Todos" data-en="All">Todos</option>
+              <option value="atrasada" data-pt="Atrasadas" data-en="Overdue">Atrasadas</option>
+              <option value="andamento" data-pt="Em andamento" data-en="In progress">Em andamento</option>
+              <option value="concluida" data-pt="Concluídas" data-en="Completed">Concluídas</option>
+            </select>
+
+            <select id="filtroMacroAcoes" onchange="filtrarAcoes()" style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);">
+              <option value="" data-pt="Todas as frentes" data-en="All workstreams">Todas as frentes</option>
+              <option value="suprimentos" data-pt="Suprimentos" data-en="Supplies">Suprimentos</option>
+              <option value="obra" data-pt="Obra" data-en="Works">Obra</option>
+              <option value="comissionamento" data-pt="Comiss./Energ." data-en="Comm./Energ.">Comiss./Energ.</option>
+              <option value="gerenciamento" data-pt="Gerenciamento" data-en="Management">Gerenciamento</option>
+              <option value="outros" data-pt="Outros" data-en="Others">Outros</option>
+            </select>
+          </div>
         </div>
         <div id="acoesContainer" style="max-height:480px;overflow-y:auto;">
-          <div style="margin-bottom:10px;">
+          <div class="grupo-acoes" style="margin-bottom:10px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
             <span style="font-size:10px;font-weight:600;color:#8B1A1A;letter-spacing:.06em;text-transform:uppercase;">ATRASADAS</span>
-          </div><div data-status="atrasada" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
+          </div><div data-status="atrasada" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:normal;overflow:hidden;text-overflow:ellipsis;line-height:1.3;">🔴 Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA · Aprovação dos desenhos</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -241,7 +253,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="atrasada" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="atrasada" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:normal;overflow:hidden;text-overflow:ellipsis;line-height:1.3;">🔴 TC 69 kV · Montagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -254,7 +266,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="atrasada" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="atrasada" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:normal;overflow:hidden;text-overflow:ellipsis;line-height:1.3;">🔴 TP 230 kV · Montagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -267,10 +279,10 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div></div><div style="margin-bottom:10px;">
+            </div></div><div class="grupo-acoes" style="margin-bottom:10px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
             <span style="font-size:10px;font-weight:600;color:#7A4F00;letter-spacing:.06em;text-transform:uppercase;">EM ANDAMENTO</span>
-          </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+          </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -283,7 +295,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Disjuntores 230 kV · Montagem elétrica</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -296,7 +308,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Disjuntores 230 kV · Montagem sincronismo</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -309,7 +321,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Disjuntores 230 kV · Produção mecânica</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -322,7 +334,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Disjuntores 69 kV · Montagem elétrica</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -335,7 +347,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Disjuntores 69 kV · Montagem sincronismo</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -348,7 +360,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Disjuntores 69 kV · Produção mecânica</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -361,7 +373,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Seccionadora 3P Semi-Pantográfica 230 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -374,7 +386,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Seccionador 3P Dupla Abertura Horizontal 230 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -387,7 +399,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Seccionador 3P Dupla Abertura Horizontal 69 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -400,7 +412,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 TC 230 kV · Montagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -413,7 +425,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Pára-Raio 230 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -426,7 +438,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Pára-Raio 69 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -439,7 +451,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Engenharia · Projetos Novo Transformador</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -452,7 +464,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Engenharia · Revisão dos Projetos Existentes</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -465,7 +477,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" data-macro="obra" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">🔄 Terraplenagem · Execução da terraplenagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -478,10 +490,10 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div></div><div style="margin-bottom:10px;">
+            </div></div><div class="grupo-acoes" style="margin-bottom:10px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
             <span style="font-size:10px;font-weight:600;color:#2D6A3F;letter-spacing:.06em;text-transform:uppercase;">CONCLUÍDAS</span>
-          </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+          </div><div data-status="concluida" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">✅ Disjuntores 69 kV · Projeto aprovado</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -494,7 +506,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">✅ TC 230 kV · Projeto aprovado</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -507,7 +519,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" data-macro="suprimentos" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">✅ TC 69 kV · Projeto aprovado</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -520,7 +532,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" data-macro="obra" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">✅ Mobilização</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -533,7 +545,7 @@ h1{font-size:22px;font-weight:600;}
                   </div>
                 </div>
               </div>
-            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" data-macro="obra" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:normal;">✅ Mobilização · Montagem do canteiro de obras</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -726,7 +738,7 @@ const LOGO_HRZ_B64 = "/9j/4AAQSkZJRgABAQEAYABgAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAA
 
 // ── Dados para o PDF ──────────────────────────────────────────
 const PDF_RISCOS    = [{"tipo": "R", "categoria": "Cronograma", "descricao": "Construtora: mobilização ocorrer após julho/2026", "prob": 2, "impacto": 5, "score": 10, "nivel": "Médio", "descricao_en": "Construction company: mobilization to take place after July/2026", "categoria_en": "Schedule"}, {"tipo": "R", "categoria": "Cronograma", "descricao": "Alta Engenharia: projetos de fundações não podem atrasar para serem emitidos", "prob": 1, "impacto": 3, "score": 3, "nivel": "Baixo", "descricao_en": "Alta Engenharia: foundation projects must not be delayed in being issued", "categoria_en": "Schedule"}, {"tipo": "R", "categoria": "Fornecimento", "descricao": "Entrega TR campo: janela Jan/27 – atraso = risco de não energização", "prob": 3, "impacto": 5, "score": 15, "nivel": "Alto", "descricao_en": "TR field delivery: Jan/27 window - delay = risk of non-energization", "categoria_en": "Delivery"}];
-const PDF_ACOES     = [{"ordem": 11, "nome": "Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA · Aprovação dos desenhos", "wbs": "1.3.1.2", "pct": 70.0, "status": "atrasada", "ini_plan": "27/02", "fim_plan": "10/03", "ini_real": "27/02", "fim_real": null}, {"ordem": 61, "nome": "TC 69 kV · Montagem", "wbs": "1.3.8.5", "pct": 80.0, "status": "atrasada", "ini_plan": "11/05", "fim_plan": "31/05", "ini_real": "11/05", "fim_real": null}, {"ordem": 70, "nome": "TP 230 kV · Montagem", "wbs": "1.3.9.5", "pct": 80.0, "status": "atrasada", "ini_plan": "11/05", "fim_plan": "28/05", "ini_real": "11/05", "fim_real": null}, {"ordem": 12, "nome": "Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA · Fabricação", "wbs": "1.3.1.3", "pct": 50.0, "status": "andamento", "ini_plan": "09/11", "fim_plan": "04/01", "ini_real": "09/11", "fim_real": null}, {"ordem": 19, "nome": "Disjuntores 230 kV · Montagem elétrica", "wbs": "1.3.2.3", "pct": 60.0, "status": "andamento", "ini_plan": "20/04", "fim_plan": "30/06", "ini_real": "20/04", "fim_real": null}, {"ordem": 20, "nome": "Disjuntores 230 kV · Montagem sincronismo", "wbs": "1.3.2.4", "pct": 60.0, "status": "andamento", "ini_plan": "04/05", "fim_plan": "14/07", "ini_real": "04/05", "fim_real": null}, {"ordem": 21, "nome": "Disjuntores 230 kV · Produção mecânica", "wbs": "1.3.2.5", "pct": 60.0, "status": "andamento", "ini_plan": "14/07", "fim_plan": "21/07", "ini_real": "14/07", "fim_real": null}, {"ordem": 27, "nome": "Disjuntores 69 kV · Montagem elétrica", "wbs": "1.3.3.3", "pct": 60.0, "status": "andamento", "ini_plan": "20/04", "fim_plan": "07/07", "ini_real": "20/04", "fim_real": null}, {"ordem": 28, "nome": "Disjuntores 69 kV · Montagem sincronismo", "wbs": "1.3.3.4", "pct": 60.0, "status": "andamento", "ini_plan": "04/05", "fim_plan": "14/07", "ini_real": "04/05", "fim_real": null}, {"ordem": 29, "nome": "Disjuntores 69 kV · Produção mecânica", "wbs": "1.3.3.5", "pct": 60.0, "status": "andamento", "ini_plan": "14/07", "fim_plan": "21/07", "ini_real": "14/07", "fim_real": null}, {"ordem": 34, "nome": "Seccionadora 3P Semi-Pantográfica 230 kV · Fabricação", "wbs": "1.3.4.2", "pct": 80.0, "status": "andamento", "ini_plan": "27/06", "fim_plan": "11/08", "ini_real": "27/06", "fim_real": null}, {"ordem": 39, "nome": "Seccionador 3P Dupla Abertura Horizontal 230 kV · Fabricação", "wbs": "1.3.5.2", "pct": 80.0, "status": "andamento", "ini_plan": "27/06", "fim_plan": "11/08", "ini_real": "27/06", "fim_real": null}, {"ordem": 44, "nome": "Seccionador 3P Dupla Abertura Horizontal 69 kV · Fabricação", "wbs": "1.3.6.2", "pct": 80.0, "status": "andamento", "ini_plan": "27/06", "fim_plan": "11/08", "ini_real": "27/06", "fim_real": null}, {"ordem": 52, "nome": "TC 230 kV · Montagem", "wbs": "1.3.7.5", "pct": 80.0, "status": "andamento", "ini_plan": "06/07", "fim_plan": "26/07", "ini_real": "06/07", "fim_real": null}, {"ordem": 76, "nome": "Pára-Raio 230 kV · Fabricação", "wbs": "1.3.10.2", "pct": 90.0, "status": "andamento", "ini_plan": "04/05", "fim_plan": "18/06", "ini_real": "04/05", "fim_real": null}, {"ordem": 81, "nome": "Pára-Raio 69 kV · Fabricação", "wbs": "1.3.11.2", "pct": 90.0, "status": "andamento", "ini_plan": "04/05", "fim_plan": "18/06", "ini_real": "04/05", "fim_real": null}, {"ordem": 87, "nome": "Engenharia · Projetos Novo Transformador", "wbs": "1.3.12.1.2", "pct": 40.0, "status": "andamento", "ini_plan": "16/04", "fim_plan": "05/08", "ini_real": "16/04", "fim_real": null}, {"ordem": 88, "nome": "Engenharia · Revisão dos Projetos Existentes", "wbs": "1.3.12.1.3", "pct": 20.0, "status": "andamento", "ini_plan": "14/05", "fim_plan": "12/08", "ini_real": "14/05", "fim_real": null}, {"ordem": 106, "nome": "Terraplenagem · Execução da terraplenagem", "wbs": "1.5.1", "pct": 0.0, "status": "andamento", "ini_plan": "01/06", "fim_plan": "26/06", "ini_real": "01/06", "fim_real": null}];
+const PDF_ACOES     = [{"ordem": 11, "macro": "suprimentos", "nome": "Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA · Aprovação dos desenhos", "wbs": "1.3.1.2", "pct": 70.0, "status": "atrasada", "ini_plan": "27/02", "fim_plan": "10/03", "ini_real": "27/02", "fim_real": null}, {"ordem": 61, "macro": "suprimentos", "nome": "TC 69 kV · Montagem", "wbs": "1.3.8.5", "pct": 80.0, "status": "atrasada", "ini_plan": "11/05", "fim_plan": "31/05", "ini_real": "11/05", "fim_real": null}, {"ordem": 70, "macro": "suprimentos", "nome": "TP 230 kV · Montagem", "wbs": "1.3.9.5", "pct": 80.0, "status": "atrasada", "ini_plan": "11/05", "fim_plan": "28/05", "ini_real": "11/05", "fim_real": null}, {"ordem": 12, "macro": "suprimentos", "nome": "Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA · Fabricação", "wbs": "1.3.1.3", "pct": 50.0, "status": "andamento", "ini_plan": "09/11", "fim_plan": "04/01", "ini_real": "09/11", "fim_real": null}, {"ordem": 19, "macro": "suprimentos", "nome": "Disjuntores 230 kV · Montagem elétrica", "wbs": "1.3.2.3", "pct": 60.0, "status": "andamento", "ini_plan": "20/04", "fim_plan": "30/06", "ini_real": "20/04", "fim_real": null}, {"ordem": 20, "macro": "suprimentos", "nome": "Disjuntores 230 kV · Montagem sincronismo", "wbs": "1.3.2.4", "pct": 60.0, "status": "andamento", "ini_plan": "04/05", "fim_plan": "14/07", "ini_real": "04/05", "fim_real": null}, {"ordem": 21, "macro": "suprimentos", "nome": "Disjuntores 230 kV · Produção mecânica", "wbs": "1.3.2.5", "pct": 60.0, "status": "andamento", "ini_plan": "14/07", "fim_plan": "21/07", "ini_real": "14/07", "fim_real": null}, {"ordem": 27, "macro": "suprimentos", "nome": "Disjuntores 69 kV · Montagem elétrica", "wbs": "1.3.3.3", "pct": 60.0, "status": "andamento", "ini_plan": "20/04", "fim_plan": "07/07", "ini_real": "20/04", "fim_real": null}, {"ordem": 28, "macro": "suprimentos", "nome": "Disjuntores 69 kV · Montagem sincronismo", "wbs": "1.3.3.4", "pct": 60.0, "status": "andamento", "ini_plan": "04/05", "fim_plan": "14/07", "ini_real": "04/05", "fim_real": null}, {"ordem": 29, "macro": "suprimentos", "nome": "Disjuntores 69 kV · Produção mecânica", "wbs": "1.3.3.5", "pct": 60.0, "status": "andamento", "ini_plan": "14/07", "fim_plan": "21/07", "ini_real": "14/07", "fim_real": null}, {"ordem": 34, "macro": "suprimentos", "nome": "Seccionadora 3P Semi-Pantográfica 230 kV · Fabricação", "wbs": "1.3.4.2", "pct": 80.0, "status": "andamento", "ini_plan": "27/06", "fim_plan": "11/08", "ini_real": "27/06", "fim_real": null}, {"ordem": 39, "macro": "suprimentos", "nome": "Seccionador 3P Dupla Abertura Horizontal 230 kV · Fabricação", "wbs": "1.3.5.2", "pct": 80.0, "status": "andamento", "ini_plan": "27/06", "fim_plan": "11/08", "ini_real": "27/06", "fim_real": null}, {"ordem": 44, "macro": "suprimentos", "nome": "Seccionador 3P Dupla Abertura Horizontal 69 kV · Fabricação", "wbs": "1.3.6.2", "pct": 80.0, "status": "andamento", "ini_plan": "27/06", "fim_plan": "11/08", "ini_real": "27/06", "fim_real": null}, {"ordem": 52, "macro": "suprimentos", "nome": "TC 230 kV · Montagem", "wbs": "1.3.7.5", "pct": 80.0, "status": "andamento", "ini_plan": "06/07", "fim_plan": "26/07", "ini_real": "06/07", "fim_real": null}, {"ordem": 76, "macro": "suprimentos", "nome": "Pára-Raio 230 kV · Fabricação", "wbs": "1.3.10.2", "pct": 90.0, "status": "andamento", "ini_plan": "04/05", "fim_plan": "18/06", "ini_real": "04/05", "fim_real": null}, {"ordem": 81, "macro": "suprimentos", "nome": "Pára-Raio 69 kV · Fabricação", "wbs": "1.3.11.2", "pct": 90.0, "status": "andamento", "ini_plan": "04/05", "fim_plan": "18/06", "ini_real": "04/05", "fim_real": null}, {"ordem": 87, "macro": "suprimentos", "nome": "Engenharia · Projetos Novo Transformador", "wbs": "1.3.12.1.2", "pct": 40.0, "status": "andamento", "ini_plan": "16/04", "fim_plan": "05/08", "ini_real": "16/04", "fim_real": null}, {"ordem": 88, "macro": "suprimentos", "nome": "Engenharia · Revisão dos Projetos Existentes", "wbs": "1.3.12.1.3", "pct": 20.0, "status": "andamento", "ini_plan": "14/05", "fim_plan": "12/08", "ini_real": "14/05", "fim_real": null}, {"ordem": 106, "macro": "obra", "nome": "Terraplenagem · Execução da terraplenagem", "wbs": "1.5.1", "pct": 0.0, "status": "andamento", "ini_plan": "01/06", "fim_plan": "26/06", "ini_real": "01/06", "fim_real": null}];
 const PDF_CONTRATOS = [{"id": "CT-01", "fornecedor": "Alta Engenharia", "escopo": "Projeto Exec. Civil, EM, Elétrico e SPCS", "disciplina": "Engenharia", "valor": 300000.0, "status": "✅ Assinado", "risco": "Baixo", "prox_etapa": "Fev/26", "comentario": "", "escopo_en": "Project Exec. Civil, EM, Electrical and SPCS", "status_en": "Signed", "disciplina_en": "Engineering", "prox_etapa_en": "Feb/26"}, {"id": "CT-02", "fornecedor": "Comtrafo", "escopo": "Trafo Trifásico 230/69/13,8 kV – 55/66,5/83 MVA", "disciplina": "Fornecimento", "valor": 8943122.0, "status": "✅ Assinado", "risco": "Alto", "prox_etapa": "May/26", "comentario": "", "escopo_en": "230/69/13.8 kV Three-Phase Fork - 55/66.5/83 MVA", "status_en": "Signed", "disciplina_en": "Delivery", "prox_etapa_en": "May/26"}, {"id": "CT-03", "fornecedor": "GE Vernova", "escopo": "TC, TPC e Disjuntor 230 kV", "disciplina": "Fornecimento", "valor": 961394.8, "status": "⚠️ Contrato em Revisão", "risco": "Médio", "prox_etapa": "Jun/26", "comentario": "Minuta revisada pela HRZ e enviada no dia 10/06, está em análise pelo jurídico GE Vernova", "escopo_en": "230 kV CT, TPC and Circuit Breaker", "status_en": "⚠️ Contract under Review", "disciplina_en": "Delivery", "prox_etapa_en": "Jun/26"}, {"id": "CT-04", "fornecedor": "Hubbell", "escopo": "Chave Seccionadora e Para-Raio", "disciplina": "Fornecimento", "valor": 905300.0, "status": "✅ Assinado", "risco": "Médio", "prox_etapa": "May/26", "comentario": "", "escopo_en": "Switches and Circuit Breakers", "status_en": "Signed", "disciplina_en": "Delivery", "prox_etapa_en": "May/26"}, {"id": "CT-05", "fornecedor": "CYMI Tech", "escopo": "SPCS – Proteção, Controle, Supervisão e Telecom ", "disciplina": "Fornecimento", "valor": 775617.47, "status": "⚠️ Contrato em Revisão", "risco": "Baixo", "prox_etapa": "Jun/26", "comentario": "Minuta em análise pelo jurídico e engenharia HRZ", "escopo_en": "SPCS - Protection, Control, Supervision and Telecom", "status_en": "⚠️ Contract under Review", "disciplina_en": "Delivery", "prox_etapa_en": "Jun/26"}, {"id": "CT-06", "fornecedor": "RM2", "escopo": "Obra civil, montagem eletromecânica e comissionamento", "disciplina": "Construção", "valor": 9075000.0, "status": "✅ Assinado", "risco": "Alto", "prox_etapa": "May/26", "comentario": "", "escopo_en": "Civil works, electromechanical assembly and commissioning", "status_en": "Signed", "disciplina_en": "Construction", "prox_etapa_en": "May/26"}, {"id": "CT-07", "fornecedor": "A DEFINIR", "escopo": "Suportes, colunas e vigas de concreto", "disciplina": "Fornecimento", "valor": 2179664.0, "status": "🔴 RFQ", "risco": "Baixo", "prox_etapa": "TBD", "comentario": "", "escopo_en": "Concrete supports, columns and beams", "status_en": "🔴 RFQ", "disciplina_en": "Delivery", "prox_etapa_en": "TBD"}];
 const PDF_DOCS_CARDS= [{"st": "APROVADO PELA HRZ", "n": 0, "cor": "#2D6A3F", "label_pt": "Aprovado HRZ", "label_en": "Approved by HRZ"}, {"st": "PARA ANÁLISE HRZ", "n": 14, "cor": "#C8931A", "label_pt": "Para Análise HRZ", "label_en": "For HRZ Review"}, {"st": "EM ELABORAÇÃO", "n": 11, "cor": "#1B3A6B", "label_pt": "Em Elaboração", "label_en": "In Progress"}, {"st": "EM REVISÃO", "n": 6, "cor": "#8B1A1A", "label_pt": "Em Revisão", "label_en": "Under Review"}, {"st": "LIBERADO P/ EXECUÇÃO", "n": 54, "cor": "#3B6D11", "label_pt": "Liberado P/ Execução", "label_en": "Released for Exec."}, {"st": "PENDENTE DE EMISSÃO", "n": 11, "cor": "#8B1A1A", "label_pt": "Pendente De Emissão", "label_en": "Pending Issuance"}];
 const PDF_DESEMBOLSO= [{"nome": "Comtrafo", "valor_ref": 8943122.0, "realizado": 3577248.8}, {"nome": "Nova Trafo", "valor_ref": 71600.0, "realizado": 0}, {"nome": "Alta Engenharia", "valor_ref": 300000.0, "realizado": 110955.6}, {"nome": "GE Vernova", "valor_ref": 961394.8, "realizado": 384557.92}, {"nome": "Hubbell", "valor_ref": 905300.0, "realizado": 452650.0}, {"nome": "CYMI Tech", "valor_ref": 775617.47, "realizado": 38780.87}, {"nome": "RM2", "valor_ref": 8685193.12, "realizado": 0}, {"nome": "Mat. Eletromecanicos (TBD)", "valor_ref": 2179664.0, "realizado": 0}];
@@ -1210,14 +1222,23 @@ const MESES_PT_EN = {Jan:'Jan',Fev:'Feb',Mar:'Mar',Abr:'Apr',Mai:'May',Jun:'Jun'
 const MESES_EN_PT = Object.fromEntries(Object.entries(MESES_PT_EN).map(([k,v]) => [v,k]));
 
 function filtrarAcoes() {
-  const filtro = document.getElementById('filtroAcoes').value;
+  const filtroStatus = document.getElementById('filtroAcoes').value;
+  const filtroMacro = document.getElementById('filtroMacroAcoes').value;
   const container = document.getElementById('acoesContainer');
+
   if (!container) return;
+
   container.querySelectorAll('[data-status]').forEach(el => {
-    el.style.display = (!filtro || el.dataset.status === filtro) ? '' : 'none';
+    const okStatus = !filtroStatus || el.dataset.status === filtroStatus;
+    const okMacro = !filtroMacro || el.dataset.macro === filtroMacro;
+
+    el.style.display = (okStatus && okMacro) ? '' : 'none';
   });
-  container.querySelectorAll('[data-grupo]').forEach(grupo => {
-    const visiveis = [...grupo.querySelectorAll('[data-status]')].filter(el => el.style.display !== 'none');
+
+  container.querySelectorAll('.grupo-acoes').forEach(grupo => {
+    const visiveis = [...grupo.querySelectorAll('[data-status]')]
+      .filter(el => el.style.display !== 'none');
+
     grupo.style.display = visiveis.length > 0 ? '' : 'none';
   });
 }
