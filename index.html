@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 11:58 · HRZ PMO" data-en="Generated on 12/06/2026 11:58 · HRZ PMO">Atualizado em 12/06/2026 11:58 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 12:10 · HRZ PMO" data-en="Generated on 12/06/2026 12:10 · HRZ PMO">Atualizado em 12/06/2026 12:10 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 11:58" data-en="Updated on 12/06/2026 11:58">Atualizado em 12/06/2026 11:58</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 12:10" data-en="Updated on 12/06/2026 12:10">Atualizado em 12/06/2026 12:10</div>
       </div>
     </div>
 
@@ -974,7 +974,28 @@ async function gerarPDF() {
     const ICON_STATUS= { concluida:'✅', andamento:'🔄', nao_iniciada:'⚪', atrasada:'🔴' };
     const ST_PT = { concluida:'Concluída', andamento:'Em andamento', nao_iniciada:'Não iniciada', atrasada:'Atrasada' };
     const ST_EN = { concluida:'Completed', andamento:'In progress', nao_iniciada:'Not started', atrasada:'Overdue' };
-    const acoesHTML = PDF_ACOES.slice(0,6).map(a => {
+
+    // Usa no PDF o mesmo filtro selecionado na página
+    const filtroStatusPDF = document.getElementById('filtroAcoes') ? document.getElementById('filtroAcoes').value : '';
+    const filtroMacroPDF  = document.getElementById('filtroMacroAcoes') ? document.getElementById('filtroMacroAcoes').value : '';
+
+    const filtroStatusLabelPDF = document.getElementById('filtroAcoes') && document.getElementById('filtroAcoes').selectedOptions.length
+      ? document.getElementById('filtroAcoes').selectedOptions[0].textContent.trim()
+      : T('Todos','All');
+
+    const filtroMacroLabelPDF = document.getElementById('filtroMacroAcoes') && document.getElementById('filtroMacroAcoes').selectedOptions.length
+      ? document.getElementById('filtroMacroAcoes').selectedOptions[0].textContent.trim()
+      : T('Todas as frentes','All workstreams');
+
+    const PDF_ACOES_FILTRADAS = PDF_ACOES.filter(a => {
+      const okStatus = !filtroStatusPDF || a.status === filtroStatusPDF;
+      const okMacro  = !filtroMacroPDF || a.macro === filtroMacroPDF;
+      return okStatus && okMacro;
+    });
+
+    const tituloAcoesPDF = `${T('Atividades do Mês','Monthly Activities')} — ${filtroStatusLabelPDF} · ${filtroMacroLabelPDF}`;
+
+    const acoesHTML = PDF_ACOES_FILTRADAS.slice(0,6).map(a => {
       const fg = COR_STATUS[a.status] || '#5A5955';
       const bg = BG_STATUS[a.status]  || '#EFEFED';
       const ic = ICON_STATUS[a.status]|| '•';
@@ -1112,14 +1133,20 @@ async function gerarPDF() {
     <!-- Ações + Riscos (matriz + lista) -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
       <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;">
-        <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Ações em Aberto','Open Actions')} (${PDF_ACOES.length})</div>
+        <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">
+          ${tituloAcoesPDF} (${PDF_ACOES_FILTRADAS.length})
+        </div>
         ${acoesHTML||'<div style="font-size:8px;color:#9E9C97;padding:6px 0;">—</div>'}
       </div>
       <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;">
         <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Avaliação de Riscos','Risk Assessment')}</div>
-        <div style="display:grid;grid-template-columns:${mW+4}px 1fr;gap:8px;align-items:start;">
-          <div>${matrizSVG}</div>
-          <div>${riscosListHTML||'<div style="font-size:8px;color:#9E9C97;">—</div>'}</div>
+
+        <div style="display:flex;justify-content:center;margin-bottom:6px;">
+          ${matrizSVG}
+        </div>
+
+        <div style="font-size:7.5px;line-height:1.25;">
+          ${riscosListHTML||'<div style="font-size:8px;color:#9E9C97;">—</div>'}
         </div>
       </div>
     </div>
