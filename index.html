@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 12:10 · HRZ PMO" data-en="Generated on 12/06/2026 12:10 · HRZ PMO">Atualizado em 12/06/2026 12:10 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 12:16 · HRZ PMO" data-en="Generated on 12/06/2026 12:16 · HRZ PMO">Atualizado em 12/06/2026 12:16 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 12:10" data-en="Updated on 12/06/2026 12:10">Atualizado em 12/06/2026 12:10</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 12:16" data-en="Updated on 12/06/2026 12:16">Atualizado em 12/06/2026 12:16</div>
       </div>
     </div>
 
@@ -215,25 +215,49 @@ h1{font-size:22px;font-weight:600;}
 
     <div class="grid2">
       <div class="card" style="margin-bottom:0;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);gap:10px;">
-          <span class="card-title" style="margin-bottom:0;padding-bottom:0;border:none;" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</span>
+        <div style="margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;">
+            <span class="card-title" style="margin-bottom:0;padding-bottom:0;border:none;" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</span>
+          </div>
 
-          <div style="display:flex;gap:8px;align-items:center;">
-            <select id="filtroAcoes" onchange="filtrarAcoes()" style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);">
-              <option value="" data-pt="Todos" data-en="All">Todos</option>
-              <option value="atrasada" data-pt="Atrasadas" data-en="Overdue">Atrasadas</option>
-              <option value="andamento" data-pt="Em andamento" data-en="In progress">Em andamento</option>
-              <option value="concluida" data-pt="Concluídas" data-en="Completed">Concluídas</option>
-            </select>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:10px;color:var(--text2);">
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <span style="font-weight:600;color:var(--accent);">Status:</span>
 
-            <select id="filtroMacroAcoes" onchange="filtrarAcoes()" style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);">
-              <option value="" data-pt="Todas as frentes" data-en="All workstreams">Todas as frentes</option>
-              <option value="suprimentos" data-pt="Suprimentos" data-en="Supplies">Suprimentos</option>
-              <option value="obra" data-pt="Obra" data-en="Works">Obra</option>
-              <option value="comissionamento" data-pt="Comiss./Energ." data-en="Comm./Energ.">Comiss./Energ.</option>
-              <option value="gerenciamento" data-pt="Gerenciamento" data-en="Management">Gerenciamento</option>
-              <option value="outros" data-pt="Outros" data-en="Others">Outros</option>
-            </select>
+              <label style="display:flex;align-items:center;gap:3px;cursor:pointer;">
+                <input type="checkbox" class="filtro-status-acao" value="atrasada" onchange="filtrarAcoes()"> Atrasadas
+              </label>
+
+              <label style="display:flex;align-items:center;gap:3px;cursor:pointer;">
+                <input type="checkbox" class="filtro-status-acao" value="andamento" onchange="filtrarAcoes()"> Em andamento
+              </label>
+
+              <label style="display:flex;align-items:center;gap:3px;cursor:pointer;">
+                <input type="checkbox" class="filtro-status-acao" value="concluida" onchange="filtrarAcoes()"> Concluídas
+              </label>
+            </div>
+
+            <div style="width:1px;height:14px;background:var(--border);"></div>
+
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <span style="font-weight:600;color:var(--accent);">Frente:</span>
+
+              <label style="display:flex;align-items:center;gap:3px;cursor:pointer;">
+                <input type="checkbox" class="filtro-macro-acao" value="suprimentos" onchange="filtrarAcoes()"> Suprimentos
+              </label>
+
+              <label style="display:flex;align-items:center;gap:3px;cursor:pointer;">
+                <input type="checkbox" class="filtro-macro-acao" value="obra" onchange="filtrarAcoes()"> Obra
+              </label>
+
+              <label style="display:flex;align-items:center;gap:3px;cursor:pointer;">
+                <input type="checkbox" class="filtro-macro-acao" value="comissionamento" onchange="filtrarAcoes()"> Comiss./Energ.
+              </label>
+
+              <label style="display:flex;align-items:center;gap:3px;cursor:pointer;">
+                <input type="checkbox" class="filtro-macro-acao" value="gerenciamento" onchange="filtrarAcoes()"> Gerenciamento
+              </label>
+            </div>
           </div>
         </div>
         <div id="acoesContainer" style="max-height:480px;overflow-y:auto;">
@@ -976,24 +1000,41 @@ async function gerarPDF() {
     const ST_EN = { concluida:'Completed', andamento:'In progress', nao_iniciada:'Not started', atrasada:'Overdue' };
 
     // Usa no PDF o mesmo filtro selecionado na página
-    const filtroStatusPDF = document.getElementById('filtroAcoes') ? document.getElementById('filtroAcoes').value : '';
-    const filtroMacroPDF  = document.getElementById('filtroMacroAcoes') ? document.getElementById('filtroMacroAcoes').value : '';
+    const statusSelecionadosPDF = [...document.querySelectorAll('.filtro-status-acao:checked')]
+      .map(el => el.value);
 
-    const filtroStatusLabelPDF = document.getElementById('filtroAcoes') && document.getElementById('filtroAcoes').selectedOptions.length
-      ? document.getElementById('filtroAcoes').selectedOptions[0].textContent.trim()
-      : T('Todos','All');
+    const macrosSelecionadasPDF = [...document.querySelectorAll('.filtro-macro-acao:checked')]
+      .map(el => el.value);
 
-    const filtroMacroLabelPDF = document.getElementById('filtroMacroAcoes') && document.getElementById('filtroMacroAcoes').selectedOptions.length
-      ? document.getElementById('filtroMacroAcoes').selectedOptions[0].textContent.trim()
+    const labelStatusMap = {
+      atrasada: T('Atrasadas','Overdue'),
+      andamento: T('Em andamento','In progress'),
+      concluida: T('Concluídas','Completed')
+    };
+
+    const labelMacroMap = {
+      suprimentos: T('Suprimentos','Supplies'),
+      obra: T('Obra','Works'),
+      comissionamento: T('Comiss./Energ.','Comm./Energ.'),
+      gerenciamento: T('Gerenciamento','Management'),
+      outros: T('Outros','Others')
+    };
+
+    const statusLabelPDF = statusSelecionadosPDF.length
+      ? statusSelecionadosPDF.map(s => labelStatusMap[s] || s).join(' + ')
+      : T('Todos os status','All status');
+
+    const macroLabelPDF = macrosSelecionadasPDF.length
+      ? macrosSelecionadasPDF.map(m => labelMacroMap[m] || m).join(' + ')
       : T('Todas as frentes','All workstreams');
 
     const PDF_ACOES_FILTRADAS = PDF_ACOES.filter(a => {
-      const okStatus = !filtroStatusPDF || a.status === filtroStatusPDF;
-      const okMacro  = !filtroMacroPDF || a.macro === filtroMacroPDF;
+      const okStatus = statusSelecionadosPDF.length === 0 || statusSelecionadosPDF.includes(a.status);
+      const okMacro = macrosSelecionadasPDF.length === 0 || macrosSelecionadasPDF.includes(a.macro);
       return okStatus && okMacro;
     });
 
-    const tituloAcoesPDF = `${T('Atividades do Mês','Monthly Activities')} — ${filtroStatusLabelPDF} · ${filtroMacroLabelPDF}`;
+    const tituloAcoesPDF = `${T('Atividades do Mês','Monthly Activities')} — ${statusLabelPDF} · ${macroLabelPDF}`;
 
     const acoesHTML = PDF_ACOES_FILTRADAS.slice(0,6).map(a => {
       const fg = COR_STATUS[a.status] || '#5A5955';
@@ -1139,14 +1180,18 @@ async function gerarPDF() {
         ${acoesHTML||'<div style="font-size:8px;color:#9E9C97;padding:6px 0;">—</div>'}
       </div>
       <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;">
-        <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Avaliação de Riscos','Risk Assessment')}</div>
-
-        <div style="display:flex;justify-content:center;margin-bottom:6px;">
-          ${matrizSVG}
+        <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">
+          ${T('Avaliação de Riscos','Risk Assessment')}
         </div>
 
-        <div style="font-size:7.5px;line-height:1.25;">
-          ${riscosListHTML||'<div style="font-size:8px;color:#9E9C97;">—</div>'}
+        <div style="display:grid;grid-template-columns:155px 1fr;gap:10px;align-items:start;">
+          <div style="display:flex;justify-content:center;align-items:flex-start;">
+            ${matrizSVG}
+          </div>
+
+          <div style="font-size:7px;line-height:1.15;max-height:125px;overflow:hidden;">
+            ${riscosListHTML||'<div style="font-size:8px;color:#9E9C97;">—</div>'}
+          </div>
         </div>
       </div>
     </div>
@@ -1249,15 +1294,18 @@ const MESES_PT_EN = {Jan:'Jan',Fev:'Feb',Mar:'Mar',Abr:'Apr',Mai:'May',Jun:'Jun'
 const MESES_EN_PT = Object.fromEntries(Object.entries(MESES_PT_EN).map(([k,v]) => [v,k]));
 
 function filtrarAcoes() {
-  const filtroStatus = document.getElementById('filtroAcoes').value;
-  const filtroMacro = document.getElementById('filtroMacroAcoes').value;
   const container = document.getElementById('acoesContainer');
-
   if (!container) return;
 
+  const statusSelecionados = [...document.querySelectorAll('.filtro-status-acao:checked')]
+    .map(el => el.value);
+
+  const macrosSelecionadas = [...document.querySelectorAll('.filtro-macro-acao:checked')]
+    .map(el => el.value);
+
   container.querySelectorAll('[data-status]').forEach(el => {
-    const okStatus = !filtroStatus || el.dataset.status === filtroStatus;
-    const okMacro = !filtroMacro || el.dataset.macro === filtroMacro;
+    const okStatus = statusSelecionados.length === 0 || statusSelecionados.includes(el.dataset.status);
+    const okMacro = macrosSelecionadas.length === 0 || macrosSelecionadas.includes(el.dataset.macro);
 
     el.style.display = (okStatus && okMacro) ? '' : 'none';
   });
