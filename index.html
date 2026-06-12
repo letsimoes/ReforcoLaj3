@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 13:17 · HRZ PMO" data-en="Generated on 12/06/2026 13:17 · HRZ PMO">Atualizado em 12/06/2026 13:17 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 13:23 · HRZ PMO" data-en="Generated on 12/06/2026 13:23 · HRZ PMO">Atualizado em 12/06/2026 13:23 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 13:17" data-en="Updated on 12/06/2026 13:17">Atualizado em 12/06/2026 13:17</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 13:23" data-en="Updated on 12/06/2026 13:23">Atualizado em 12/06/2026 13:23</div>
       </div>
     </div>
 
@@ -215,28 +215,31 @@ h1{font-size:22px;font-weight:600;}
 
     <div class="grid2">
       <div class="card" style="margin-bottom:0;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);gap:10px;">
-          <span class="card-title" style="margin-bottom:0;padding-bottom:0;border:none;" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</span>
+        <div style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;">
+            <span class="card-title" style="margin-bottom:0;padding-bottom:0;border:none;" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</span>
+            <button type="button" onclick="limparFiltrosAcoes()" data-pt="Limpar filtros" data-en="Clear filters" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 8px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text3);cursor:pointer;white-space:nowrap;">Limpar filtros</button>
+          </div>
 
-          <div style="display:flex;gap:8px;align-items:center;">
-            <select id="filtroAcoes" onchange="filtrarAcoes()" style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);">
-              <option value="" data-pt="Todos" data-en="All">Todos</option>
-              <option value="atrasada" data-pt="Atrasadas" data-en="Overdue">Atrasadas</option>
-              <option value="andamento" data-pt="Em andamento" data-en="In progress">Em andamento</option>
-              <option value="concluida" data-pt="Concluídas" data-en="Completed">Concluídas</option>
-            </select>
+          <div style="display:grid;gap:7px;">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;min-width:44px;" data-pt="Status" data-en="Status">Status</span>
+              <button type="button" class="filtro-pill-acao" data-filter-status="atrasada" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Atrasadas" data-en="Overdue" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Atrasadas</button>
+              <button type="button" class="filtro-pill-acao" data-filter-status="andamento" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Em andamento" data-en="In progress" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Em andamento</button>
+              <button type="button" class="filtro-pill-acao" data-filter-status="concluida" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Concluídas" data-en="Completed" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Concluídas</button>
+            </div>
 
-            <select id="filtroMacroAcoes" onchange="filtrarAcoes()" style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);">
-              <option value="" data-pt="Todas as frentes" data-en="All workstreams">Todas as frentes</option>
-              <option value="suprimentos" data-pt="Suprimentos" data-en="Supplies">Suprimentos</option>
-              <option value="mobilizacao" data-pt="Mobilização" data-en="Mobilization">Mobilização</option>
-              <option value="terraplenagem" data-pt="Terraplenagem" data-en="Earthworks">Terraplenagem</option>
-              <option value="execucao_civil" data-pt="Execução Civil" data-en="Civil Works">Execução Civil</option>
-              <option value="montagem_eletromecanica" data-pt="Montagem Eletromecânica" data-en="Electromechanical Assembly">Montagem Eletromecânica</option>
-              <option value="execucao_eletrica" data-pt="Execução Elétrica" data-en="Electrical Works">Execução Elétrica</option>
-              <option value="comissionamento" data-pt="Comissionamento" data-en="Commissioning">Comissionamento</option>
-              <option value="energizacao" data-pt="Energização" data-en="Energization">Energização</option>
-            </select>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;min-width:44px;" data-pt="Frentes" data-en="Workstreams">Frentes</span>
+              <button type="button" class="filtro-pill-acao" data-filter-macro="suprimentos" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Suprimentos" data-en="Supplies" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Suprimentos</button>
+              <button type="button" class="filtro-pill-acao" data-filter-macro="mobilizacao" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Mobilização" data-en="Mobilization" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Mobilização</button>
+              <button type="button" class="filtro-pill-acao" data-filter-macro="terraplenagem" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Terraplenagem" data-en="Earthworks" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Terraplenagem</button>
+              <button type="button" class="filtro-pill-acao" data-filter-macro="execucao_civil" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Execução Civil" data-en="Civil Works" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Execução Civil</button>
+              <button type="button" class="filtro-pill-acao" data-filter-macro="montagem_eletromecanica" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Montagem Eletromecânica" data-en="Electromechanical Assembly" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Montagem Eletromecânica</button>
+              <button type="button" class="filtro-pill-acao" data-filter-macro="execucao_eletrica" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Execução Elétrica" data-en="Electrical Works" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Execução Elétrica</button>
+              <button type="button" class="filtro-pill-acao" data-filter-macro="comissionamento" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Comissionamento" data-en="Commissioning" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Comissionamento</button>
+              <button type="button" class="filtro-pill-acao" data-filter-macro="energizacao" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Energização" data-en="Energization" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Energização</button>
+            </div>
           </div>
         </div>
         <div id="acoesContainer" style="max-height:480px;overflow-y:auto;">
@@ -978,21 +981,24 @@ async function gerarPDF() {
     const ST_PT = { concluida:'Concluída', andamento:'Em andamento', nao_iniciada:'Não iniciada', atrasada:'Atrasada' };
     const ST_EN = { concluida:'Completed', andamento:'In progress', nao_iniciada:'Not started', atrasada:'Overdue' };
 
-    // Usa no PDF o mesmo filtro suspenso selecionado na página
-    const filtroStatusPDF = document.getElementById('filtroAcoes') ? document.getElementById('filtroAcoes').value : '';
-    const filtroMacroPDF = document.getElementById('filtroMacroAcoes') ? document.getElementById('filtroMacroAcoes').value : '';
+    // Usa no PDF os mesmos filtros múltiplos selecionados na página
+    const statusBtnsPDF = [...document.querySelectorAll('[data-filter-status][data-selected="true"]')];
+    const macroBtnsPDF = [...document.querySelectorAll('[data-filter-macro][data-selected="true"]')];
 
-    const filtroStatusLabelPDF = document.getElementById('filtroAcoes') && document.getElementById('filtroAcoes').selectedOptions.length
-      ? document.getElementById('filtroAcoes').selectedOptions[0].textContent.trim()
-      : T('Todos','All');
+    const filtrosStatusPDF = statusBtnsPDF.map(btn => btn.getAttribute('data-filter-status'));
+    const filtrosMacroPDF = macroBtnsPDF.map(btn => btn.getAttribute('data-filter-macro'));
 
-    const filtroMacroLabelPDF = document.getElementById('filtroMacroAcoes') && document.getElementById('filtroMacroAcoes').selectedOptions.length
-      ? document.getElementById('filtroMacroAcoes').selectedOptions[0].textContent.trim()
+    const filtroStatusLabelPDF = statusBtnsPDF.length
+      ? statusBtnsPDF.map(btn => btn.textContent.trim()).join(' + ')
+      : T('Todos os status','All status');
+
+    const filtroMacroLabelPDF = macroBtnsPDF.length
+      ? macroBtnsPDF.map(btn => btn.textContent.trim()).join(' + ')
       : T('Todas as frentes','All workstreams');
 
     const PDF_ACOES_FILTRADAS = PDF_ACOES.filter(a => {
-      const okStatus = !filtroStatusPDF || a.status === filtroStatusPDF;
-      const okMacro = !filtroMacroPDF || a.macro === filtroMacroPDF;
+      const okStatus = filtrosStatusPDF.length === 0 || filtrosStatusPDF.includes(a.status);
+      const okMacro = filtrosMacroPDF.length === 0 || filtrosMacroPDF.includes(a.macro);
       return okStatus && okMacro;
     });
 
@@ -1256,16 +1262,42 @@ async function gerarPDF() {
 const MESES_PT_EN = {Jan:'Jan',Fev:'Feb',Mar:'Mar',Abr:'Apr',Mai:'May',Jun:'Jun',Jul:'Jul',Ago:'Aug',Set:'Sep',Out:'Oct',Nov:'Nov',Dez:'Dec'};
 const MESES_EN_PT = Object.fromEntries(Object.entries(MESES_PT_EN).map(([k,v]) => [v,k]));
 
+function aplicarEstiloFiltroAcao(btn) {
+  const ativo = btn.dataset.selected === 'true';
+  btn.style.background = ativo ? 'var(--accent)' : 'var(--surface)';
+  btn.style.color = ativo ? '#fff' : 'var(--text2)';
+  btn.style.borderColor = ativo ? 'var(--accent)' : 'var(--border)';
+}
+
+function toggleFiltroAcao(btn) {
+  btn.dataset.selected = btn.dataset.selected === 'true' ? 'false' : 'true';
+  aplicarEstiloFiltroAcao(btn);
+  filtrarAcoes();
+}
+
+function limparFiltrosAcoes() {
+  document.querySelectorAll('[data-filter-status], [data-filter-macro]').forEach(btn => {
+    btn.dataset.selected = 'false';
+    aplicarEstiloFiltroAcao(btn);
+  });
+  filtrarAcoes();
+}
+
+function getFiltrosAcoesSelecionados(attr) {
+  return [...document.querySelectorAll(`[${attr}][data-selected="true"]`)]
+    .map(btn => btn.getAttribute(attr));
+}
+
 function filtrarAcoes() {
-  const filtroStatus = document.getElementById('filtroAcoes').value;
-  const filtroMacro = document.getElementById('filtroMacroAcoes').value;
+  const statusSelecionados = getFiltrosAcoesSelecionados('data-filter-status');
+  const macrosSelecionadas = getFiltrosAcoesSelecionados('data-filter-macro');
   const container = document.getElementById('acoesContainer');
 
   if (!container) return;
 
   container.querySelectorAll('[data-status]').forEach(el => {
-    const okStatus = !filtroStatus || el.dataset.status === filtroStatus;
-    const okMacro = !filtroMacro || el.dataset.macro === filtroMacro;
+    const okStatus = statusSelecionados.length === 0 || statusSelecionados.includes(el.dataset.status);
+    const okMacro = macrosSelecionadas.length === 0 || macrosSelecionadas.includes(el.dataset.macro);
 
     el.style.display = (okStatus && okMacro) ? '' : 'none';
   });
