@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 13:34 · HRZ PMO" data-en="Generated on 12/06/2026 13:34 · HRZ PMO">Atualizado em 12/06/2026 13:34 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 13:35 · HRZ PMO" data-en="Generated on 12/06/2026 13:35 · HRZ PMO">Atualizado em 12/06/2026 13:35 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 13:34" data-en="Updated on 12/06/2026 13:34">Atualizado em 12/06/2026 13:34</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 13:35" data-en="Updated on 12/06/2026 13:35">Atualizado em 12/06/2026 13:35</div>
       </div>
     </div>
 
@@ -218,27 +218,31 @@ h1{font-size:22px;font-weight:600;}
         <div style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;">
             <span class="card-title" style="margin-bottom:0;padding-bottom:0;border:none;" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</span>
-            <button type="button" onclick="limparFiltrosAcoes()" data-pt="Limpar filtros" data-en="Clear filters" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 8px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text3);cursor:pointer;white-space:nowrap;">Limpar filtros</button>
+            <button type="button" onclick="limparFiltrosAcoes()" data-pt="Limpar filtros" data-en="Clear filters" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 10px;border:1px solid rgba(60,60,60,0.08);border-radius:999px;background:rgba(60,60,60,0.025);color:var(--text3);cursor:pointer;white-space:nowrap;">Limpar filtros</button>
           </div>
 
-          <div style="display:grid;gap:7px;">
-            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-              <span style="font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;min-width:44px;" data-pt="Status" data-en="Status">Status</span>
-              <button type="button" class="filtro-pill-acao" data-filter-status="atrasada" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Atrasadas" data-en="Overdue" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Atrasadas</button>
-              <button type="button" class="filtro-pill-acao" data-filter-status="andamento" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Em andamento" data-en="In progress" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Em andamento</button>
-              <button type="button" class="filtro-pill-acao" data-filter-status="concluida" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Concluídas" data-en="Completed" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Concluídas</button>
+          <div style="display:grid;gap:8px;">
+            <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;padding:9px 10px;background:rgba(27,58,107,0.025);border:1px solid rgba(27,58,107,0.055);border-radius:14px;">
+              <span style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;min-width:58px;padding-top:6px;" data-pt="Status" data-en="Status">Status</span>
+              <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;flex:1;">
+                <button type="button" class="filtro-pill-acao" data-filter-status="atrasada" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Atrasadas" data-en="Overdue" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Atrasadas</button>
+                <button type="button" class="filtro-pill-acao" data-filter-status="andamento" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Em andamento" data-en="In progress" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Em andamento</button>
+                <button type="button" class="filtro-pill-acao" data-filter-status="concluida" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Concluídas" data-en="Completed" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Concluídas</button>
+              </div>
             </div>
 
-            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-              <span style="font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;min-width:44px;" data-pt="Frentes" data-en="Workstreams">Frentes</span>
-              <button type="button" class="filtro-pill-acao" data-filter-macro="suprimentos" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Suprimentos" data-en="Supplies" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Suprimentos</button>
-              <button type="button" class="filtro-pill-acao" data-filter-macro="mobilizacao" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Mobilização" data-en="Mobilization" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Mobilização</button>
-              <button type="button" class="filtro-pill-acao" data-filter-macro="terraplenagem" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Terraplenagem" data-en="Earthworks" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Terraplenagem</button>
-              <button type="button" class="filtro-pill-acao" data-filter-macro="execucao_civil" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Execução Civil" data-en="Civil Works" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Execução Civil</button>
-              <button type="button" class="filtro-pill-acao" data-filter-macro="montagem_eletromecanica" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Montagem Eletromecânica" data-en="Electromechanical Assembly" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Montagem Eletromecânica</button>
-              <button type="button" class="filtro-pill-acao" data-filter-macro="execucao_eletrica" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Execução Elétrica" data-en="Electrical Works" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Execução Elétrica</button>
-              <button type="button" class="filtro-pill-acao" data-filter-macro="comissionamento" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Comissionamento" data-en="Commissioning" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Comissionamento</button>
-              <button type="button" class="filtro-pill-acao" data-filter-macro="energizacao" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Energização" data-en="Energization" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text2);cursor:pointer;">Energização</button>
+            <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;padding:9px 10px;background:rgba(27,58,107,0.025);border:1px solid rgba(27,58,107,0.055);border-radius:14px;">
+              <span style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;min-width:58px;padding-top:6px;" data-pt="Frentes" data-en="Workstreams">Frentes</span>
+              <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;flex:1;">
+                <button type="button" class="filtro-pill-acao" data-filter-macro="suprimentos" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Suprimentos" data-en="Supplies" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Suprimentos</button>
+                <button type="button" class="filtro-pill-acao" data-filter-macro="mobilizacao" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Mobilização" data-en="Mobilization" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Mobilização</button>
+                <button type="button" class="filtro-pill-acao" data-filter-macro="terraplenagem" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Terraplenagem" data-en="Earthworks" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Terraplenagem</button>
+                <button type="button" class="filtro-pill-acao" data-filter-macro="execucao_civil" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Execução Civil" data-en="Civil Works" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Execução Civil</button>
+                <button type="button" class="filtro-pill-acao" data-filter-macro="montagem_eletromecanica" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Montagem Eletromecânica" data-en="Electromechanical Assembly" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Montagem Eletromecânica</button>
+                <button type="button" class="filtro-pill-acao" data-filter-macro="execucao_eletrica" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Execução Elétrica" data-en="Electrical Works" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Execução Elétrica</button>
+                <button type="button" class="filtro-pill-acao" data-filter-macro="comissionamento" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Comissionamento" data-en="Commissioning" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Comissionamento</button>
+                <button type="button" class="filtro-pill-acao" data-filter-macro="energizacao" data-selected="false" onclick="toggleFiltroAcao(this)" data-pt="Energização" data-en="Energization" style="font-family:'DM Sans',sans-serif;font-size:10px;padding:5px 11px;border:1px solid rgba(60,60,60,0.10);border-radius:999px;background:#fff;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.025);">Energização</button>
+              </div>
             </div>
           </div>
         </div>
@@ -1264,9 +1268,11 @@ const MESES_EN_PT = Object.fromEntries(Object.entries(MESES_PT_EN).map(([k,v]) =
 
 function aplicarEstiloFiltroAcao(btn) {
   const ativo = btn.dataset.selected === 'true';
-  btn.style.background = ativo ? 'var(--accent)' : 'var(--surface)';
-  btn.style.color = ativo ? '#fff' : 'var(--text2)';
-  btn.style.borderColor = ativo ? 'var(--accent)' : 'var(--border)';
+  btn.style.background = ativo ? 'rgba(27,58,107,0.10)' : '#fff';
+  btn.style.color = ativo ? 'var(--accent)' : 'var(--text2)';
+  btn.style.borderColor = ativo ? 'rgba(27,58,107,0.22)' : 'rgba(60,60,60,0.10)';
+  btn.style.fontWeight = ativo ? '600' : '400';
+  btn.style.boxShadow = ativo ? '0 1px 4px rgba(27,58,107,0.08)' : '0 1px 2px rgba(0,0,0,0.025)';
 }
 
 function toggleFiltroAcao(btn) {
