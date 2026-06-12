@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 08:22 · HRZ PMO" data-en="Generated on 12/06/2026 08:22 · HRZ PMO">Atualizado em 12/06/2026 08:22 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 08:24 · HRZ PMO" data-en="Generated on 12/06/2026 08:24 · HRZ PMO">Atualizado em 12/06/2026 08:24 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 08:22" data-en="Updated on 12/06/2026 08:22">Atualizado em 12/06/2026 08:22</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 08:24" data-en="Updated on 12/06/2026 08:24">Atualizado em 12/06/2026 08:24</div>
       </div>
     </div>
 
@@ -219,7 +219,7 @@ h1{font-size:22px;font-weight:600;}
 
     <div class="grid2">
       <div class="card" style="margin-bottom:0;">
-        <div class="card-title" data-pt="Atividades do Mês — Jun/26 (1 pendentes)" data-en="Monthly Activities — Jun/26 (1 pending)">Atividades do Mês — Jun/26 (1 pendentes)</div>
+        <div class="card-title" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</div>
         
         <div class="trow" style="grid-template-columns:1fr auto;">
           <div>
@@ -479,8 +479,8 @@ if (cpLabels.length > 0) {
   new Chart(document.getElementById('curvaProjectChart').getContext('2d'), {
     type: 'line',
     data: { labels: cpLabels, datasets: [
-      { label: '% Previsto (Project)', data: cpPrev, borderColor: '#1A2B4A', borderWidth: 2, borderDash: [6, 3], pointBackgroundColor: '#1A2B4A', pointRadius: 4, tension: 0.4, fill: false },
-      { label: '% Realizado (Project)', data: cpReal.map(v => v > 0 ? v : null), borderColor: '#2D6A3F', borderWidth: 2.5, pointBackgroundColor: '#2D6A3F', pointRadius: 5, tension: 0.4, fill: false },
+      { label: '% Previsto', data: cpPrev, borderColor: '#1A2B4A', borderWidth: 2, borderDash: [6, 3], pointBackgroundColor: '#1A2B4A', pointRadius: 4, tension: 0.4, fill: false },
+      { label: '% Realizado', data: cpReal.map(v => v > 0 ? v : null), borderColor: '#2D6A3F', borderWidth: 2.5, pointBackgroundColor: '#2D6A3F', pointRadius: 5, tension: 0.4, fill: false },
     ]},
     options: { responsive: true, maintainAspectRatio: false,
       plugins: { legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 12 } } }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y || 0).toFixed(2) + '%' } } },
@@ -787,7 +787,7 @@ async function gerarPDF() {
         </div>
       </div>
       <div style="text-align:right;font-size:8px;color:#9E9C97;">
-        ${T('Atualizado em','Updated on')} ${new Date().toLocaleDateString('pt-BR')}<br>HRZ Transmissoras · PMO
+        ${T('Atualizado em','Updated on')} ${new Date().toLocaleDateString('pt-BR')}
       </div>
     </div>
 
@@ -862,14 +862,21 @@ async function gerarPDF() {
 
     await new Promise(r => setTimeout(r, 600));
 
-    // ── Captura ───────────────────────────────────────────────
+    // Mede altura real do conteúdo e ajusta o iframe
+    const alturaReal = iframe.contentDocument.body.scrollHeight;
+    iframe.style.height = alturaReal + 'px';
+    await new Promise(r => setTimeout(r, 100));
+
+    // ── Captura apenas a altura real ──────────────────────────
     const canvas = await html2canvas(iframe.contentDocument.body, {
-      scale: 2,
+      scale: 2.5,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
       width: W,
+      height: alturaReal,
       windowWidth: W,
+      windowHeight: alturaReal,
     });
 
     document.body.removeChild(iframe);
