@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 10:01 · HRZ PMO" data-en="Generated on 12/06/2026 10:01 · HRZ PMO">Atualizado em 12/06/2026 10:01 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 10:06 · HRZ PMO" data-en="Generated on 12/06/2026 10:06 · HRZ PMO">Atualizado em 12/06/2026 10:06 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 10:01" data-en="Updated on 12/06/2026 10:01">Atualizado em 12/06/2026 10:01</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 10:06" data-en="Updated on 12/06/2026 10:06">Atualizado em 12/06/2026 10:06</div>
       </div>
     </div>
 
@@ -215,12 +215,21 @@ h1{font-size:22px;font-weight:600;}
 
     <div class="grid2">
       <div class="card" style="margin-bottom:0;">
-        <div class="card-title" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</div>
-        <div style="margin-bottom:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);">
+          <span class="card-title" style="margin-bottom:0;padding-bottom:0;border:none;" data-pt="Atividades do Mês — Jun/26" data-en="Monthly Activities — Jun/26">Atividades do Mês — Jun/26</span>
+          <select id="filtroAcoes" onchange="filtrarAcoes()" style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);">
+            <option value="" data-pt="Todos" data-en="All">Todos</option>
+            <option value="atrasada" data-pt="Atrasadas" data-en="Overdue">Atrasadas</option>
+            <option value="andamento" data-pt="Em andamento" data-en="In progress">Em andamento</option>
+            <option value="concluida" data-pt="Concluídas" data-en="Completed">Concluídas</option>
+          </select>
+        </div>
+        <div id="acoesContainer" style="max-height:480px;overflow-y:auto;">
+          <div style="margin-bottom:10px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
             <span style="font-size:10px;font-weight:600;color:#8B1A1A;letter-spacing:.06em;text-transform:uppercase;">Atrasadas</span>
             <span style="font-size:10px;background:#FDEAEA;color:#8B1A1A;padding:2px 8px;border-radius:20px;">3</span>
-          </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
+          </div><div data-status="atrasada" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔴 Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA · Aprovação dos desenhos</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -232,7 +241,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FDEAEA;color:#8B1A1A;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Atrasada" data-en="Overdue">Atrasada</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="atrasada" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔴 TC 69 kV · Montagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -244,7 +253,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FDEAEA;color:#8B1A1A;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Atrasada" data-en="Overdue">Atrasada</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="atrasada" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#FFF5F5;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔴 TP 230 kV · Montagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -256,11 +265,11 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FDEAEA;color:#8B1A1A;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Atrasada" data-en="Overdue">Atrasada</span>
-            </div></div><div style="margin-bottom:10px;">
+            </div></div><div data-grupo="1.3" style="margin-bottom:10px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
             <span style="font-size:10px;font-weight:600;color:#185FA5;letter-spacing:.06em;text-transform:uppercase;" data-pt="Suprimentos" data-en="Suprimentos">Suprimentos</span>
             <span style="font-size:10px;background:#E6F1FB;color:#185FA5;padding:2px 8px;border-radius:20px;">29 em andamento · 3 concluídas</span>
-          </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+          </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 INSTALAÇÃO 3º TRAFO - SE LAJ3 · Suprimentos</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -272,7 +281,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -284,7 +293,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Transformador Trifásico 230/69/13,8 kV - 55/66,5/83MVA · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -296,7 +305,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · Disjuntores 230 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -308,7 +317,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Disjuntores 230 kV · Montagem elétrica</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -320,7 +329,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Disjuntores 230 kV · Montagem sincronismo</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -332,7 +341,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Disjuntores 230 kV · Produção mecânica</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -344,7 +353,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · Disjuntores 69 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -356,7 +365,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Disjuntores 69 kV · Montagem elétrica</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -368,7 +377,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Disjuntores 69 kV · Montagem sincronismo</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -380,7 +389,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Disjuntores 69 kV · Produção mecânica</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -392,7 +401,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · Seccionadora 3P Semi-Pantográfica 230 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -404,7 +413,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Seccionadora 3P Semi-Pantográfica 230 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -416,7 +425,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · Seccionador 3P Dupla Abertura Horizontal 230 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -428,7 +437,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Seccionador 3P Dupla Abertura Horizontal 230 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -440,7 +449,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · Seccionador 3P Dupla Abertura Horizontal 69 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -452,7 +461,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Seccionador 3P Dupla Abertura Horizontal 69 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -464,7 +473,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · TC 230 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -476,7 +485,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 TC 230 kV · Montagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -488,7 +497,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · TC 69 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -500,7 +509,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · TP 230 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -512,7 +521,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · Pára-Raio 230 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -524,7 +533,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Pára-Raio 230 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -536,7 +545,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · Pára-Raio 69 kV</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -548,7 +557,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Pára-Raio 69 kV · Fabricação</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -560,7 +569,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Suprimentos · SPCS e TELECOM</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -572,7 +581,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 SPCS e TELECOM · Engenharia</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -584,7 +593,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Engenharia · Projetos Novo Transformador</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -596,7 +605,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Engenharia · Revisão dos Projetos Existentes</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -608,7 +617,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">✅ Disjuntores 69 kV · Projeto aprovado</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -620,7 +629,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#E8F5EC;color:#2D6A3F;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Concluída" data-en="Completed">Concluída</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">✅ TC 230 kV · Projeto aprovado</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -632,7 +641,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#E8F5EC;color:#2D6A3F;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Concluída" data-en="Completed">Concluída</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">✅ TC 69 kV · Projeto aprovado</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -644,11 +653,11 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#E8F5EC;color:#2D6A3F;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Concluída" data-en="Completed">Concluída</span>
-            </div></div><div style="margin-bottom:10px;">
+            </div></div><div data-grupo="1.4" style="margin-bottom:10px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
             <span style="font-size:10px;font-weight:600;color:#3B6D11;letter-spacing:.06em;text-transform:uppercase;" data-pt="Mobilização" data-en="Mobilização">Mobilização</span>
             <span style="font-size:10px;background:#EAF3DE;color:#3B6D11;padding:2px 8px;border-radius:20px;">3 concluídas</span>
-          </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+          </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">✅ INSTALAÇÃO 3º TRAFO - SE LAJ3 · Mobilização</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -660,7 +669,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#E8F5EC;color:#2D6A3F;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Concluída" data-en="Completed">Concluída</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">✅ Mobilização</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -672,7 +681,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#E8F5EC;color:#2D6A3F;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Concluída" data-en="Completed">Concluída</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="concluida" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:#F4FAF0;border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">✅ Mobilização · Montagem do canteiro de obras</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -684,11 +693,11 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#E8F5EC;color:#2D6A3F;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Concluída" data-en="Completed">Concluída</span>
-            </div></div><div style="margin-bottom:10px;">
+            </div></div><div data-grupo="1.5" style="margin-bottom:10px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
             <span style="font-size:10px;font-weight:600;color:#3B6D11;letter-spacing:.06em;text-transform:uppercase;" data-pt="Terraplenagem" data-en="Terraplenagem">Terraplenagem</span>
             <span style="font-size:10px;background:#EAF3DE;color:#3B6D11;padding:2px 8px;border-radius:20px;">2 em andamento</span>
-          </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+          </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 INSTALAÇÃO 3º TRAFO - SE LAJ3 · Terraplenagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -700,7 +709,7 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+            </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 Terraplenagem · Execução da terraplenagem</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -712,11 +721,11 @@ h1{font-size:22px;font-weight:600;}
                 </div>
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
-            </div></div><div style="margin-bottom:10px;">
+            </div></div><div data-grupo="outro" style="margin-bottom:10px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
             <span style="font-size:10px;font-weight:600;color:#5A5955;letter-spacing:.06em;text-transform:uppercase;" data-pt="Outros" data-en="Outros">Outros</span>
             <span style="font-size:10px;background:#EFEFED;color:#5A5955;padding:2px 8px;border-radius:20px;">1 em andamento</span>
-          </div><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
+          </div><div data-status="andamento" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:6px;margin-bottom:3px;">
               <div style="flex:1;min-width:0;">
                 <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔄 INSTALAÇÃO 3º TRAFO - SE LAJ3</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
@@ -729,6 +738,7 @@ h1{font-size:22px;font-weight:600;}
               </div>
               <span class="badge" style="background:#FEF3DC;color:#7A4F00;font-size:10px;margin-left:8px;flex-shrink:0;" data-pt="Em andamento" data-en="In progress">Em andamento</span>
             </div></div>
+        </div>
       </div>
       <div class="card" style="margin-bottom:0;">
         <div class="card-title" data-pt="Avaliação de Riscos" data-en="Risk Assessment">Avaliação de Riscos</div>
@@ -1389,6 +1399,19 @@ async function gerarPDF() {
 // ── Tradução PT / EN ──────────────────────────────────────────
 const MESES_PT_EN = {Jan:'Jan',Fev:'Feb',Mar:'Mar',Abr:'Apr',Mai:'May',Jun:'Jun',Jul:'Jul',Ago:'Aug',Set:'Sep',Out:'Oct',Nov:'Nov',Dez:'Dec'};
 const MESES_EN_PT = Object.fromEntries(Object.entries(MESES_PT_EN).map(([k,v]) => [v,k]));
+
+function filtrarAcoes() {
+  const filtro = document.getElementById('filtroAcoes').value;
+  const container = document.getElementById('acoesContainer');
+  if (!container) return;
+  container.querySelectorAll('[data-status]').forEach(el => {
+    el.style.display = (!filtro || el.dataset.status === filtro) ? '' : 'none';
+  });
+  container.querySelectorAll('[data-grupo]').forEach(grupo => {
+    const visiveis = [...grupo.querySelectorAll('[data-status]')].filter(el => el.style.display !== 'none');
+    grupo.style.display = visiveis.length > 0 ? '' : 'none';
+  });
+}
 
 function toggleLang() {
   langAtual = langAtual === 'pt' ? 'en' : 'pt';
