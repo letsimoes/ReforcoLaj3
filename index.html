@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 13:42 · HRZ PMO" data-en="Generated on 12/06/2026 13:42 · HRZ PMO">Atualizado em 12/06/2026 13:42 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 13:45 · HRZ PMO" data-en="Generated on 12/06/2026 13:45 · HRZ PMO">Atualizado em 12/06/2026 13:45 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 13:42" data-en="Updated on 12/06/2026 13:42">Atualizado em 12/06/2026 13:42</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 13:45" data-en="Updated on 12/06/2026 13:45">Atualizado em 12/06/2026 13:45</div>
       </div>
     </div>
 
@@ -911,19 +911,26 @@ async function gerarPDF() {
       dotsReal += `<circle cx="${xOf(i).toFixed(1)}" cy="${yOf(realCP[i]).toFixed(1)}" r="3.5" fill="#2D6A3F" stroke="#fff" stroke-width="1"/>`;
     }
 
-    // anotação último mês
+    // anotação último mês — caixas compactas e sem duplicar o rótulo do mês
     let anotacao = '';
     if (ultRealIdx >= 0) {
       const ax = xOf(ultRealIdx), ay = yOf(ultRealVal);
       const bx = xOf(ultRealIdx), by = yOf(ultPrevVal);
+
+      // Mantém as caixas afastadas para não sobrepor e não cortar o texto no PDF
+      const realBoxW = 68, prevBoxW = 68, boxH = 17;
+      const realX = Math.max(padL + 4, ax - realBoxW - 8);
+      const prevX = Math.min(svgW - padR - prevBoxW - 4, bx + 8);
+      const realY = Math.max(padT + 2, ay - 22);
+      const prevY = Math.max(padT + 2, by - 22);
+
       // box realizado
-      anotacao += `<rect x="${(ax-52).toFixed(0)}" y="${(ay-20).toFixed(0)}" width="54" height="18" rx="3" fill="#2D6A3F" opacity="0.9"/>`;
-      anotacao += `<text x="${(ax-25).toFixed(0)}" y="${(ay-8).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Realizado','Actual')}: ${ultRealVal.toFixed(2)}%</text>`;
+      anotacao += `<rect x="${realX.toFixed(0)}" y="${realY.toFixed(0)}" width="${realBoxW}" height="${boxH}" rx="4" fill="#2D6A3F" opacity="0.92"/>`;
+      anotacao += `<text x="${(realX + realBoxW/2).toFixed(0)}" y="${(realY + 11).toFixed(0)}" text-anchor="middle" font-size="7" font-weight="600" fill="#fff">${T('Real.','Act.')} ${ultRealVal.toFixed(2)}%</text>`;
+
       // box previsto
-      anotacao += `<rect x="${(bx+2).toFixed(0)}" y="${(by-20).toFixed(0)}" width="54" height="18" rx="3" fill="#1A2B4A" opacity="0.9"/>`;
-      anotacao += `<text x="${(bx+29).toFixed(0)}" y="${(by-8).toFixed(0)}" text-anchor="middle" font-size="7.5" font-weight="600" fill="#fff">% ${T('Previsto','Planned')}: ${ultPrevVal.toFixed(2)}%</text>`;
-      // label mês
-      anotacao += `<text x="${ax.toFixed(0)}" y="${(svgH-padB+26).toFixed(0)}" text-anchor="middle" font-size="7" font-weight="600" fill="#1B3A6B">${ultMes}</text>`;
+      anotacao += `<rect x="${prevX.toFixed(0)}" y="${prevY.toFixed(0)}" width="${prevBoxW}" height="${boxH}" rx="4" fill="#1A2B4A" opacity="0.92"/>`;
+      anotacao += `<text x="${(prevX + prevBoxW/2).toFixed(0)}" y="${(prevY + 11).toFixed(0)}" text-anchor="middle" font-size="7" font-weight="600" fill="#fff">${T('Prev.','Plan.')} ${ultPrevVal.toFixed(2)}%</text>`;
     }
 
     // legenda
