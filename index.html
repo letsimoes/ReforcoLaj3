@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 19:04 · HRZ PMO" data-en="Generated on 12/06/2026 19:04 · HRZ PMO">Atualizado em 12/06/2026 19:04 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 12/06/2026 19:11 · HRZ PMO" data-en="Generated on 12/06/2026 19:11 · HRZ PMO">Atualizado em 12/06/2026 19:11 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 12/06/2026 19:04" data-en="Updated on 12/06/2026 19:04">Atualizado em 12/06/2026 19:04</div>
+        <div class="updated" data-pt="Atualizado em 12/06/2026 19:11" data-en="Updated on 12/06/2026 19:11">Atualizado em 12/06/2026 19:11</div>
       </div>
     </div>
 
@@ -752,7 +752,7 @@ function calcPrazo(isEN) {
 }
 calcPrazo(false);
 
-const cpLabels = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26", "Jan/27", "Fev/27", "Mar/27"]; const cpPrev = [0.0, 0.0, 3.96, 4.81, 10.97, 31.45, 44.1, 68.26, 78.09, 80.79, 86.35, 86.78, 88.03, 88.74, 93.06]; const cpReal = [0.0, 0.0, 3.68, 4.53, 7.34, 29.93, null, null, null, null, null, null, null, null, null];
+const cpLabels = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26", "Jan/27", "Fev/27", "Mar/27"]; const cpPrev = [0.0, 0.0, 3.96, 4.81, 10.97, 31.45, 44.1, 68.26, 78.09, 80.79, 86.35, 86.78, 94.97, 95.68, 100.0]; const cpReal = [0.0, 0.0, 3.68, 4.53, 7.34, 32.01, null, null, null, null, null, null, null, null, null];
 if (cpLabels.length > 0) {
   new Chart(document.getElementById('curvaProjectChart').getContext('2d'), {
     type: 'line',
