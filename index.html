@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 14/06/2026 19:29 · HRZ PMO" data-en="Generated on 14/06/2026 19:29 · HRZ PMO">Atualizado em 14/06/2026 19:29 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 14/06/2026 20:03 · HRZ PMO" data-en="Generated on 14/06/2026 20:03 · HRZ PMO">Atualizado em 14/06/2026 20:03 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 14/06/2026 19:29" data-en="Updated on 14/06/2026 19:29">Atualizado em 14/06/2026 19:29</div>
+        <div class="updated" data-pt="Atualizado em 14/06/2026 20:03" data-en="Updated on 14/06/2026 20:03">Atualizado em 14/06/2026 20:03</div>
       </div>
     </div>
 
@@ -775,7 +775,7 @@ if (cpLabels.length > 0) {
   });
 }
 
-const cfLabels = ["Jan/26", "Fev-26", "Mar/26", "Abr-26", "Mai-26", "Jun/26", "Jul/26", "Ago-26", "Set-26", "Out-26", "Nov/26", "Dez-26", "Jan/27", "Fev-27", "Mar/27", "Abr-27", "Mai-27", "Jun/27", "Jul/27"]; const cfActis = [4171440.65, 5785046.7, 7398652.75, 8257598.25, 10375660.79, 11234606.29, 12134328.489999998, 13034050.689999998, 16744076.499999998, 18303244.229999997, 19202966.429999996, 20102688.629999995, 22875946.569999997, 23775668.769999996, 23833322.589999996, 23890976.409999996, 25199400.619999997, 25241334.189999998, 25285006.549999997]; const cfAtualizado = [1980903.3599999999, 1980903.3599999999, 1980903.3599999999, 2173182.32, 4504456.72, 4520956.72, 6309581.119999999, 7248007.999999999, 9138762.399999999, 9229292.399999999, 10123604.599999998, 10257104.599999998, 10287104.599999998, 11181416.799999997, 11181416.799999997, 11181416.799999997, 11181416.799999997, 11181416.799999997, 11181416.799999997]; const cfRealizado = [1980903.3599999999, 1980903.3599999999, 1980903.3599999999, 3961806.7199999997, 4525412.319999999, 4564193.1899999995, null, null, null, null, null, null, null, null, null, null, null, null, null];
+const cfLabels = ["Jan/26", "Fev-26", "Mar/26", "Abr-26", "Mai-26", "Jun/26", "Jul/26", "Ago-26", "Set-26", "Out-26", "Nov/26", "Dez-26", "Jan/27", "Fev-27", "Mar/27", "Abr-27", "Mai-27", "Jun/27", "Jul/27"]; const cfActis = [4171440.65, 5785046.7, 7398652.75, 8257598.25, 10375660.79, 11234606.29, 12134328.489999998, 13034050.689999998, 16744076.499999998, 18303244.229999997, 19202966.429999996, 20102688.629999995, 22875946.569999997, 23775668.769999996, 23833322.589999996, 23890976.409999996, 25199400.619999997, 25241334.189999998, 25285006.549999997]; const cfAtualizado = [1980903.3599999999, 1980903.3599999999, 1980903.3599999999, 2173182.32, 4504456.72, 5467037.778999999, 8201743.237999999, 10086251.177, 12923086.636, 13959697.695, 15800090.954, 16879672.013, 17855753.072, 19696146.331, 20642227.39, 20642227.39, 20642227.39, 20642227.39, 20642227.39]; const cfRealizado = [1980903.3599999999, 1980903.3599999999, 1980903.3599999999, 3961806.7199999997, 4525412.319999999, 4564193.1899999995, null, null, null, null, null, null, null, null, null, null, null, null, null];
 const curvaFin = new Chart(document.getElementById('curvaFinChart').getContext('2d'), {
   type: 'line',
   data: { labels: cfLabels, datasets: [
