@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 15:57 · HRZ PMO" data-en="Generated on 22/06/2026 15:57 · HRZ PMO">Atualizado em 22/06/2026 15:57 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 21:08 · HRZ PMO" data-en="Generated on 22/06/2026 21:08 · HRZ PMO">Atualizado em 22/06/2026 21:08 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 22/06/2026 15:57" data-en="Updated on 22/06/2026 15:57">Atualizado em 22/06/2026 15:57</div>
+        <div class="updated" data-pt="Atualizado em 22/06/2026 21:08" data-en="Updated on 22/06/2026 21:08">Atualizado em 22/06/2026 21:08</div>
       </div>
     </div>
 
@@ -814,13 +814,54 @@ if (cpLabels.length > 0) {
   });
 }
 
-const cfLabels = ["Jan/26", "Fev-26", "Mar/26", "Abr-26", "Mai-26", "Jun/26", "Jul/26", "Ago-26", "Set-26", "Out-26", "Nov/26", "Dez-26", "Jan/27", "Fev-27", "Mar/27", "Abr-27", "Mai-27", "Jun/27", "Jul/27"]; const cfActis = [4171440.65, 5785046.7, 7398652.75, 8257598.25, 10375660.79, 11234606.29, 12134328.489999998, 13034050.689999998, 16744076.499999998, 18303244.229999997, 19202966.429999996, 20102688.629999995, 22875946.569999997, 23775668.769999996, 23833322.589999996, 23890976.409999996, 25199400.619999997, 25241334.189999998, 25285006.549999997]; const cfAtualizado = [1980903.3599999999, 1980903.3599999999, 1980903.3599999999, 2173182.32, 4504456.72, 5467037.778999999, 8201743.237999999, 10086251.177, 12923086.636, 13959697.695, 15800090.954, 16879672.013, 17855753.072, 19696146.331, 20642227.39, 20642227.39, 20642227.39, 20642227.39, 20642227.39]; const cfRealizado = [1980903.3599999999, 1980903.3599999999, 1980903.3599999999, 3961806.7199999997, 4525412.319999999, 4564193.1899999995, null, null, null, null, null, null, null, null, null, null, null, null, null];
+const cfLabels = ["Jan/26", "Fev-26", "Mar/26", "Abr-26", "Mai-26", "Jun/26", "Jul/26", "Ago-26", "Set-26", "Out-26", "Nov/26", "Dez-26", "Jan/27", "Fev-27", "Mar/27", "Abr-27", "Mai-27", "Jun/27", "Jul/27"]; const cfActis = [4171440.65, 5785046.7, 7398652.75, 8257598.25, 10375660.79, 11234606.29, 12134328.489999998, 13034050.689999998, 16744076.499999998, 18303244.229999997, 19202966.429999996, 20102688.629999995, 22875946.569999997, 23775668.769999996, 23833322.589999996, 23890976.409999996, 25199400.619999997, 25241334.189999998, 25285006.549999997]; const cfAtualizado = [1980903.3599999999, 1980903.3599999999, 1980903.3599999999, 2173182.32, 4504456.72, 5467037.778999999, 8201743.237999999, 10086251.177, 12923086.636, 13959697.695, 15800090.954, 16879672.013, 17855753.072, 19696146.331, 20642227.39, 20642227.39, 20642227.39, 20642227.39, 20642227.39]; const cfRealizadoAcum = [1980903.3599999999, 1980903.3599999999, 1980903.3599999999, 3961806.7199999997, 4525412.319999999, 4564193.1899999995, null, null, null, null, null, null, null, null, null, null, null, null, null]; const cfRealizadoMensal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+let cfLastIdx = -1;
+for (let i = 0; i < cfRealizadoAcum.length; i++) { if (cfRealizadoAcum[i] != null && cfRealizadoAcum[i] > 0) cfLastIdx = i; }
+
+const cfCombinado = cfLabels.map((_, i) => i <= cfLastIdx ? cfRealizadoAcum[i] : cfAtualizado[i]);
+
 const curvaFin = new Chart(document.getElementById('curvaFinChart').getContext('2d'), {
-  type: 'line',
   data: { labels: cfLabels, datasets: [
-    { label: 'Previsto Actis Acum.', data: cfActis, borderColor: '#0D1E3D', borderWidth: 2, borderDash: [6,3], pointRadius: 3, pointBackgroundColor: '#0D1E3D', tension: 0.3, fill: false },
-    { label: 'Previsto Atualizado Acum.', data: cfAtualizado, borderColor: '#C8931A', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#C8931A', tension: 0.3, fill: false },
-    { label: 'Realizado Acum.', data: cfRealizado, borderColor: '#A9C4E4', borderWidth: 2.5, pointRadius: 5, pointBackgroundColor: '#A9C4E4', tension: 0.3, fill: false },
+    {
+      type: 'bar',
+      label: 'Realizado Mensal',
+      data: cfRealizadoMensal,
+      backgroundColor: 'rgba(45,106,63,0.45)',
+      borderRadius: 3,
+      order: 3,
+      yAxisID: 'y'
+    },
+    {
+      type: 'line',
+      label: 'Previsto Actis Acum.',
+      data: cfActis,
+      borderColor: '#0D1E3D',
+      borderWidth: 2,
+      borderDash: [6,3],
+      pointRadius: 3,
+      pointBackgroundColor: '#0D1E3D',
+      tension: 0.3,
+      fill: false,
+      order: 1,
+      yAxisID: 'y'
+    },
+    {
+      type: 'line',
+      label: 'Realizado + Previsto Atualizado Acum.',
+      data: cfCombinado,
+      borderWidth: 2.5,
+      tension: 0.3,
+      fill: false,
+      order: 0,
+      yAxisID: 'y',
+      pointRadius: ctx => ctx.dataIndex <= cfLastIdx ? 4 : 3,
+      pointBackgroundColor: ctx => ctx.dataIndex <= cfLastIdx ? '#2D6A3F' : '#9E9C97',
+      segment: {
+        borderColor: ctx => ctx.p1DataIndex <= cfLastIdx ? '#2D6A3F' : '#9E9C97',
+        borderDash: ctx => ctx.p1DataIndex <= cfLastIdx ? undefined : [6,3]
+      }
+    },
   ]},
   options: { responsive: true, maintainAspectRatio: false,
     plugins: { legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 12 } } }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': R$ ' + Math.round(ctx.parsed.y || 0).toLocaleString('pt-BR') } } },
@@ -1393,9 +1434,9 @@ function toggleLang() {
     return (map[mes] || mes) + '/' + resto;
   };
   [curvaFin].forEach(ch => { if (!ch) return; ch.data.labels = ch.data.labels.map(traduzirMes); ch.update(); });
-  curvaFin.data.datasets[0].label = isEN ? 'Planned Actis Cum.' : 'Previsto Actis Acum.';
-  curvaFin.data.datasets[1].label = isEN ? 'Updated Planned Cum.' : 'Previsto Atualizado Acum.';
-  curvaFin.data.datasets[2].label = isEN ? 'Actual Cum.' : 'Realizado Acum.';
+  curvaFin.data.datasets[0].label = isEN ? 'Monthly Actual' : 'Realizado Mensal';
+  curvaFin.data.datasets[1].label = isEN ? 'Planned Actis Cum.' : 'Previsto Actis Acum.';
+  curvaFin.data.datasets[2].label = isEN ? 'Actual + Updated Planned Cum.' : 'Realizado + Previsto Atualizado Acum.';
   curvaFin.update();
   const selSt = document.getElementById('docStatus');
   if (selSt && selSt.options[0]) selSt.options[0].text = isEN ? 'All status' : 'Todos os status';
