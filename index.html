@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 21:21 · HRZ PMO" data-en="Generated on 22/06/2026 21:21 · HRZ PMO">Atualizado em 22/06/2026 21:21 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 21:23 · HRZ PMO" data-en="Generated on 22/06/2026 21:23 · HRZ PMO">Atualizado em 22/06/2026 21:23 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 22/06/2026 21:21" data-en="Updated on 22/06/2026 21:21">Atualizado em 22/06/2026 21:21</div>
+        <div class="updated" data-pt="Atualizado em 22/06/2026 21:23" data-en="Updated on 22/06/2026 21:23">Atualizado em 22/06/2026 21:23</div>
       </div>
     </div>
 
@@ -865,6 +865,7 @@ const curvaFin = new Chart(document.getElementById('curvaFinChart').getContext('
     },
   ]},
   options: { responsive: true, maintainAspectRatio: false,
+    layout: { padding: { left: 8 } },
     plugins: { legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 12 } } }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': R$ ' + Math.round(ctx.parsed.y || 0).toLocaleString('pt-BR') } } },
     scales: { y: { ticks: { callback: v => 'R$' + Math.round(v / 1e6) + 'mm', font: { family: 'DM Sans', size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { ticks: { font: { family: 'DM Sans', size: 11 }, maxRotation: 45 }, grid: { display: false } } }
   }
