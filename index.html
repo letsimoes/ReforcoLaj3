@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 21:43 · HRZ PMO" data-en="Generated on 22/06/2026 21:43 · HRZ PMO">Atualizado em 22/06/2026 21:43 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 21:53 · HRZ PMO" data-en="Generated on 22/06/2026 21:53 · HRZ PMO">Atualizado em 22/06/2026 21:53 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 22/06/2026 21:43" data-en="Updated on 22/06/2026 21:43">Atualizado em 22/06/2026 21:43</div>
+        <div class="updated" data-pt="Atualizado em 22/06/2026 21:53" data-en="Updated on 22/06/2026 21:53">Atualizado em 22/06/2026 21:53</div>
       </div>
     </div>
 
@@ -812,7 +812,7 @@ if (cpLabels.length > 0) {
 window._curvaProjectChartInstance = new Chart(document.getElementById('curvaProjectChart').getContext('2d'), {
     type: 'line',
     data: { labels: cpLabels, datasets: [
-      { label: '% Previsto', data: cpPrev, borderColor: '#1A2B4A', borderWidth: 2, borderDash: [6, 3], pointBackgroundColor: '#1A2B4A', pointRadius: 4, tension: 0.4, fill: false },
+      { label: '% Planejado', data: cpPrev, borderColor: '#1A2B4A', borderWidth: 2, borderDash: [6, 3], pointBackgroundColor: '#1A2B4A', pointRadius: 4, tension: 0.4, fill: false },
       { label: '% Realizado', data: cpReal.map(v => v > 0 ? v : null), borderColor: '#2D6A3F', borderWidth: 2.5, pointBackgroundColor: '#2D6A3F', pointRadius: 5, tension: 0.4, fill: false },
     ]},
     options: { responsive: true, maintainAspectRatio: false,
@@ -1448,6 +1448,14 @@ function toggleLang() {
   curvaFin.data.datasets[1].label = isEN ? 'Planned Actis' : 'Planejado Actis';
   curvaFin.data.datasets[2].label = isEN ? 'Actual + Forecast' : 'Realizado + Previsão';
   curvaFin.update();
+
+  const cpChart = window._curvaProjectChartInstance;
+  if (cpChart) {
+    cpChart.data.labels = cpChart.data.labels.map(traduzirMes);
+    cpChart.data.datasets[0].label = isEN ? '% Planned' : '% Planejado';
+    cpChart.data.datasets[1].label = isEN ? '% Actual' : '% Realizado';
+    cpChart.update();
+  }
   const selSt = document.getElementById('docStatus');
   if (selSt && selSt.options[0]) selSt.options[0].text = isEN ? 'All status' : 'Todos os status';
   const countEl = document.getElementById('docsCount');
