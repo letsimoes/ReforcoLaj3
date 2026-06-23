@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 21:37 · HRZ PMO" data-en="Generated on 22/06/2026 21:37 · HRZ PMO">Atualizado em 22/06/2026 21:37 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 21:43 · HRZ PMO" data-en="Generated on 22/06/2026 21:43 · HRZ PMO">Atualizado em 22/06/2026 21:43 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 22/06/2026 21:37" data-en="Updated on 22/06/2026 21:37">Atualizado em 22/06/2026 21:37</div>
+        <div class="updated" data-pt="Atualizado em 22/06/2026 21:43" data-en="Updated on 22/06/2026 21:43">Atualizado em 22/06/2026 21:43</div>
       </div>
     </div>
 
@@ -834,7 +834,7 @@ const curvaFin = new Chart(document.getElementById('curvaFinChart').getContext('
   data: { labels: cfLabels, datasets: [
     {
       type: 'bar',
-      label: 'Realizado Mensal',
+      label: 'Realizado',
       data: cfRealizadoMensal,
       backgroundColor: 'rgba(45,106,63,0.45)',
       borderRadius: 3,
@@ -843,7 +843,7 @@ const curvaFin = new Chart(document.getElementById('curvaFinChart').getContext('
     },
     {
       type: 'line',
-      label: 'Previsto Actis Acum.',
+      label: 'Planejado Actis',
       data: cfActis,
       borderColor: '#0D1E3D',
       borderWidth: 2,
@@ -857,7 +857,7 @@ const curvaFin = new Chart(document.getElementById('curvaFinChart').getContext('
     },
     {
       type: 'line',
-      label: 'Realizado + Previsto Atualizado Acum.',
+      label: 'Realizado + Previsão',
       data: cfCombinado,
       borderWidth: 2.5,
       tension: 0.3,
@@ -1444,9 +1444,9 @@ function toggleLang() {
     return (map[mes] || mes) + '/' + resto;
   };
   [curvaFin].forEach(ch => { if (!ch) return; ch.data.labels = ch.data.labels.map(traduzirMes); ch.update(); });
-  curvaFin.data.datasets[0].label = isEN ? 'Monthly Actual' : 'Realizado Mensal';
-  curvaFin.data.datasets[1].label = isEN ? 'Planned Actis Cum.' : 'Previsto Actis Acum.';
-  curvaFin.data.datasets[2].label = isEN ? 'Actual + Updated Planned Cum.' : 'Realizado + Previsto Atualizado Acum.';
+  curvaFin.data.datasets[0].label = isEN ? 'Actual' : 'Realizado';
+  curvaFin.data.datasets[1].label = isEN ? 'Planned Actis' : 'Planejado Actis';
+  curvaFin.data.datasets[2].label = isEN ? 'Actual + Forecast' : 'Realizado + Previsão';
   curvaFin.update();
   const selSt = document.getElementById('docStatus');
   if (selSt && selSt.options[0]) selSt.options[0].text = isEN ? 'All status' : 'Todos os status';
