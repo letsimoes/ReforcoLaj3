@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 21:59 · HRZ PMO" data-en="Generated on 22/06/2026 21:59 · HRZ PMO">Atualizado em 22/06/2026 21:59 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 22:05 · HRZ PMO" data-en="Generated on 22/06/2026 22:05 · HRZ PMO">Atualizado em 22/06/2026 22:05 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 22/06/2026 21:59" data-en="Updated on 22/06/2026 21:59">Atualizado em 22/06/2026 21:59</div>
+        <div class="updated" data-pt="Atualizado em 22/06/2026 22:05" data-en="Updated on 22/06/2026 22:05">Atualizado em 22/06/2026 22:05</div>
       </div>
     </div>
 
@@ -1100,17 +1100,17 @@ async function gerarPDF() {
       const nomeAcao = isEN ? (a.nome_en || a.nome || '') : (a.nome || '');
       const datas = a.ini_plan + ' → ' + a.fim_plan + (a.ini_real ? ' · ' + T('iniciou','started') + ' ' + a.ini_real : '') + (a.fim_real ? ' · ' + T('concluiu','completed') + ' ' + a.fim_real : '');
       const barW  = Math.min(a.pct || 0, 100);
-      return `<div style="display:flex;align-items:flex-start;gap:5px;padding:4px 0;border-bottom:1px solid #F5F5F5;">
-        <span style="font-size:10px;flex-shrink:0;margin-top:1px;">${ic}</span>
-        <div style="flex:1;">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-size:8.5px;font-weight:500;color:#1A1917;">${nomeAcao}</div>
-            <span style="font-size:7px;font-weight:500;padding:1px 5px;border-radius:8px;background:${bg};color:${fg};white-space:nowrap;">${st}</span>
+      return `<div style="display:flex;align-items:flex-start;gap:4px;padding:2px 0;border-bottom:1px solid #F5F5F5;">
+        <span style="font-size:9px;flex-shrink:0;margin-top:0px;">${ic}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:4px;">
+            <div style="font-size:8px;font-weight:500;color:#1A1917;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${nomeAcao}</div>
+            <span style="font-size:6.5px;font-weight:500;padding:1px 4px;border-radius:7px;background:${bg};color:${fg};white-space:nowrap;flex-shrink:0;">${st}</span>
           </div>
-          <div style="font-size:7.5px;color:#9E9C97;margin-top:1px;">${datas}</div>
-          <div style="display:flex;align-items:center;gap:4px;margin-top:2px;">
-            <div style="flex:1;height:3px;background:#EFEFED;border-radius:2px;"><div style="width:${barW}%;height:3px;background:${fg};border-radius:2px;"></div></div>
-            <span style="font-size:7px;color:${fg};font-weight:600;">${(a.pct||0).toFixed(0)}%</span>
+          <div style="font-size:6.5px;color:#9E9C97;margin-top:0px;">${datas}</div>
+          <div style="display:flex;align-items:center;gap:3px;margin-top:1px;">
+            <div style="flex:1;height:2.5px;background:#EFEFED;border-radius:2px;"><div style="width:${barW}%;height:2.5px;background:${fg};border-radius:2px;"></div></div>
+            <span style="font-size:6.5px;color:${fg};font-weight:600;">${(a.pct||0).toFixed(0)}%</span>
           </div>
         </div></div>`;
     }).join('');
