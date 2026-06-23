@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 22:06 · HRZ PMO" data-en="Generated on 22/06/2026 22:06 · HRZ PMO">Atualizado em 22/06/2026 22:06 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 22/06/2026 22:09 · HRZ PMO" data-en="Generated on 22/06/2026 22:09 · HRZ PMO">Atualizado em 22/06/2026 22:09 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 22/06/2026 22:06" data-en="Updated on 22/06/2026 22:06">Atualizado em 22/06/2026 22:06</div>
+        <div class="updated" data-pt="Atualizado em 22/06/2026 22:09" data-en="Updated on 22/06/2026 22:09">Atualizado em 22/06/2026 22:09</div>
       </div>
     </div>
 
@@ -993,8 +993,8 @@ async function gerarPDF() {
       const realBoxW = 68, prevBoxW = 68, boxH = 17;
       const realX = Math.max(padL + 4, ax - realBoxW - 8);
       const prevX = Math.min(svgW - padR - prevBoxW - 4, bx + 8);
-      const realY = padT + 4;
-      const prevY = padT + 4;
+      const realY = padT;
+      const prevY = padT;
 
       // box realizado
       anotacao += `<rect x="${realX.toFixed(0)}" y="${realY.toFixed(0)}" width="${realBoxW}" height="${boxH}" rx="4" fill="#2D6A3F" opacity="0.92"/>`;
