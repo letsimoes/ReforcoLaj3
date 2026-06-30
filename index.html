@@ -86,7 +86,7 @@ h1{font-size:22px;font-weight:600;}
            <div class="p-status" data-pt="Em andamento" data-en="On track">Em andamento</div></div>
     </button>
   </div>
-  <div class="sidebar-footer" data-pt="Atualizado em 30/06/2026 11:05 · HRZ PMO" data-en="Generated on 30/06/2026 11:05 · HRZ PMO">Atualizado em 30/06/2026 11:05 · HRZ PMO</div>
+  <div class="sidebar-footer" data-pt="Atualizado em 30/06/2026 11:13 · HRZ PMO" data-en="Generated on 30/06/2026 11:13 · HRZ PMO">Atualizado em 30/06/2026 11:13 · HRZ PMO</div>
 </div>
 
 <div class="main">
@@ -100,7 +100,7 @@ h1{font-size:22px;font-weight:600;}
         <button id="langBtn" onclick="toggleLang()" style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;transition:all .2s;">🌐 EN</button>
         <a href="https://letsimoes.github.io/ReforcoLaj3/" target="_blank" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid var(--accent-mid);background:transparent;color:var(--accent-mid);cursor:pointer;text-decoration:none;display:inline-block;" data-pt="↻ Atualizar" data-en="↻ Refresh">↻ Atualizar</a>
         <button id="btnGerarPDF" onclick="gerarPDF()" style="margin-left:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:2px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;transition:all .2s;" data-pt="⬇ Gerar PDF" data-en="⬇ Export PDF">⬇ Gerar PDF</button>
-        <div class="updated" data-pt="Atualizado em 30/06/2026 11:05" data-en="Updated on 30/06/2026 11:05">Atualizado em 30/06/2026 11:05</div>
+        <div class="updated" data-pt="Atualizado em 30/06/2026 11:13" data-en="Updated on 30/06/2026 11:13">Atualizado em 30/06/2026 11:13</div>
       </div>
     </div>
 
@@ -1231,7 +1231,7 @@ async function gerarPDF() {
       { label: T('% Comprometido','% Committed'), value: PDF_PCT_COMP, sub: T('Assinado + em assinatura','Signed + under signature'), accent: '#4A7FBF' },
     ];
     const kpisHTML = kpiData.map(k => `
-      <div style="flex:1;background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px 10px;border-top:3px solid ${k.accent};">
+      <div style="flex:1;background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:5px 8px;border-top:3px solid ${k.accent};">
         <div style="font-size:8px;color:#9E9C97;font-weight:500;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em;">${k.label}</div>
         <div style="font-size:15px;font-weight:600;color:#1A1917;line-height:1.1;">${k.value}</div>
         <div style="font-size:8px;color:#9E9C97;margin-top:2px;">${k.sub}</div>
@@ -1481,14 +1481,14 @@ async function gerarPDF() {
     <div style="display:flex;gap:6px;margin-bottom:8px;">${kpisHTML}</div>
 
     <!-- Curva S largura total -->
-    <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;margin-bottom:8px;">
-      <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Curva S — Avanço Físico','S-Curve — Physical Progress')}</div>
+    <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:6px;margin-bottom:6px;">
+      <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid #E5E5E5;">${T('Curva S — Avanço Físico','S-Curve — Physical Progress')}</div>
       ${curvaSVG}
     </div>
 
     <!-- Contratos largura total -->
-    <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:8px;margin-bottom:8px;">
-      <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #E5E5E5;">${T('Gestão de Contratos','Contract Management')} (${PDF_CONTRATOS.filter(c=>c.fornecedor&&c.fornecedor.trim()).length})</div>
+    <div style="background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:6px;margin-bottom:6px;">
+      <div style="font-size:8px;font-weight:600;color:#1B3A6B;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid #E5E5E5;">${T('Gestão de Contratos','Contract Management')} (${PDF_CONTRATOS.filter(c=>c.fornecedor&&c.fornecedor.trim()).length})</div>
       <table style="width:100%;border-collapse:collapse;">
         <thead><tr style="background:#F8F8F6;">
           <th style="padding:3px 5px;text-align:left;font-size:7.5px;color:#1B3A6B;font-weight:600;">${T('Fornecedor','Supplier')}</th>
